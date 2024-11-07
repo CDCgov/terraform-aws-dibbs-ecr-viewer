@@ -1,4 +1,4 @@
-name: Terraform Linting
+name: Terraform Security Scan
 
 on:
   pull_request:
@@ -12,7 +12,6 @@ concurrency:
 
 jobs:
   trivy:
-    name: trivy
     runs-on: ubuntu-latest
 
     steps:
