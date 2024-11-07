@@ -2,7 +2,7 @@
 name: Maintenance
 about: Questions and requests related to organizational support and maintenance
 title: ''
-labels: ''
+labels: Streamline eCR, Cloud Enablement, aws
 assignees: ''
 
 ---
