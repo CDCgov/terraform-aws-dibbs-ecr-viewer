@@ -15,12 +15,6 @@ variable "cloudmap_namespace_name" {
   default     = ""
 }
 
-variable "cloudmap_service_name" {
-  type        = string
-  description = "Name of the AWS Cloud Map service"
-  default     = ""
-}
-
 variable "cw_retention_in_days" {
   type        = number
   description = "Retention period in days for CloudWatch logs"
@@ -36,12 +30,6 @@ variable "ecs_alb_name" {
 variable "ecs_alb_tg_name" {
   description = "Name of the ALB Target Group"
   type        = string
-  default     = ""
-}
-
-variable "ecs_alb_sg" {
-  type        = string
-  description = "Name of the ECS ALB Security Group"
   default     = ""
 }
 
@@ -107,7 +95,8 @@ variable "service_data" {
     short_name     = string
     fargate_cpu    = number
     fargate_memory = number
-    app_count      = number
+    min_capacity   = number
+    max_capacity   = number
     app_image      = string
     app_version    = string
     container_port = number

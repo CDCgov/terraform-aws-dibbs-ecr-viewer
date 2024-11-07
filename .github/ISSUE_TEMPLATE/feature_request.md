@@ -2,7 +2,7 @@
 name: Feature request
 about: Suggest an idea for this project
 title: ''
-labels: ''
+labels: Streamline eCR, Cloud Enablement, aws, enhancement
 assignees: ''
 
 ---

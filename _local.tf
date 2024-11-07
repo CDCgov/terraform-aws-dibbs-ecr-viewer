@@ -6,22 +6,21 @@ resource "random_string" "s3_viewer" {
 
 locals {
   registry_url      = var.disable_ecr == false ? "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.region}.amazonaws.com" : "ghcr.io/cdcgov/phdi"
-  registry_auth     = data.aws_ecr_authorization_token.this.proxy_endpoint
   registry_username = data.aws_ecr_authorization_token.this.user_name
   registry_password = data.aws_ecr_authorization_token.this.password
-  service_data = {
+  service_data = var.service_data == {} ? {
     ecr-viewer = {
       short_name     = "ecrv",
       fargate_cpu    = 1024,
       fargate_memory = 2048,
-      min_capacity   = 1
-      max_capacity   = 5
+      min_capacity   = 1,
+      max_capacity   = 5,
       app_image      = var.disable_ecr == false ? "${terraform.workspace}-ecr-viewer" : "ecr-viewer",
       app_version    = var.phdi_version,
       container_port = 3000,
       host_port      = 3000,
-      public         = true
-      registry_url   = local.registry_url
+      public         = true,
+      registry_url   = local.registry_url,
       env_vars = [
         {
           name  = "AWS_REGION",
@@ -61,64 +60,64 @@ locals {
       short_name     = "fhirc",
       fargate_cpu    = 1024,
       fargate_memory = 2048,
-      min_capacity   = 1
-      max_capacity   = 5
+      min_capacity   = 1,
+      max_capacity   = 5,
       app_image      = var.disable_ecr == false ? "${terraform.workspace}-fhir-converter" : "fhir-converter",
       app_version    = var.phdi_version,
       container_port = 8080,
       host_port      = 8080,
-      public         = false
-      registry_url   = local.registry_url
+      public         = false,
+      registry_url   = local.registry_url,
       env_vars       = []
     },
     ingestion = {
       short_name     = "inge",
       fargate_cpu    = 1024,
       fargate_memory = 2048,
-      min_capacity   = 1
-      max_capacity   = 5
+      min_capacity   = 1,
+      max_capacity   = 5,
       app_image      = var.disable_ecr == false ? "${terraform.workspace}-ingestion" : "ingestion",
       app_version    = var.phdi_version,
       container_port = 8080,
       host_port      = 8080,
-      public         = false
-      registry_url   = local.registry_url
+      public         = false,
+      registry_url   = local.registry_url,
       env_vars       = []
     },
     validation = {
       short_name     = "vali",
       fargate_cpu    = 1024,
       fargate_memory = 2048,
-      min_capacity   = 1
-      max_capacity   = 5
+      min_capacity   = 1,
+      max_capacity   = 5,
       app_image      = var.disable_ecr == false ? "${terraform.workspace}-validation" : "validation",
       app_version    = var.phdi_version,
       container_port = 8080,
       host_port      = 8080,
-      public         = false
-      registry_url   = local.registry_url
+      public         = false,
+      registry_url   = local.registry_url,
       env_vars       = []
     },
     trigger-code-reference = {
       short_name     = "trigcr",
       fargate_cpu    = 1024,
       fargate_memory = 2048,
-      min_capacity   = 1
-      max_capacity   = 5
+      min_capacity   = 1,
+      max_capacity   = 5,
       app_image      = var.disable_ecr == false ? "${terraform.workspace}-trigger-code-reference" : "trigger-code-reference",
       app_version    = var.phdi_version,
       container_port = 8080,
       host_port      = 8080,
-      public         = false
-      registry_url   = local.registry_url
+      public         = false,
+      registry_url   = local.registry_url,
       env_vars       = []
     },
     message-parser = {
       short_name     = "msgp",
       fargate_cpu    = 1024,
       fargate_memory = 2048,
-      min_capacity   = 1
-      max_capacity   = 5
+      min_capacity   = 1,
+      max_capacity   = 5,
       app_image      = var.disable_ecr == false ? "${terraform.workspace}-message-parser" : "message-parser",
       app_version    = var.phdi_version,
       container_port = 8080,
@@ -131,14 +130,14 @@ locals {
       short_name     = "orch",
       fargate_cpu    = 1024,
       fargate_memory = 2048,
-      min_capacity   = 1
-      max_capacity   = 5
+      min_capacity   = 1,
+      max_capacity   = 5,
       app_image      = var.disable_ecr == false ? "${terraform.workspace}-orchestration" : "orchestration",
       app_version    = var.phdi_version,
       container_port = 8080,
       host_port      = 8080,
-      public         = true
-      registry_url   = local.registry_url
+      public         = true,
+      registry_url   = local.registry_url,
       env_vars = [
         {
           name  = "OTEL_METRICS",
@@ -174,14 +173,13 @@ locals {
         }
       ]
     }
-  }
+  } : var.service_data
   local_name = "${var.project}-${var.owner}-${terraform.workspace}"
 
   # service_data                 = var.service_data == {} ? local.default_service_data : local.default_service_data
   appmesh_name                 = var.appmesh_name == "" ? local.local_name : var.appmesh_name
   cloudmap_namespace_name      = var.cloudmap_namespace_name == "" ? local.local_name : var.cloudmap_namespace_name
-  cloudmap_service_name        = var.cloudmap_service_name == "" ? local.local_name : var.cloudmap_service_name
-  ecs_alb_name                 = var.ecs_alb_name == "" ? "${local.local_name}" : var.ecs_alb_name
+  ecs_alb_name                 = var.ecs_alb_name == "" ? local.local_name : var.ecs_alb_name
   ecs_alb_tg_name              = var.ecs_alb_tg_name == "" ? local.local_name : var.ecs_alb_tg_name
   ecs_task_execution_role_name = var.ecs_task_execution_role_name == "" ? "${local.local_name}-tern" : var.ecs_task_execution_role_name
   ecs_task_role_name           = var.ecs_task_role_name == "" ? "${local.local_name}-trn" : var.ecs_task_role_name
