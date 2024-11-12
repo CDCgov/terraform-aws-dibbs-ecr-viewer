@@ -2,22 +2,22 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.56.1"
+      version = "~> 5.56.1"
     }
     dockerless = {
       source  = "nullstone-io/dockerless"
-      version = "0.1.1"
+      version = "~> 0.1.1"
     }
     null = {
       source  = "hashicorp/null"
-      version = "3.2.3"
+      version = "~> 3.2.3"
     }
     random = {
       source  = "hashicorp/random"
-      version = "3.6.3"
+      version = "~> 3.6.3"
     }
   }
-  required_version = "1.9.8"
+  required_version = "~> 1.9.0"
 }
 
 provider "dockerless" {
