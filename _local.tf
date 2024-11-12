@@ -8,7 +8,7 @@ locals {
   registry_url      = var.disable_ecr == false ? "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.region}.amazonaws.com" : "ghcr.io/cdcgov/phdi"
   registry_username = data.aws_ecr_authorization_token.this.user_name
   registry_password = data.aws_ecr_authorization_token.this.password
-  service_data = var.service_data == {} ? {
+  service_data = length(var.service_data) > 0 ? var.service_data : {
     ecr-viewer = {
       short_name     = "ecrv",
       fargate_cpu    = 1024,
@@ -173,10 +173,9 @@ locals {
         }
       ]
     }
-  } : var.service_data
+  }
   local_name = "${var.project}-${var.owner}-${terraform.workspace}"
 
-  # service_data                 = var.service_data == {} ? local.default_service_data : local.default_service_data
   appmesh_name                 = var.appmesh_name == "" ? local.local_name : var.appmesh_name
   cloudmap_namespace_name      = var.cloudmap_namespace_name == "" ? local.local_name : var.cloudmap_namespace_name
   ecs_alb_name                 = var.ecs_alb_name == "" ? local.local_name : var.ecs_alb_name
