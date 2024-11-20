@@ -3,6 +3,7 @@ variable "internal" {
   description = "Flag to determine if the several AWS resources are public (intended for external access, public internet) or private (only intended to be accessed within your AWS VPC or avaiable with other means, a transit gateway for example)."
   default     = true
 }
+
 variable "appmesh_name" {
   type        = string
   description = "Name of the AWS App Mesh"
@@ -110,6 +111,12 @@ variable "service_data" {
   }))
   description = "Data for the DIBBS services"
   default     = {}
+}
+
+variable "certificate_arn" {
+  type        = string
+  description = "ARN of the SSL certificate that enables ssl termination on the ALB"
+  default = ""
 }
 
 variable "vpc_id" {

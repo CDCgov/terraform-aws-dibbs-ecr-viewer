@@ -78,12 +78,72 @@ resource "aws_alb_listener" "http" {
 }
 
 # We may want to create this resource without the loop if the path_patterns ever break the pattern of being the name of the service
-resource "aws_alb_listener_rule" "this" {
+resource "aws_alb_listener_rule" "http" {
   for_each = {
     for key, value in aws_alb_target_group.this : key => value
     if local.service_data[key].public == true
   }
   listener_arn = aws_alb_listener.http.arn
+
+  dynamic "action" {
+    for_each = var.certificate_arn != "" ? [] : [each.value]
+    content {
+      type             = "forward"
+      target_group_arn = each.value.arn
+      # terraform will complain that we have a redirect action and a forward action but the issue disappears on a subsequent apply
+    }
+  }
+
+  dynamic "action" {
+    for_each = var.certificate_arn != "" ? [each.value] : []
+    content {
+      type = "redirect"
+      redirect {
+        port        = "443"
+        protocol    = "HTTPS"
+        status_code = "HTTP_301"
+      }
+    }
+  }
+
+  condition {
+    path_pattern {
+      values = ["/${each.key}", "/${each.key}/*"]
+    }
+  }
+  lifecycle {
+    replace_triggered_by = [
+      null_resource.target_groups
+    ]
+  }
+  tags = local.tags
+}
+
+resource "aws_alb_listener" "https" {
+  count            = var.certificate_arn != "" ? 1 : 0
+  load_balancer_arn = aws_alb.ecs.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = var.certificate_arn
+  default_action {
+    type = "fixed-response"
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "I care intently about your request but I'm afraid I don't have anything for you right now."
+      status_code  = "404"
+    }
+  }
+  tags = local.tags
+}
+
+# We may want to create this resource without the loop if the path_patterns ever break the pattern of being the name of the service
+resource "aws_alb_listener_rule" "https" {
+  for_each = {
+    for key, value in aws_alb_target_group.this : key => value
+    if local.service_data[key].public == true && var.certificate_arn != ""
+  }
+  listener_arn = aws_alb_listener.https[0].arn
 
   action {
     type             = "forward"
