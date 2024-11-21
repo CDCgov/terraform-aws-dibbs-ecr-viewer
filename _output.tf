@@ -53,8 +53,12 @@ output "alb_listener_arn" {
   value = aws_alb_listener.http.arn
 }
 
-output "alb_listener_rules_arns" {
-  value = { for rule_name, rule in aws_alb_listener_rule.this : rule_name => rule.arn }
+output "http_alb_listener_rules_arns" {
+  value = { for rule_name, rule in aws_alb_listener_rule.http : rule_name => rule.arn }
+}
+
+output "https_alb_listener_rules_arns" {
+  value = { for rule_name, rule in aws_alb_listener_rule.https : rule_name => rule.arn }
 }
 
 output "ecs_security_group_arn" {

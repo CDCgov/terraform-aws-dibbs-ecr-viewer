@@ -23,7 +23,8 @@ jobs:
         with:
           scan-type: 'fs'
           scan-ref: .
-          scanners: 'vuln,secret,config'
+          scanners: 'vuln,secret,misconfig'
+          skip-dirs: '.cache'
           ignore-unfixed: false
           exit-code: '1'
           format: 'table'
