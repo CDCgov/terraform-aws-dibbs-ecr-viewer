@@ -120,7 +120,7 @@ resource "aws_alb_listener_rule" "http" {
 }
 
 resource "aws_alb_listener" "https" {
-  count            = var.certificate_arn != "" ? 1 : 0
+  count             = var.certificate_arn != "" ? 1 : 0
   load_balancer_arn = aws_alb.ecs.arn
   port              = "443"
   protocol          = "HTTPS"

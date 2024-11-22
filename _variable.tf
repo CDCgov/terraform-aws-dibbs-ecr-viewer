@@ -113,10 +113,44 @@ variable "service_data" {
   default     = {}
 }
 
+variable "postgres_database_data" {
+  type = object({
+    non_integrated_viewer                     = string
+    metadata_database_type                    = string
+    metadata_database_schema                  = string
+    secrets_manager_postgres_database_url_arn = string
+  })
+  default = {
+    non_integrated_viewer                     = "false"
+    metadata_database_type                    = ""
+    metadata_database_schema                  = ""
+    secrets_manager_postgres_database_url_arn = ""
+  }
+}
+
+variable "sqlserver_database_data" {
+  type = object({
+    non_integrated_viewer                  = string
+    metadata_database_type                 = string
+    metadata_database_schema               = string
+    secrets_manager_sqlserver_user_arn     = string
+    secrets_manager_sqlserver_password_arn = string
+    secrets_manager_sqlserver_host_arn     = string
+  })
+  default = {
+    non_integrated_viewer                  = "false"
+    metadata_database_type                 = ""
+    metadata_database_schema               = ""
+    secrets_manager_sqlserver_user_arn     = ""
+    secrets_manager_sqlserver_password_arn = ""
+    secrets_manager_sqlserver_host_arn     = ""
+  }
+}
+
 variable "certificate_arn" {
   type        = string
   description = "ARN of the SSL certificate that enables ssl termination on the ALB"
-  default = ""
+  default     = ""
 }
 
 variable "vpc_id" {
@@ -146,12 +180,6 @@ variable "tags" {
   type        = map(string)
   description = "Tags to apply to resources"
   default     = {}
-}
-
-variable "non_integrated_viewer" {
-  type        = string
-  description = "A flag to determine if the viewer is the non-integrated version"
-  default     = "false"
 }
 
 variable "ecr_viewer_basepath" {
