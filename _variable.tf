@@ -115,35 +115,35 @@ variable "service_data" {
 
 variable "postgres_database_data" {
   type = object({
-    non_integrated_viewer                     = string
-    metadata_database_type                    = string
-    metadata_database_schema                  = string
-    secrets_manager_postgres_database_url_arn = string
+    non_integrated_viewer                      = string
+    metadata_database_type                     = string
+    metadata_database_schema                   = string
+    secrets_manager_postgres_database_url_name = string
   })
   default = {
-    non_integrated_viewer                     = "false"
-    metadata_database_type                    = ""
-    metadata_database_schema                  = ""
-    secrets_manager_postgres_database_url_arn = ""
+    non_integrated_viewer                      = "false"
+    metadata_database_type                     = ""
+    metadata_database_schema                   = ""
+    secrets_manager_postgres_database_url_name = ""
   }
 }
 
 variable "sqlserver_database_data" {
   type = object({
-    non_integrated_viewer                  = string
-    metadata_database_type                 = string
-    metadata_database_schema               = string
-    secrets_manager_sqlserver_user_arn     = string
-    secrets_manager_sqlserver_password_arn = string
-    secrets_manager_sqlserver_host_arn     = string
+    non_integrated_viewer                   = string
+    metadata_database_type                  = string
+    metadata_database_schema                = string
+    secrets_manager_sqlserver_user_name     = string
+    secrets_manager_sqlserver_password_name = string
+    secrets_manager_sqlserver_host_name     = string
   })
   default = {
-    non_integrated_viewer                  = "false"
-    metadata_database_type                 = ""
-    metadata_database_schema               = ""
-    secrets_manager_sqlserver_user_arn     = ""
-    secrets_manager_sqlserver_password_arn = ""
-    secrets_manager_sqlserver_host_arn     = ""
+    non_integrated_viewer                   = "false"
+    metadata_database_type                  = ""
+    metadata_database_schema                = ""
+    secrets_manager_sqlserver_user_name     = ""
+    secrets_manager_sqlserver_password_name = ""
+    secrets_manager_sqlserver_host_name     = ""
   }
 }
 
