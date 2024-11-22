@@ -8,7 +8,7 @@ locals {
   registry_url      = var.disable_ecr == false ? "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.region}.amazonaws.com" : "ghcr.io/cdcgov/phdi"
   registry_username = data.aws_ecr_authorization_token.this.user_name
   registry_password = data.aws_ecr_authorization_token.this.password
-  database_data = var.postgres_database_data.non_integrated_viewer == "true" ? var.postgres_database_data : var.sqlserver_database_data
+  database_data     = var.postgres_database_data.non_integrated_viewer == "true" ? var.postgres_database_data : var.sqlserver_database_data
 
   service_data = length(var.service_data) > 0 ? var.service_data : {
     ecr-viewer = {
@@ -57,28 +57,28 @@ locals {
           value = var.ecr_viewer_basepath
         },
         {
-          name = "METADATA_DATABASE_TYPE",
+          name  = "METADATA_DATABASE_TYPE",
           value = local.database_data.non_integrated_viewer == "true" ? local.database_data.metadata_database_type : ""
         },
         {
-          name = "METADATA_DATABASE_SCHEMA",
+          name  = "METADATA_DATABASE_SCHEMA",
           value = local.database_data.non_integrated_viewer == "true" ? local.database_data.metadata_database_schema : ""
         },
         {
-          name = "DATABASE_URL",
-          value = local.database_data.metadata_database_type == "postgres" ? local.database_data.secrets_manager_postgres_database_url_arn : ""
+          name  = "DATABASE_URL",
+          value = local.database_data.metadata_database_type == "postgres" ? data.aws_secretsmanager_secret_version.postgres_database_url[0].secret_string : ""
         },
         {
-          name = "SQL_SERVER_USER",
-          value = local.database_data.metadata_database_type == "sqlserver" ? local.database_data.secrets_manager_sqlserver_user_arn : ""
+          name  = "SQL_SERVER_USER",
+          value = local.database_data.metadata_database_type == "sqlserver" ? data.aws_secretsmanager_secret_version.sqlserver_user[0].secret_string : ""
         },
         {
-          name = "SQL_SERVER_PASSWORD",
-          value = local.database_data.metadata_database_type == "sqlserver" ? local.database_data.secrets_manager_sqlserver_password_arn : ""
+          name  = "SQL_SERVER_PASSWORD",
+          value = local.database_data.metadata_database_type == "sqlserver" ? data.aws_secretsmanager_secret_version.sqlserver_password[0].secret_string : ""
         },
         {
-          name = "SQL_SERVER_HOST",
-          value = local.database_data.metadata_database_type == "sqlserver" ? local.database_data.secrets_manager_sqlserver_host_arn : ""
+          name  = "SQL_SERVER_HOST",
+          value = local.database_data.metadata_database_type == "sqlserver" ? data.aws_secretsmanager_secret_version.sqlserver_host[0].secret_string : ""
         }
       ]
     },
