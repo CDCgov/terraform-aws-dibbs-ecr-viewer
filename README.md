@@ -124,6 +124,9 @@ No modules.
 | [aws_alb_listener_rule.http](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_listener_rule) | resource |
 | [aws_alb_listener_rule.https](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_listener_rule) | resource |
 | [aws_alb_target_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_target_group) | resource |
+| [aws_appautoscaling_policy.dev_to_cpu](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
+| [aws_appautoscaling_policy.dev_to_memory](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
+| [aws_appautoscaling_target.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_target) | resource |
 | [aws_appmesh_mesh.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appmesh_mesh) | resource |
 | [aws_appmesh_virtual_node.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appmesh_virtual_node) | resource |
 | [aws_cloudwatch_log_group.ecs_cloudwatch_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
@@ -177,13 +180,13 @@ No modules.
 | <a name="input_disable_ecr"></a> [disable\_ecr](#input\_disable\_ecr) | Flag to disable the aws ecr service for docker image storage, defaults to false | `bool` | `false` | no |
 | <a name="input_ecr_viewer_app_env"></a> [ecr\_viewer\_app\_env](#input\_ecr\_viewer\_app\_env) | The current environment that is running. This may modify behavior of auth between dev and prod. | `string` | `"prod"` | no |
 | <a name="input_ecr_viewer_auth_pub_key"></a> [ecr\_viewer\_auth\_pub\_key](#input\_ecr\_viewer\_auth\_pub\_key) | The public key used to validate the incoming authenication for the eCR Viewer. | `string` | `"-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAqjrH9PprQCB5dX15zYfd\nS6K2ezNi/ZOu8vKEhQuLqwHACy1iUt1Yyp2PZLIV7FVDgBHMMVWPVx3GJ2wEyaJw\nMHkv6XNpUpWLhbs0V1T7o/OZfEIqcNua07OEoBxX9vhKIHtaksWdoMyKRXQJz0js\noWpawfOWxETnLqGvybT4yvY2RJhquTXLcLu90L4LdvIkADIZshaOtAU/OwI5ATcb\nfE3ip15E6jIoUm7FAtfRiuncpI5l/LJPP6fvwf8QCbbUJBZklLqcUuf4qe/L/nIq\npIONb8KZFWPhnGeRZ9bwIcqYWt3LAAshQLSGEYl2PGXaqbkUD2XLETSKDjisxd0g\n9j8bIMPgBKi+dBYcmBZnR7DxJe+vEDDw8prHG/+HRy5fim/BcibTKnIl8PR5yqHa\nmWQo7N+xXhILdD9e33KLRgbg97+erHqvHlNMdwDhAfrBT+W6GCdPwp3cePPsbhsc\noGSHOUDhzyAujr0J8h5WmZDGUNWjGzWqubNZD8dBXB8x+9dDoWhfM82nw0pvAeKf\nwJodvn3Qo8/S5hxJ6HyGkUTANKN8IxWh/6R5biET5BuztZP6jfPEaOAnt6sq+C38\nhR9rUr59dP2BTlcJ19ZXobLwuJEa81S5BrcbDwYNOAzC8jl2EV1i4bQIwJJaY27X\nIynom6unaheZpS4DFIh2w9UCAwEAAQ==\n-----END PUBLIC KEY-----\n"` | no |
-| <a name="input_ecr_viewer_basepath"></a> [ecr\_viewer\_basepath](#input\_ecr\_viewer\_basepath) | The basepath for the ecr-viewer | `string` | `"/ecr-viewer"` | no |
 | <a name="input_ecs_alb_name"></a> [ecs\_alb\_name](#input\_ecs\_alb\_name) | Name of the Application Load Balancer (ALB) | `string` | `""` | no |
 | <a name="input_ecs_alb_tg_name"></a> [ecs\_alb\_tg\_name](#input\_ecs\_alb\_tg\_name) | Name of the ALB Target Group | `string` | `""` | no |
 | <a name="input_ecs_cloudwatch_group"></a> [ecs\_cloudwatch\_group](#input\_ecs\_cloudwatch\_group) | Name of the AWS CloudWatch Log Group for ECS | `string` | `""` | no |
 | <a name="input_ecs_cluster_name"></a> [ecs\_cluster\_name](#input\_ecs\_cluster\_name) | Name of the ECS Cluster | `string` | `""` | no |
 | <a name="input_ecs_task_execution_role_name"></a> [ecs\_task\_execution\_role\_name](#input\_ecs\_task\_execution\_role\_name) | Name of the ECS Task Execution Role | `string` | `""` | no |
 | <a name="input_ecs_task_role_name"></a> [ecs\_task\_role\_name](#input\_ecs\_task\_role\_name) | Name of the ECS Task Role | `string` | `""` | no |
+| <a name="input_enable_autoscaling"></a> [enable\_autoscaling](#input\_enable\_autoscaling) | Flag to enable autoscaling for the ECS services | `bool` | `true` | no |
 | <a name="input_internal"></a> [internal](#input\_internal) | Flag to determine if the several AWS resources are public (intended for external access, public internet) or private (only intended to be accessed within your AWS VPC or avaiable with other means, a transit gateway for example). | `bool` | `true` | no |
 | <a name="input_owner"></a> [owner](#input\_owner) | Owner of the resources | `string` | `"CDC"` | no |
 | <a name="input_phdi_version"></a> [phdi\_version](#input\_phdi\_version) | Version of the PHDI application | `string` | `"v1.6.9"` | no |
