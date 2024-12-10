@@ -58,6 +58,12 @@ variable "ecs_task_role_name" {
   default     = ""
 }
 
+variable "enable_autoscaling" {
+  type        = bool
+  description = "Flag to enable autoscaling for the ECS services"
+  default     = true
+}
+
 variable "private_subnet_ids" {
   type        = list(string)
   description = "List of private subnet IDs"
