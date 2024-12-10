@@ -53,10 +53,6 @@ locals {
           value = var.ecr_viewer_auth_pub_key
         },
         {
-          name  = "NEXT_PUBLIC_BASEPATH",
-          value = var.ecr_viewer_basepath
-        },
-        {
           name  = "METADATA_DATABASE_TYPE",
           value = local.database_data.non_integrated_viewer == "true" ? local.database_data.metadata_database_type : ""
         },
@@ -187,7 +183,7 @@ locals {
         },
         {
           name  = "ECR_VIEWER_URL",
-          value = "http://ecr-viewer:3000${var.ecr_viewer_basepath}"
+          value = "http://ecr-viewer:3000/ecr-viewer"
         },
         {
           name  = "MESSAGE_PARSER_URL",

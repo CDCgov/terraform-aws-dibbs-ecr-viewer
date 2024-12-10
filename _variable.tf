@@ -188,12 +188,6 @@ variable "tags" {
   default     = {}
 }
 
-variable "ecr_viewer_basepath" {
-  type        = string
-  description = "The basepath for the ecr-viewer"
-  default     = "/ecr-viewer"
-}
-
 variable "ecr_viewer_app_env" {
   type        = string
   description = "The current environment that is running. This may modify behavior of auth between dev and prod."
