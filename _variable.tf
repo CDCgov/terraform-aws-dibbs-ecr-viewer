@@ -104,6 +104,7 @@ variable "service_data" {
     fargate_memory = number
     min_capacity   = number
     max_capacity   = number
+    app_repo       = string
     app_image      = string
     app_version    = string
     container_port = number

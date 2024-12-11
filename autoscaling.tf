@@ -9,7 +9,7 @@ resource "aws_appautoscaling_target" "this" {
   service_namespace  = "ecs"
 }
 
-resource "aws_appautoscaling_policy" "dev_to_memory" {
+resource "aws_appautoscaling_policy" "memory" {
   for_each           = var.enable_autoscaling ? aws_ecs_service.this : {}
   name               = "${each.key}_memory"
   policy_type        = "TargetTrackingScaling"
@@ -26,7 +26,7 @@ resource "aws_appautoscaling_policy" "dev_to_memory" {
   }
 }
 
-resource "aws_appautoscaling_policy" "dev_to_cpu" {
+resource "aws_appautoscaling_policy" "cpu" {
   for_each           = var.enable_autoscaling ? aws_ecs_service.this : {}
   name               = "${each.key}_cpu"
   policy_type        = "TargetTrackingScaling"
@@ -39,8 +39,6 @@ resource "aws_appautoscaling_policy" "dev_to_cpu" {
       predefined_metric_type = "ECSServiceAverageCPUUtilization"
     }
 
-    target_value = 60
+    target_value = 50
   }
 }
-
-
