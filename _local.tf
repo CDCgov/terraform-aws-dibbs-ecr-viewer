@@ -8,15 +8,17 @@ locals {
   registry_url      = var.disable_ecr == false ? "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.region}.amazonaws.com" : "ghcr.io/cdcgov/phdi"
   registry_username = data.aws_ecr_authorization_token.this.user_name
   registry_password = data.aws_ecr_authorization_token.this.password
+  phdi_repo         = "ghcr.io/cdcgov/phdi"
   database_data     = var.postgres_database_data.non_integrated_viewer == "true" ? var.postgres_database_data : var.sqlserver_database_data
 
   service_data = length(var.service_data) > 0 ? var.service_data : {
     ecr-viewer = {
       short_name     = "ecrv",
-      fargate_cpu    = 1024,
-      fargate_memory = 2048,
+      fargate_cpu    = 512,
+      fargate_memory = 1024,
       min_capacity   = 1,
       max_capacity   = 5,
+      app_repo       = local.phdi_repo,
       app_image      = var.disable_ecr == false ? "${terraform.workspace}-ecr-viewer" : "ecr-viewer",
       app_version    = var.phdi_version,
       container_port = 3000,
@@ -53,10 +55,6 @@ locals {
           value = var.ecr_viewer_auth_pub_key
         },
         {
-          name  = "NEXT_PUBLIC_BASEPATH",
-          value = var.ecr_viewer_basepath
-        },
-        {
           name  = "METADATA_DATABASE_TYPE",
           value = local.database_data.non_integrated_viewer == "true" ? local.database_data.metadata_database_type : ""
         },
@@ -88,6 +86,7 @@ locals {
       fargate_memory = 2048,
       min_capacity   = 1,
       max_capacity   = 5,
+      app_repo       = local.phdi_repo,
       app_image      = var.disable_ecr == false ? "${terraform.workspace}-fhir-converter" : "fhir-converter",
       app_version    = var.phdi_version,
       container_port = 8080,
@@ -98,10 +97,11 @@ locals {
     },
     ingestion = {
       short_name     = "inge",
-      fargate_cpu    = 1024,
-      fargate_memory = 2048,
+      fargate_cpu    = 512,
+      fargate_memory = 1024,
       min_capacity   = 1,
       max_capacity   = 5,
+      app_repo       = local.phdi_repo,
       app_image      = var.disable_ecr == false ? "${terraform.workspace}-ingestion" : "ingestion",
       app_version    = var.phdi_version,
       container_port = 8080,
@@ -112,10 +112,11 @@ locals {
     },
     validation = {
       short_name     = "vali",
-      fargate_cpu    = 1024,
-      fargate_memory = 2048,
+      fargate_cpu    = 512,
+      fargate_memory = 1024,
       min_capacity   = 1,
       max_capacity   = 5,
+      app_repo       = local.phdi_repo,
       app_image      = var.disable_ecr == false ? "${terraform.workspace}-validation" : "validation",
       app_version    = var.phdi_version,
       container_port = 8080,
@@ -126,10 +127,11 @@ locals {
     },
     trigger-code-reference = {
       short_name     = "trigcr",
-      fargate_cpu    = 1024,
-      fargate_memory = 2048,
+      fargate_cpu    = 512,
+      fargate_memory = 1024,
       min_capacity   = 1,
       max_capacity   = 5,
+      app_repo       = local.phdi_repo,
       app_image      = var.disable_ecr == false ? "${terraform.workspace}-trigger-code-reference" : "trigger-code-reference",
       app_version    = var.phdi_version,
       container_port = 8080,
@@ -140,10 +142,11 @@ locals {
     },
     message-parser = {
       short_name     = "msgp",
-      fargate_cpu    = 1024,
-      fargate_memory = 2048,
+      fargate_cpu    = 512,
+      fargate_memory = 1024,
       min_capacity   = 1,
       max_capacity   = 5,
+      app_repo       = local.phdi_repo,
       app_image      = var.disable_ecr == false ? "${terraform.workspace}-message-parser" : "message-parser",
       app_version    = var.phdi_version,
       container_port = 8080,
@@ -154,10 +157,11 @@ locals {
     },
     orchestration = {
       short_name     = "orch",
-      fargate_cpu    = 1024,
-      fargate_memory = 2048,
+      fargate_cpu    = 512,
+      fargate_memory = 1024,
       min_capacity   = 1,
       max_capacity   = 5,
+      app_repo       = local.phdi_repo,
       app_image      = var.disable_ecr == false ? "${terraform.workspace}-orchestration" : "orchestration",
       app_version    = var.phdi_version,
       container_port = 8080,
@@ -187,7 +191,7 @@ locals {
         },
         {
           name  = "ECR_VIEWER_URL",
-          value = "http://ecr-viewer:3000${var.ecr_viewer_basepath}"
+          value = "http://ecr-viewer:3000/ecr-viewer"
         },
         {
           name  = "MESSAGE_PARSER_URL",

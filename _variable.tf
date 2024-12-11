@@ -58,6 +58,12 @@ variable "ecs_task_role_name" {
   default     = ""
 }
 
+variable "enable_autoscaling" {
+  type        = bool
+  description = "Flag to enable autoscaling for the ECS services"
+  default     = true
+}
+
 variable "private_subnet_ids" {
   type        = list(string)
   description = "List of private subnet IDs"
@@ -98,6 +104,7 @@ variable "service_data" {
     fargate_memory = number
     min_capacity   = number
     max_capacity   = number
+    app_repo       = string
     app_image      = string
     app_version    = string
     container_port = number
@@ -180,12 +187,6 @@ variable "tags" {
   type        = map(string)
   description = "Tags to apply to resources"
   default     = {}
-}
-
-variable "ecr_viewer_basepath" {
-  type        = string
-  description = "The basepath for the ecr-viewer"
-  default     = "/ecr-viewer"
 }
 
 variable "ecr_viewer_app_env" {
