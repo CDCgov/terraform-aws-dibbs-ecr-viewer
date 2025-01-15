@@ -28,7 +28,7 @@ resource "aws_alb_target_group" "this" {
     protocol            = "HTTP"
     matcher             = "200-499"
     timeout             = "3"
-    path                = local.service_data[each.key].root_service ? ["/", "/"] : [["/${each.key}", "/${each.key}/"]]
+    path                = local.service_data[each.key].root_service ? ["/", "/"] : ["/${each.key}", "/${each.key}/"]
     unhealthy_threshold = "3"
   }
   tags = local.tags
@@ -108,7 +108,8 @@ resource "aws_alb_listener_rule" "http" {
 
   condition {
     path_pattern {
-     values = local.service_data[each.key].root_service ? ["/", "/"] : [["/${each.key}", "/${each.key}/"]]
+     values = local.service_data[each.key].root_service ? ["/", "/"] : ["/${each.key}", "/${each.key}/"]
+
     }
   }
   lifecycle {
@@ -152,7 +153,7 @@ resource "aws_alb_listener_rule" "https" {
 
   condition {
     path_pattern {
-      values = local.service_data[each.key].root_service ? ["/", "/"] : [["/${each.key}", "/${each.key}/"]]
+      values = local.service_data[each.key].root_service ? ["/", "/"] : ["/${each.key}", "/${each.key}/"]
     }
   }
   lifecycle {
