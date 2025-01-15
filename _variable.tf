@@ -111,6 +111,7 @@ variable "service_data" {
     host_port      = number
     public         = bool
     registry_url   = string
+    root_service = bool 
     env_vars = list(object({
       name  = string
       value = string
@@ -215,3 +216,5 @@ Iynom6unaheZpS4DFIh2w9UCAwEAAQ==
 -----END PUBLIC KEY-----
           EOT
 }
+
+
