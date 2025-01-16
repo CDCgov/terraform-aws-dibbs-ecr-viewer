@@ -108,7 +108,7 @@ resource "aws_alb_listener_rule" "http" {
 
   condition {
     path_pattern {
-     values = local.service_data[each.key].root_service ? ["/", "/"] : ["/${each.key}", "/${each.key}/"]
+     values = local.service_data[each.key].root_service ? ["/", "/"] : ["/${each.key}", "/${each.key}/*"]
 
     }
   }
@@ -153,7 +153,7 @@ resource "aws_alb_listener_rule" "https" {
 
   condition {
     path_pattern {
-      values = local.service_data[each.key].root_service ? ["/", "/"] : ["/${each.key}", "/${each.key}/"]
+      values = local.service_data[each.key].root_service ? ["/", "/"] : ["/${each.key}", "/${each.key}/*"]
     }
   }
   lifecycle {
