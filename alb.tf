@@ -84,6 +84,7 @@ resource "aws_alb_listener_rule" "http" {
     if local.service_data[key].public == true
   }
   listener_arn = aws_alb_listener.http.arn
+  priority     = local.service_data[each.key].listener_priority
 
   dynamic "action" {
     for_each = var.certificate_arn != "" ? [] : [each.value]
@@ -110,8 +111,7 @@ resource "aws_alb_listener_rule" "http" {
     path_pattern {
       values = local.service_data[each.key].root_service == true ? [
         "/",
-        "/${each.key}",
-        "/${each.key}/*"
+        "/*"
         ] : [
         "/${each.key}",
         "/${each.key}/*"
@@ -153,6 +153,7 @@ resource "aws_alb_listener_rule" "https" {
     if value.public == true && var.certificate_arn != ""
   }
   listener_arn = aws_alb_listener.https[0].arn
+  priority     = local.service_data[each.key].listener_priority
 
   action {
     type             = "forward"
@@ -163,8 +164,7 @@ resource "aws_alb_listener_rule" "https" {
     path_pattern {
       values = local.service_data[each.key].root_service == true ? [
         "/",
-        "/${each.key}",
-        "/${each.key}/*"
+        "/*"
         ] : [
         "/${each.key}",
         "/${each.key}/*"

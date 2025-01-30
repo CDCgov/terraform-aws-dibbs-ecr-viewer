@@ -99,19 +99,20 @@ variable "phdi_version" {
 
 variable "service_data" {
   type = map(object({
-    short_name     = string
-    fargate_cpu    = number
-    fargate_memory = number
-    min_capacity   = number
-    max_capacity   = number
-    app_repo       = string
-    app_image      = string
-    app_version    = string
-    container_port = number
-    host_port      = number
-    public         = bool
-    registry_url   = string
-    root_service   = bool
+    short_name        = string
+    fargate_cpu       = number
+    fargate_memory    = number
+    min_capacity      = number
+    max_capacity      = number
+    app_repo          = string
+    app_image         = string
+    app_version       = string
+    container_port    = number
+    host_port         = number
+    public            = bool
+    registry_url      = string
+    root_service      = bool
+    listener_priority = number
     env_vars = list(object({
       name  = string
       value = string
