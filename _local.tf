@@ -9,7 +9,6 @@ locals {
   registry_username = data.aws_ecr_authorization_token.this.user_name
   registry_password = data.aws_ecr_authorization_token.this.password
   phdi_repo         = "ghcr.io/cdcgov/phdi"
-  database_data     = var.postgres_database_data.non_integrated_viewer == "true" ? var.postgres_database_data : var.sqlserver_database_data
 
   service_data = length(var.service_data) > 0 ? var.service_data : {
     ecr-viewer = {
@@ -25,6 +24,7 @@ locals {
       host_port      = 3000,
       public         = true,
       registry_url   = local.registry_url,
+      root_service   = true,
       env_vars = [
         {
           name  = "AWS_REGION",
@@ -39,44 +39,28 @@ locals {
           value = "0.0.0.0"
         },
         {
-          name  = "NEXT_PUBLIC_NON_INTEGRATED_VIEWER",
-          value = local.database_data.non_integrated_viewer
-        },
-        {
-          name  = "SOURCE",
-          value = "s3"
-        },
-        {
-          name  = "APP_ENV",
-          value = var.ecr_viewer_app_env
+          name  = "CONFIG_NAME",
+          value = var.dibbs_config_name
         },
         {
           name  = "NBS_PUB_KEY",
           value = var.ecr_viewer_auth_pub_key
         },
         {
-          name  = "METADATA_DATABASE_TYPE",
-          value = local.database_data.non_integrated_viewer == "true" ? local.database_data.metadata_database_type : ""
-        },
-        {
-          name  = "METADATA_DATABASE_SCHEMA",
-          value = local.database_data.non_integrated_viewer == "true" ? local.database_data.metadata_database_schema : ""
-        },
-        {
           name  = "DATABASE_URL",
-          value = local.database_data.metadata_database_type == "postgres" ? data.aws_secretsmanager_secret_version.postgres_database_url[0].secret_string : ""
+          value = length(data.aws_secretsmanager_secret_version.postgres_database_url) > 0 ? data.aws_secretsmanager_secret_version.postgres_database_url[0].secret_string : ""
         },
         {
           name  = "SQL_SERVER_USER",
-          value = local.database_data.metadata_database_type == "sqlserver" ? data.aws_secretsmanager_secret_version.sqlserver_user[0].secret_string : ""
+          value = length(data.aws_secretsmanager_secret_version.sqlserver_user) > 0 ? data.aws_secretsmanager_secret_version.sqlserver_user[0].secret_string : ""
         },
         {
           name  = "SQL_SERVER_PASSWORD",
-          value = local.database_data.metadata_database_type == "sqlserver" ? data.aws_secretsmanager_secret_version.sqlserver_password[0].secret_string : ""
+          value = length(data.aws_secretsmanager_secret_version.sqlserver_password) > 0 ? data.aws_secretsmanager_secret_version.sqlserver_password[0].secret_string : ""
         },
         {
           name  = "SQL_SERVER_HOST",
-          value = local.database_data.metadata_database_type == "sqlserver" ? data.aws_secretsmanager_secret_version.sqlserver_host[0].secret_string : ""
+          value = length(data.aws_secretsmanager_secret_version.sqlserver_host) > 0 ? data.aws_secretsmanager_secret_version.sqlserver_host[0].secret_string : ""
         }
       ]
     },
@@ -93,6 +77,7 @@ locals {
       host_port      = 8080,
       public         = false,
       registry_url   = local.registry_url,
+      root_service   = false,
       env_vars       = []
     },
     ingestion = {
@@ -108,6 +93,7 @@ locals {
       host_port      = 8080,
       public         = false,
       registry_url   = local.registry_url,
+      root_service   = false,
       env_vars       = []
     },
     validation = {
@@ -123,6 +109,7 @@ locals {
       host_port      = 8080,
       public         = false,
       registry_url   = local.registry_url,
+      root_service   = false,
       env_vars       = []
     },
     trigger-code-reference = {
@@ -138,6 +125,7 @@ locals {
       host_port      = 8080,
       public         = false,
       registry_url   = local.registry_url,
+      root_service   = false,
       env_vars       = []
     },
     message-parser = {
@@ -153,6 +141,7 @@ locals {
       host_port      = 8080,
       public         = false
       registry_url   = local.registry_url
+      root_service   = false,
       env_vars       = []
     },
     orchestration = {
@@ -168,6 +157,7 @@ locals {
       host_port      = 8080,
       public         = true,
       registry_url   = local.registry_url,
+      root_service   = false,
       env_vars = [
         {
           name  = "OTEL_METRICS",

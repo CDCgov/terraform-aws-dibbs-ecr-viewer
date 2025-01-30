@@ -41,21 +41,21 @@ data "aws_route_table" "this" {
 }
 
 data "aws_secretsmanager_secret_version" "postgres_database_url" {
-  count     = local.database_data.metadata_database_type == "postgres" ? 1 : 0
-  secret_id = local.database_data.metadata_database_type == "postgres" ? local.database_data.secrets_manager_postgres_database_url_name : ""
+  count     = var.secrets_manager_postgresql_connection_string_name == "" ? 0 : 1
+  secret_id = var.secrets_manager_postgresql_connection_string_name
 }
 
 data "aws_secretsmanager_secret_version" "sqlserver_user" {
-  count     = local.database_data.metadata_database_type == "sqlserver" ? 1 : 0
-  secret_id = local.database_data.metadata_database_type == "sqlserver" ? local.database_data.secrets_manager_sqlserver_user_name : ""
+  count     = var.secrets_manager_sqlserver_user_name == "" ? 0 : 1
+  secret_id = var.secrets_manager_sqlserver_user_name
 }
 
 data "aws_secretsmanager_secret_version" "sqlserver_password" {
-  count     = local.database_data.metadata_database_type == "sqlserver" ? 1 : 0
-  secret_id = local.database_data.metadata_database_type == "sqlserver" ? local.database_data.secrets_manager_sqlserver_password_name : ""
+  count     = var.secrets_manager_sqlserver_password_name == "" ? 0 : 1
+  secret_id = var.secrets_manager_sqlserver_password_name
 }
 
 data "aws_secretsmanager_secret_version" "sqlserver_host" {
-  count     = local.database_data.metadata_database_type == "sqlserver" ? 1 : 0
-  secret_id = local.database_data.metadata_database_type == "sqlserver" ? local.database_data.secrets_manager_sqlserver_host_name : ""
+  count     = var.secrets_manager_sqlserver_host_name == "" ? 0 : 1
+  secret_id = var.secrets_manager_sqlserver_host_name
 }
