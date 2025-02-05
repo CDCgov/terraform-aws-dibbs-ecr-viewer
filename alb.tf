@@ -84,6 +84,7 @@ resource "aws_alb_listener_rule" "http" {
     if local.service_data[key].public == true
   }
   listener_arn = aws_alb_listener.http.arn
+  priority     = local.service_data[each.key].listener_priority
 
   dynamic "action" {
     for_each = var.certificate_arn != "" ? [] : [each.value]
@@ -108,7 +109,13 @@ resource "aws_alb_listener_rule" "http" {
 
   condition {
     path_pattern {
-      values = ["/${each.key}", "/${each.key}/*"]
+      values = local.service_data[each.key].root_service == true ? [
+        "/",
+        "/*"
+        ] : [
+        "/${each.key}",
+        "/${each.key}/*"
+      ]
     }
   }
   lifecycle {
@@ -126,6 +133,7 @@ resource "aws_alb_listener" "https" {
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
   certificate_arn   = var.certificate_arn
+
   default_action {
     type = "fixed-response"
     fixed_response {
@@ -134,25 +142,33 @@ resource "aws_alb_listener" "https" {
       status_code  = "404"
     }
   }
+
   tags = local.tags
 }
 
 # We may want to create this resource without the loop if the path_patterns ever break the pattern of being the name of the service
 resource "aws_alb_listener_rule" "https" {
   for_each = {
-    for key, value in aws_alb_target_group.this : key => value
-    if local.service_data[key].public == true && var.certificate_arn != ""
+    for key, value in local.service_data : key => value
+    if value.public == true && var.certificate_arn != ""
   }
   listener_arn = aws_alb_listener.https[0].arn
+  priority     = local.service_data[each.key].listener_priority
 
   action {
     type             = "forward"
-    target_group_arn = each.value.arn
+    target_group_arn = aws_alb_target_group.this[each.key].arn
   }
 
   condition {
     path_pattern {
-      values = ["/${each.key}", "/${each.key}/*"]
+      values = local.service_data[each.key].root_service == true ? [
+        "/",
+        "/*"
+        ] : [
+        "/${each.key}",
+        "/${each.key}/*"
+      ]
     }
   }
   lifecycle {

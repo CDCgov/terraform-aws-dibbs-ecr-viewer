@@ -99,18 +99,20 @@ variable "phdi_version" {
 
 variable "service_data" {
   type = map(object({
-    short_name     = string
-    fargate_cpu    = number
-    fargate_memory = number
-    min_capacity   = number
-    max_capacity   = number
-    app_repo       = string
-    app_image      = string
-    app_version    = string
-    container_port = number
-    host_port      = number
-    public         = bool
-    registry_url   = string
+    short_name        = string
+    fargate_cpu       = number
+    fargate_memory    = number
+    min_capacity      = number
+    max_capacity      = number
+    app_repo          = string
+    app_image         = string
+    app_version       = string
+    container_port    = number
+    host_port         = number
+    public            = bool
+    registry_url      = string
+    root_service      = bool
+    listener_priority = number
     env_vars = list(object({
       name  = string
       value = string
@@ -120,38 +122,24 @@ variable "service_data" {
   default     = {}
 }
 
-variable "postgres_database_data" {
-  type = object({
-    non_integrated_viewer                      = string
-    metadata_database_type                     = string
-    metadata_database_schema                   = string
-    secrets_manager_postgres_database_url_name = string
-  })
-  default = {
-    non_integrated_viewer                      = "false"
-    metadata_database_type                     = ""
-    metadata_database_schema                   = ""
-    secrets_manager_postgres_database_url_name = ""
-  }
+variable "secrets_manager_postgresql_connection_string_name" {
+  type    = string
+  default = ""
 }
 
-variable "sqlserver_database_data" {
-  type = object({
-    non_integrated_viewer                   = string
-    metadata_database_type                  = string
-    metadata_database_schema                = string
-    secrets_manager_sqlserver_user_name     = string
-    secrets_manager_sqlserver_password_name = string
-    secrets_manager_sqlserver_host_name     = string
-  })
-  default = {
-    non_integrated_viewer                   = "false"
-    metadata_database_type                  = ""
-    metadata_database_schema                = ""
-    secrets_manager_sqlserver_user_name     = ""
-    secrets_manager_sqlserver_password_name = ""
-    secrets_manager_sqlserver_host_name     = ""
-  }
+variable "secrets_manager_sqlserver_user_name" {
+  type    = string
+  default = ""
+}
+
+variable "secrets_manager_sqlserver_password_name" {
+  type    = string
+  default = ""
+}
+
+variable "secrets_manager_sqlserver_host_name" {
+  type    = string
+  default = ""
 }
 
 variable "certificate_arn" {
@@ -189,12 +177,6 @@ variable "tags" {
   default     = {}
 }
 
-variable "ecr_viewer_app_env" {
-  type        = string
-  description = "The current environment that is running. This may modify behavior of auth between dev and prod."
-  default     = "prod"
-}
-
 variable "ecr_viewer_auth_pub_key" {
   type        = string
   description = "The public key used to validate the incoming authenication for the eCR Viewer."
@@ -214,4 +196,10 @@ hR9rUr59dP2BTlcJ19ZXobLwuJEa81S5BrcbDwYNOAzC8jl2EV1i4bQIwJJaY27X
 Iynom6unaheZpS4DFIh2w9UCAwEAAQ==
 -----END PUBLIC KEY-----
           EOT
+}
+
+variable "dibbs_config_name" {
+  type        = string
+  description = "Name of the DIBBS configuration"
+  default     = ""
 }

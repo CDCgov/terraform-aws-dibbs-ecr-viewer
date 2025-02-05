@@ -1,9 +1,6 @@
-check "database_data_non_integrated_viewer" {
+check "ensure_one_root_service" {
   assert {
-    condition = (
-      (local.database_data.non_integrated_viewer == "false" && length(local.database_data.metadata_database_type) == 0) ||
-      (local.database_data.non_integrated_viewer == "true" && length(local.database_data.metadata_database_type) > 0 && length(local.database_data.metadata_database_schema) > 0)
-    )
-    error_message = "When non_integrated_viewer is false, no other database data should be provided. When non_integrated_viewer is true, metadata_database_type, metadata_database_schema, and secrets_manager_* variables should be provided."
+    condition     = length([for service in local.service_data : service if service.root_service == true]) <= 1
+    error_message = "Multiple services have root_service set to true, only one service can be marked as the root service"
   }
 }
