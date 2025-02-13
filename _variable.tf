@@ -177,6 +177,12 @@ variable "tags" {
   default     = {}
 }
 
+variable "nbs_auth" {
+  type        = string
+  description = "enabled or disabled authentication for the eCR Viewer"
+  default = true
+}
+
 variable "ecr_viewer_auth_pub_key" {
   type        = string
   description = "The public key used to validate the incoming authenication for the eCR Viewer."
@@ -195,7 +201,7 @@ wJodvn3Qo8/S5hxJ6HyGkUTANKN8IxWh/6R5biET5BuztZP6jfPEaOAnt6sq+C38
 hR9rUr59dP2BTlcJ19ZXobLwuJEa81S5BrcbDwYNOAzC8jl2EV1i4bQIwJJaY27X
 Iynom6unaheZpS4DFIh2w9UCAwEAAQ==
 -----END PUBLIC KEY-----
-          EOT
+EOT
 }
 
 variable "dibbs_config_name" {

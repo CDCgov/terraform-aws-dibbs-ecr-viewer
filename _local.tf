@@ -5,10 +5,38 @@ resource "random_string" "s3_viewer" {
 }
 
 locals {
-  registry_url      = var.disable_ecr == false ? "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.region}.amazonaws.com" : "ghcr.io/cdcgov/phdi"
+  registry_url      = var.disable_ecr == false ? "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.region}.amazonaws.com" : "ghcr.io/cdcgov/dibbs-ecr-viewer"
   registry_username = data.aws_ecr_authorization_token.this.user_name
   registry_password = data.aws_ecr_authorization_token.this.password
-  phdi_repo         = "ghcr.io/cdcgov/phdi"
+  phdi_repo         = "ghcr.io/cdcgov/dibbs-ecr-viewer"
+  database_url      = length(data.aws_secretsmanager_secret_version.postgres_database_url) > 0 ? {
+    name  = "DATABASE_URL",
+    value = data.aws_secretsmanager_secret_version.postgres_database_url[0].secret_string
+  } : {
+    name  = "BLANK_DATABASE_URL",
+    value = ""
+  }
+  sqlserver_user = length(data.aws_secretsmanager_secret_version.sqlserver_user) > 0 ? {
+    name  = "SQL_SERVER_USER",
+    value = data.aws_secretsmanager_secret_version.sqlserver_user[0].secret_string
+  } : {
+    name  = "BLANK_SQL_SERVER_USER",
+    value = ""
+  }
+  sqlserver_password = length(data.aws_secretsmanager_secret_version.sqlserver_password) > 0 ? {
+    name  = "SQL_SERVER_PASSWORD",
+    value = data.aws_secretsmanager_secret_version.sqlserver_password[0].secret_string
+  } : {
+    name  = "BLANK_SQL_SERVER_PASSWORD",
+    value = ""
+  }
+  sqlserver_host = length(data.aws_secretsmanager_secret_version.sqlserver_host) > 0 ? {
+    name  = "SQL_SERVER_HOST",
+    value = data.aws_secretsmanager_secret_version.sqlserver_host[0].secret_string
+  } : {
+    name  = "BLANK_SQL_SERVER_HOST",
+    value = ""
+  }
 
   service_data = length(var.service_data) > 0 ? var.service_data : {
     ecr-viewer = {
@@ -40,6 +68,10 @@ locals {
           value = "0.0.0.0"
         },
         {
+          name  = "NBS_AUTH",
+          value = var.nbs_auth
+        },
+        {
           name  = "CONFIG_NAME",
           value = var.dibbs_config_name
         },
@@ -47,22 +79,10 @@ locals {
           name  = "NBS_PUB_KEY",
           value = var.ecr_viewer_auth_pub_key
         },
-        {
-          name  = "DATABASE_URL",
-          value = length(data.aws_secretsmanager_secret_version.postgres_database_url) > 0 ? data.aws_secretsmanager_secret_version.postgres_database_url[0].secret_string : ""
-        },
-        {
-          name  = "SQL_SERVER_USER",
-          value = length(data.aws_secretsmanager_secret_version.sqlserver_user) > 0 ? data.aws_secretsmanager_secret_version.sqlserver_user[0].secret_string : ""
-        },
-        {
-          name  = "SQL_SERVER_PASSWORD",
-          value = length(data.aws_secretsmanager_secret_version.sqlserver_password) > 0 ? data.aws_secretsmanager_secret_version.sqlserver_password[0].secret_string : ""
-        },
-        {
-          name  = "SQL_SERVER_HOST",
-          value = length(data.aws_secretsmanager_secret_version.sqlserver_host) > 0 ? data.aws_secretsmanager_secret_version.sqlserver_host[0].secret_string : ""
-        }
+        local.database_url,
+        local.sqlserver_user,
+        local.sqlserver_password,
+        local.sqlserver_host
       ]
     },
     fhir-converter = {
