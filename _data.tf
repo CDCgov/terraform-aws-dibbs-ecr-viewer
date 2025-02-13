@@ -41,21 +41,21 @@ data "aws_route_table" "this" {
 }
 
 data "aws_secretsmanager_secret_version" "postgres_database_url" {
-  count     = var.secrets_manager_postgresql_connection_string_name == "" ? 0 : 1
+  # count     = var.secrets_manager_postgresql_connection_string_name == "" ? 0 : 1
   secret_id = var.secrets_manager_postgresql_connection_string_name
 }
 
 data "aws_secretsmanager_secret_version" "sqlserver_user" {
-  count     = var.secrets_manager_sqlserver_user_name == "" ? 0 : 1
+  # count     = var.secrets_manager_sqlserver_user_name == "" ? 0 : 1
   secret_id = var.secrets_manager_sqlserver_user_name
 }
 
 data "aws_secretsmanager_secret_version" "sqlserver_password" {
-  count     = var.secrets_manager_sqlserver_password_name == "" ? 0 : 1
+  # count     = var.secrets_manager_sqlserver_password_name == "" ? 0 : 1
   secret_id = var.secrets_manager_sqlserver_password_name
 }
 
 data "aws_secretsmanager_secret_version" "sqlserver_host" {
-  count     = var.secrets_manager_sqlserver_host_name == "" ? 0 : 1
+  # count     = var.secrets_manager_sqlserver_host_name == "" ? 0 : 1
   secret_id = var.secrets_manager_sqlserver_host_name
 }
