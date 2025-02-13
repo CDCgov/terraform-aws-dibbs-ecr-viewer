@@ -9,28 +9,28 @@ locals {
   registry_username = data.aws_ecr_authorization_token.this.user_name
   registry_password = data.aws_ecr_authorization_token.this.password
   phdi_repo         = "ghcr.io/cdcgov/dibbs-ecr-viewer"
-  database_url = data.aws_secretsmanager_secret_version.postgres_database_url != "" ? {
+  database_url = data.aws_secretsmanager_secret_version.postgres_database_url != "-no_value-" ? {
     name  = "DATABASE_URL",
     value = data.aws_secretsmanager_secret_version.postgres_database_url.secret_string
     } : {
     name  = "BLANK_DATABASE_URL",
     value = ""
   }
-  sqlserver_user = data.aws_secretsmanager_secret_version.sqlserver_user != "" ? {
+  sqlserver_user = data.aws_secretsmanager_secret_version.sqlserver_user != "-no_value-" ? {
     name  = "SQL_SERVER_USER",
     value = data.aws_secretsmanager_secret_version.sqlserver_user.secret_string
     } : {
     name  = "BLANK_SQL_SERVER_USER",
     value = ""
   }
-  sqlserver_password = data.aws_secretsmanager_secret_version.sqlserver_password != "" ? {
+  sqlserver_password = data.aws_secretsmanager_secret_version.sqlserver_password != "-no_value-" ? {
     name  = "SQL_SERVER_PASSWORD",
     value = data.aws_secretsmanager_secret_version.sqlserver_password.secret_string
     } : {
     name  = "BLANK_SQL_SERVER_PASSWORD",
     value = ""
   }
-  sqlserver_host = data.aws_secretsmanager_secret_version.sqlserver_host != "" ? {
+  sqlserver_host = data.aws_secretsmanager_secret_version.sqlserver_host != "-no_value-" ? {
     name  = "SQL_SERVER_HOST",
     value = data.aws_secretsmanager_secret_version.sqlserver_host.secret_string
     } : {

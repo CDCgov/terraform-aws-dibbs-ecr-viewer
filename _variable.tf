@@ -124,22 +124,22 @@ variable "service_data" {
 
 variable "secrets_manager_postgresql_connection_string_name" {
   type    = string
-  default = ""
+  default = "-no_value-"
 }
 
 variable "secrets_manager_sqlserver_user_name" {
   type    = string
-  default = ""
+  default = "-no_value-"
 }
 
 variable "secrets_manager_sqlserver_password_name" {
   type    = string
-  default = ""
+  default = "-no_value-"
 }
 
 variable "secrets_manager_sqlserver_host_name" {
   type    = string
-  default = ""
+  default = "-no_value-"
 }
 
 variable "certificate_arn" {
