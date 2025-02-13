@@ -18,7 +18,7 @@ locals {
   }
   sqlserver_user = data.aws_secretsmanager_secret_version.sqlserver_user != "" ? {
     name  = "SQL_SERVER_USER",
-    value = data.aws_secretsmanager_secret_version.sqlserver_use.secret_string
+    value = data.aws_secretsmanager_secret_version.sqlserver_user.secret_string
     } : {
     name  = "BLANK_SQL_SERVER_USER",
     value = ""
