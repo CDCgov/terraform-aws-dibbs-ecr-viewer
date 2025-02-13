@@ -122,24 +122,30 @@ variable "service_data" {
   default     = {}
 }
 
+variable "database_type" {
+  type        = string
+  description = "The type of database to use (postgresql or sqlserver)"
+  default     = "postgresql"
+}
+
 variable "secrets_manager_postgresql_connection_string_name" {
   type    = string
-  default = "-no_value-"
+  default = ""
 }
 
 variable "secrets_manager_sqlserver_user_name" {
   type    = string
-  default = "-no_value-"
+  default = ""
 }
 
 variable "secrets_manager_sqlserver_password_name" {
   type    = string
-  default = "-no_value-"
+  default = ""
 }
 
 variable "secrets_manager_sqlserver_host_name" {
   type    = string
-  default = "-no_value-"
+  default = ""
 }
 
 variable "certificate_arn" {
