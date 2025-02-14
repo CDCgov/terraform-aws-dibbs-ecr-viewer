@@ -11,19 +11,19 @@ locals {
   phdi_repo         = "ghcr.io/cdcgov/dibbs-ecr-viewer"
   database_url = var.database_type == "postgresql" ? {
     name  = "DATABASE_URL",
-    value = data.aws_secretsmanager_secret_version.postgres_database_url[0].secret_string
+    value = var.secrets_manager_postgresql_connection_string_version
   } : null
   sqlserver_user = var.database_type == "sqlserver" ? {
     name  = "SQL_SERVER_USER",
-    value = data.aws_secretsmanager_secret_version.sqlserver_user[0].secret_string
+    value = var.secrets_manager_sqlserver_user_version
   } : null
   sqlserver_password = var.database_type == "sqlserver" ? {
     name  = "SQL_SERVER_PASSWORD",
-    value = data.aws_secretsmanager_secret_version.sqlserver_password[0].secret_string
+    value = var.secrets_manager_sqlserver_password_version
   } : null
   sqlserver_host = var.database_type == "sqlserver" ? {
     name  = "SQL_SERVER_HOST",
-    value = data.aws_secretsmanager_secret_version.sqlserver_host[0].secret_string
+    value = var.secrets_manager_sqlserver_host_version
   } : null
   service_data = length(var.service_data) > 0 ? var.service_data : {
     ecr-viewer = {
