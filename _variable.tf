@@ -129,26 +129,26 @@ variable "database_type" {
 }
 
 variable "secrets_manager_postgresql_connection_string_version" {
-  type    = string
-  default = ""
+  type      = string
+  default   = ""
   sensitive = true
 }
 
 variable "secrets_manager_sqlserver_user_version" {
-  type    = string
-  default = ""
+  type      = string
+  default   = ""
   sensitive = true
 }
 
 variable "secrets_manager_sqlserver_password_version" {
-  type    = string
-  default = ""
+  type      = string
+  default   = ""
   sensitive = true
 }
 
 variable "secrets_manager_sqlserver_host_version" {
-  type    = string
-  default = ""
+  type      = string
+  default   = ""
   sensitive = true
 }
 

@@ -96,7 +96,7 @@ The current architectural design for dibbs-aws is as follows:
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.9.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.56.1 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.86.0 |
 | <a name="requirement_dockerless"></a> [dockerless](#requirement\_dockerless) | ~> 0.1.1 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.2.3 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.6.3 |
@@ -105,7 +105,7 @@ The current architectural design for dibbs-aws is as follows:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 5.56.1 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 5.86.0 |
 | <a name="provider_dockerless"></a> [dockerless](#provider\_dockerless) | ~> 0.1.1 |
 | <a name="provider_null"></a> [null](#provider\_null) | ~> 3.2.3 |
 | <a name="provider_random"></a> [random](#provider\_random) | ~> 3.6.3 |
@@ -164,10 +164,6 @@ No modules.
 | [aws_iam_policy_document.assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.ecr_viewer_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_route_table.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route_table) | data source |
-| [aws_secretsmanager_secret_version.postgres_database_url](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret_version) | data source |
-| [aws_secretsmanager_secret_version.sqlserver_host](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret_version) | data source |
-| [aws_secretsmanager_secret_version.sqlserver_password](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret_version) | data source |
-| [aws_secretsmanager_secret_version.sqlserver_user](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret_version) | data source |
 
 ## Inputs
 
@@ -177,6 +173,7 @@ No modules.
 | <a name="input_certificate_arn"></a> [certificate\_arn](#input\_certificate\_arn) | ARN of the SSL certificate that enables ssl termination on the ALB | `string` | `""` | no |
 | <a name="input_cloudmap_namespace_name"></a> [cloudmap\_namespace\_name](#input\_cloudmap\_namespace\_name) | Name of the AWS Cloud Map namespace | `string` | `""` | no |
 | <a name="input_cw_retention_in_days"></a> [cw\_retention\_in\_days](#input\_cw\_retention\_in\_days) | Retention period in days for CloudWatch logs | `number` | `30` | no |
+| <a name="input_database_type"></a> [database\_type](#input\_database\_type) | The type of database to use (postgresql or sqlserver) | `string` | `"postgresql"` | no |
 | <a name="input_dibbs_config_name"></a> [dibbs\_config\_name](#input\_dibbs\_config\_name) | Name of the DIBBS configuration | `string` | `""` | no |
 | <a name="input_disable_ecr"></a> [disable\_ecr](#input\_disable\_ecr) | Flag to disable the aws ecr service for docker image storage, defaults to false | `bool` | `false` | no |
 | <a name="input_ecr_viewer_auth_pub_key"></a> [ecr\_viewer\_auth\_pub\_key](#input\_ecr\_viewer\_auth\_pub\_key) | The public key used to validate the incoming authenication for the eCR Viewer. | `string` | `"-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAqjrH9PprQCB5dX15zYfd\nS6K2ezNi/ZOu8vKEhQuLqwHACy1iUt1Yyp2PZLIV7FVDgBHMMVWPVx3GJ2wEyaJw\nMHkv6XNpUpWLhbs0V1T7o/OZfEIqcNua07OEoBxX9vhKIHtaksWdoMyKRXQJz0js\noWpawfOWxETnLqGvybT4yvY2RJhquTXLcLu90L4LdvIkADIZshaOtAU/OwI5ATcb\nfE3ip15E6jIoUm7FAtfRiuncpI5l/LJPP6fvwf8QCbbUJBZklLqcUuf4qe/L/nIq\npIONb8KZFWPhnGeRZ9bwIcqYWt3LAAshQLSGEYl2PGXaqbkUD2XLETSKDjisxd0g\n9j8bIMPgBKi+dBYcmBZnR7DxJe+vEDDw8prHG/+HRy5fim/BcibTKnIl8PR5yqHa\nmWQo7N+xXhILdD9e33KLRgbg97+erHqvHlNMdwDhAfrBT+W6GCdPwp3cePPsbhsc\noGSHOUDhzyAujr0J8h5WmZDGUNWjGzWqubNZD8dBXB8x+9dDoWhfM82nw0pvAeKf\nwJodvn3Qo8/S5hxJ6HyGkUTANKN8IxWh/6R5biET5BuztZP6jfPEaOAnt6sq+C38\nhR9rUr59dP2BTlcJ19ZXobLwuJEa81S5BrcbDwYNOAzC8jl2EV1i4bQIwJJaY27X\nIynom6unaheZpS4DFIh2w9UCAwEAAQ==\n-----END PUBLIC KEY-----\n"` | no |
@@ -197,10 +194,10 @@ No modules.
 | <a name="input_region"></a> [region](#input\_region) | The AWS region where resources are created | `string` | n/a | yes |
 | <a name="input_s3_viewer_bucket_name"></a> [s3\_viewer\_bucket\_name](#input\_s3\_viewer\_bucket\_name) | Name of the S3 bucket for the viewer | `string` | `""` | no |
 | <a name="input_s3_viewer_bucket_role_name"></a> [s3\_viewer\_bucket\_role\_name](#input\_s3\_viewer\_bucket\_role\_name) | Name of the IAM role for the ecr-viewer bucket | `string` | `""` | no |
-| <a name="input_secrets_manager_postgresql_connection_string_name"></a> [secrets\_manager\_postgresql\_connection\_string\_name](#input\_secrets\_manager\_postgresql\_connection\_string\_name) | n/a | `string` | `"-no_value-"` | no |
-| <a name="input_secrets_manager_sqlserver_host_name"></a> [secrets\_manager\_sqlserver\_host\_name](#input\_secrets\_manager\_sqlserver\_host\_name) | n/a | `string` | `"-no_value-"` | no |
-| <a name="input_secrets_manager_sqlserver_password_name"></a> [secrets\_manager\_sqlserver\_password\_name](#input\_secrets\_manager\_sqlserver\_password\_name) | n/a | `string` | `"-no_value-"` | no |
-| <a name="input_secrets_manager_sqlserver_user_name"></a> [secrets\_manager\_sqlserver\_user\_name](#input\_secrets\_manager\_sqlserver\_user\_name) | n/a | `string` | `"-no_value-"` | no |
+| <a name="input_secrets_manager_postgresql_connection_string_version"></a> [secrets\_manager\_postgresql\_connection\_string\_version](#input\_secrets\_manager\_postgresql\_connection\_string\_version) | n/a | `string` | `""` | no |
+| <a name="input_secrets_manager_sqlserver_host_version"></a> [secrets\_manager\_sqlserver\_host\_version](#input\_secrets\_manager\_sqlserver\_host\_version) | n/a | `string` | `""` | no |
+| <a name="input_secrets_manager_sqlserver_password_version"></a> [secrets\_manager\_sqlserver\_password\_version](#input\_secrets\_manager\_sqlserver\_password\_version) | n/a | `string` | `""` | no |
+| <a name="input_secrets_manager_sqlserver_user_version"></a> [secrets\_manager\_sqlserver\_user\_version](#input\_secrets\_manager\_sqlserver\_user\_version) | n/a | `string` | `""` | no |
 | <a name="input_service_data"></a> [service\_data](#input\_service\_data) | Data for the DIBBS services | <pre>map(object({<br>    short_name        = string<br>    fargate_cpu       = number<br>    fargate_memory    = number<br>    min_capacity      = number<br>    max_capacity      = number<br>    app_repo          = string<br>    app_image         = string<br>    app_version       = string<br>    container_port    = number<br>    host_port         = number<br>    public            = bool<br>    registry_url      = string<br>    root_service      = bool<br>    listener_priority = number<br>    env_vars = list(object({<br>      name  = string<br>      value = string<br>    }))<br>  }))</pre> | `{}` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to apply to resources | `map(string)` | `{}` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ID of the VPC | `string` | n/a | yes |
