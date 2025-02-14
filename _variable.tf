@@ -219,3 +219,9 @@ variable "dibbs_config_name" {
   description = "Name of the DIBBS configuration"
   default     = ""
 }
+
+variable "dibbs_repo" {
+  type        = string
+  description = "Name of the DIBBS repository"
+  default     = "ghcr.io/cdcgov/dibbs-ecr-viewer"
+}
