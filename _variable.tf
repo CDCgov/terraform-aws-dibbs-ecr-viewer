@@ -94,7 +94,7 @@ variable "s3_viewer_bucket_role_name" {
 variable "phdi_version" {
   type        = string
   description = "Version of the PHDI application"
-  default     = "v1.6.9"
+  default     = "v2.0.0"
 }
 
 variable "service_data" {
