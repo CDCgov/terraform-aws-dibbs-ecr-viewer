@@ -5,11 +5,26 @@ resource "random_string" "s3_viewer" {
 }
 
 locals {
-  registry_url      = var.disable_ecr == false ? "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.region}.amazonaws.com" : "ghcr.io/cdcgov/phdi"
+  registry_url      = var.disable_ecr == false ? "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.region}.amazonaws.com" : var.dibbs_repo
   registry_username = data.aws_ecr_authorization_token.this.user_name
   registry_password = data.aws_ecr_authorization_token.this.password
-  phdi_repo         = "ghcr.io/cdcgov/phdi"
-
+  dibbs_repo        = var.dibbs_repo
+  database_url = var.database_type == "postgresql" ? {
+    name  = "DATABASE_URL",
+    value = var.secrets_manager_postgresql_connection_string_version
+  } : null
+  sqlserver_user = var.database_type == "sqlserver" ? {
+    name  = "SQL_SERVER_USER",
+    value = var.secrets_manager_sqlserver_user_version
+  } : null
+  sqlserver_password = var.database_type == "sqlserver" ? {
+    name  = "SQL_SERVER_PASSWORD",
+    value = var.secrets_manager_sqlserver_password_version
+  } : null
+  sqlserver_host = var.database_type == "sqlserver" ? {
+    name  = "SQL_SERVER_HOST",
+    value = var.secrets_manager_sqlserver_host_version
+  } : null
   service_data = length(var.service_data) > 0 ? var.service_data : {
     ecr-viewer = {
       short_name        = "ecrv",
@@ -17,7 +32,7 @@ locals {
       fargate_memory    = 1024,
       min_capacity      = 1,
       max_capacity      = 5,
-      app_repo          = local.phdi_repo,
+      app_repo          = local.dibbs_repo,
       app_image         = var.disable_ecr == false ? "${terraform.workspace}-ecr-viewer" : "ecr-viewer",
       app_version       = var.phdi_version,
       container_port    = 3000,
@@ -40,6 +55,10 @@ locals {
           value = "0.0.0.0"
         },
         {
+          name  = "NBS_AUTH",
+          value = var.nbs_auth
+        },
+        {
           name  = "CONFIG_NAME",
           value = var.dibbs_config_name
         },
@@ -47,22 +66,10 @@ locals {
           name  = "NBS_PUB_KEY",
           value = var.ecr_viewer_auth_pub_key
         },
-        {
-          name  = "DATABASE_URL",
-          value = length(data.aws_secretsmanager_secret_version.postgres_database_url) > 0 ? data.aws_secretsmanager_secret_version.postgres_database_url[0].secret_string : ""
-        },
-        {
-          name  = "SQL_SERVER_USER",
-          value = length(data.aws_secretsmanager_secret_version.sqlserver_user) > 0 ? data.aws_secretsmanager_secret_version.sqlserver_user[0].secret_string : ""
-        },
-        {
-          name  = "SQL_SERVER_PASSWORD",
-          value = length(data.aws_secretsmanager_secret_version.sqlserver_password) > 0 ? data.aws_secretsmanager_secret_version.sqlserver_password[0].secret_string : ""
-        },
-        {
-          name  = "SQL_SERVER_HOST",
-          value = length(data.aws_secretsmanager_secret_version.sqlserver_host) > 0 ? data.aws_secretsmanager_secret_version.sqlserver_host[0].secret_string : ""
-        }
+        local.database_url,
+        local.sqlserver_user,
+        local.sqlserver_password,
+        local.sqlserver_host
       ]
     },
     fhir-converter = {
@@ -71,7 +78,7 @@ locals {
       fargate_memory    = 2048,
       min_capacity      = 1,
       max_capacity      = 5,
-      app_repo          = local.phdi_repo,
+      app_repo          = local.dibbs_repo,
       app_image         = var.disable_ecr == false ? "${terraform.workspace}-fhir-converter" : "fhir-converter",
       app_version       = var.phdi_version,
       container_port    = 8080,
@@ -88,7 +95,7 @@ locals {
       fargate_memory    = 1024,
       min_capacity      = 1,
       max_capacity      = 5,
-      app_repo          = local.phdi_repo,
+      app_repo          = local.dibbs_repo,
       app_image         = var.disable_ecr == false ? "${terraform.workspace}-ingestion" : "ingestion",
       app_version       = var.phdi_version,
       container_port    = 8080,
@@ -105,7 +112,7 @@ locals {
       fargate_memory    = 1024,
       min_capacity      = 1,
       max_capacity      = 5,
-      app_repo          = local.phdi_repo,
+      app_repo          = local.dibbs_repo,
       app_image         = var.disable_ecr == false ? "${terraform.workspace}-validation" : "validation",
       app_version       = var.phdi_version,
       container_port    = 8080,
@@ -122,7 +129,7 @@ locals {
       fargate_memory    = 1024,
       min_capacity      = 1,
       max_capacity      = 5,
-      app_repo          = local.phdi_repo,
+      app_repo          = local.dibbs_repo,
       app_image         = var.disable_ecr == false ? "${terraform.workspace}-trigger-code-reference" : "trigger-code-reference",
       app_version       = var.phdi_version,
       container_port    = 8080,
@@ -139,7 +146,7 @@ locals {
       fargate_memory    = 1024,
       min_capacity      = 1,
       max_capacity      = 5,
-      app_repo          = local.phdi_repo,
+      app_repo          = local.dibbs_repo,
       app_image         = var.disable_ecr == false ? "${terraform.workspace}-message-parser" : "message-parser",
       app_version       = var.phdi_version,
       container_port    = 8080,
@@ -156,7 +163,7 @@ locals {
       fargate_memory    = 1024,
       min_capacity      = 1,
       max_capacity      = 5,
-      app_repo          = local.phdi_repo,
+      app_repo          = local.dibbs_repo,
       app_image         = var.disable_ecr == false ? "${terraform.workspace}-orchestration" : "orchestration",
       app_version       = var.phdi_version,
       container_port    = 8080,

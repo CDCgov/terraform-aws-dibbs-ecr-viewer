@@ -94,7 +94,7 @@ variable "s3_viewer_bucket_role_name" {
 variable "phdi_version" {
   type        = string
   description = "Version of the PHDI application"
-  default     = "v1.6.9"
+  default     = "v2.0.0-beta"
 }
 
 variable "service_data" {
@@ -122,24 +122,34 @@ variable "service_data" {
   default     = {}
 }
 
-variable "secrets_manager_postgresql_connection_string_name" {
-  type    = string
-  default = ""
+variable "database_type" {
+  type        = string
+  description = "The type of database to use (postgresql or sqlserver)"
+  default     = "postgresql"
 }
 
-variable "secrets_manager_sqlserver_user_name" {
-  type    = string
-  default = ""
+variable "secrets_manager_postgresql_connection_string_version" {
+  type      = string
+  default   = ""
+  sensitive = true
 }
 
-variable "secrets_manager_sqlserver_password_name" {
-  type    = string
-  default = ""
+variable "secrets_manager_sqlserver_user_version" {
+  type      = string
+  default   = ""
+  sensitive = true
 }
 
-variable "secrets_manager_sqlserver_host_name" {
-  type    = string
-  default = ""
+variable "secrets_manager_sqlserver_password_version" {
+  type      = string
+  default   = ""
+  sensitive = true
+}
+
+variable "secrets_manager_sqlserver_host_version" {
+  type      = string
+  default   = ""
+  sensitive = true
 }
 
 variable "certificate_arn" {
@@ -177,6 +187,12 @@ variable "tags" {
   default     = {}
 }
 
+variable "nbs_auth" {
+  type        = string
+  description = "enabled or disabled authentication for the eCR Viewer"
+  default     = true
+}
+
 variable "ecr_viewer_auth_pub_key" {
   type        = string
   description = "The public key used to validate the incoming authenication for the eCR Viewer."
@@ -195,11 +211,17 @@ wJodvn3Qo8/S5hxJ6HyGkUTANKN8IxWh/6R5biET5BuztZP6jfPEaOAnt6sq+C38
 hR9rUr59dP2BTlcJ19ZXobLwuJEa81S5BrcbDwYNOAzC8jl2EV1i4bQIwJJaY27X
 Iynom6unaheZpS4DFIh2w9UCAwEAAQ==
 -----END PUBLIC KEY-----
-          EOT
+EOT
 }
 
 variable "dibbs_config_name" {
   type        = string
   description = "Name of the DIBBS configuration"
   default     = ""
+}
+
+variable "dibbs_repo" {
+  type        = string
+  description = "Name of the DIBBS repository"
+  default     = "ghcr.io/cdcgov/dibbs-ecr-viewer"
 }

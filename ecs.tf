@@ -24,14 +24,19 @@ resource "aws_ecs_task_definition" "this" {
           awslogs-stream-prefix = "ecs"
         }
       },
+      essential   = true,
+      mountPoints = [],
       portMappings = [
         {
           containerPort = each.value.container_port,
           hostPort      = each.value.host_port,
           name          = "http"
+          protocol      = "tcp"
         }
       ],
-      environment = each.value.env_vars,
+      systemControls = [],
+      volumesFrom    = [],
+      environment    = each.value.env_vars,
     }
   ])
   task_role_arn = each.key == "ecr-viewer" ? aws_iam_role.s3_role_for_ecr_viewer.arn : aws_iam_role.ecs_task.arn
@@ -63,7 +68,8 @@ resource "aws_ecs_service" "this" {
 
   force_new_deployment = true
   triggers = {
-    redeployment = plantimestamp()
+    timestamp = plantimestamp()
+    version   = local.service_data[each.key].app_version
   }
 
   dynamic "load_balancer" {
