@@ -225,3 +225,9 @@ variable "dibbs_repo" {
   description = "Name of the DIBBS repository"
   default     = "ghcr.io/cdcgov/dibbs-ecr-viewer"
 }
+
+variable "db_cipher" {
+  type        = string
+  description = "The cipher to use for the sql server database connection"
+  default     = ""
+}

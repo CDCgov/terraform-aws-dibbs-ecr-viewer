@@ -174,6 +174,7 @@ No modules.
 | <a name="input_cloudmap_namespace_name"></a> [cloudmap\_namespace\_name](#input\_cloudmap\_namespace\_name) | Name of the AWS Cloud Map namespace | `string` | `""` | no |
 | <a name="input_cw_retention_in_days"></a> [cw\_retention\_in\_days](#input\_cw\_retention\_in\_days) | Retention period in days for CloudWatch logs | `number` | `30` | no |
 | <a name="input_database_type"></a> [database\_type](#input\_database\_type) | The type of database to use (postgresql or sqlserver) | `string` | `"postgresql"` | no |
+| <a name="input_db_cipher"></a> [db\_cipher](#input\_db\_cipher) | The cipher to use for the sql server database connection | `string` | `""` | no |
 | <a name="input_dibbs_config_name"></a> [dibbs\_config\_name](#input\_dibbs\_config\_name) | Name of the DIBBS configuration | `string` | `""` | no |
 | <a name="input_dibbs_repo"></a> [dibbs\_repo](#input\_dibbs\_repo) | Name of the DIBBS repository | `string` | `"ghcr.io/cdcgov/dibbs-ecr-viewer"` | no |
 | <a name="input_disable_ecr"></a> [disable\_ecr](#input\_disable\_ecr) | Flag to disable the aws ecr service for docker image storage, defaults to false | `bool` | `false` | no |
