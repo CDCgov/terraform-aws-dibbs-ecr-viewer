@@ -25,6 +25,10 @@ locals {
     name  = "SQL_SERVER_HOST",
     value = var.secrets_manager_sqlserver_host_version
   } : null
+  db_cipher = var.database_type == "sqlserver" ? {
+    name  = "DB_CIPHER",
+    value = var.db_cipher
+  } : null
   service_data = length(var.service_data) > 0 ? var.service_data : {
     ecr-viewer = {
       short_name        = "ecrv",
@@ -69,7 +73,8 @@ locals {
         local.database_url,
         local.sqlserver_user,
         local.sqlserver_password,
-        local.sqlserver_host
+        local.sqlserver_host,
+        local.db_cipher
       ]
     },
     fhir-converter = {
