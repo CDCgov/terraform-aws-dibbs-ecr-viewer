@@ -66,6 +66,30 @@ locals {
           name  = "NBS_PUB_KEY",
           value = var.ecr_viewer_auth_pub_key
         },
+        {
+          name  = "auth_azure_ad_id",
+          value = var.auth_azure_ad_id
+        },
+        {
+          name  = "auth_azure_ad_tenant_id",
+          value = var.auth_azure_ad_tenant_id
+        },
+        {
+          name  = "secrets_manager_auth_azure_ad_secret_version",
+          value = var.secrets_manager_auth_azure_ad_secret_version
+        },
+        {
+          name  = "auth_keycloak_id",
+          value = var.auth_keycloak_id
+        },
+        {
+          name  = "auth_keycloak_issuer",
+          value = var.auth_keycloak_issuer
+        },
+        {
+          name  = "secrets_manager_auth_keycloak_secret_version",
+          value = var.secrets_manager_auth_keycloak_secret_version
+        },
         local.database_url,
         local.sqlserver_user,
         local.sqlserver_password,

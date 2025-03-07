@@ -170,6 +170,10 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_appmesh_name"></a> [appmesh\_name](#input\_appmesh\_name) | Name of the AWS App Mesh | `string` | `""` | no |
+| <a name="input_auth_azure_ad_id"></a> [auth\_azure\_ad\_id](#input\_auth\_azure\_ad\_id) | The application (client) ID of the app registration | `string` | n/a | yes |
+| <a name="input_auth_azure_ad_tenant_id"></a> [auth\_azure\_ad\_tenant\_id](#input\_auth\_azure\_ad\_tenant\_id) | The directory (tenant) ID of the azure ad/entra instance | `string` | n/a | yes |
+| <a name="input_auth_keycloak_id"></a> [auth\_keycloak\_id](#input\_auth\_keycloak\_id) | The id to identify the client in key cloak | `string` | n/a | yes |
+| <a name="input_auth_keycloak_issuer"></a> [auth\_keycloak\_issuer](#input\_auth\_keycloak\_issuer) | The url issuer to keycloak. This should inclue the realm - e.g. https://my-keycloak-domain.com/realms/My_Realm | `string` | n/a | yes |
 | <a name="input_certificate_arn"></a> [certificate\_arn](#input\_certificate\_arn) | ARN of the SSL certificate that enables ssl termination on the ALB | `string` | `""` | no |
 | <a name="input_cloudmap_namespace_name"></a> [cloudmap\_namespace\_name](#input\_cloudmap\_namespace\_name) | Name of the AWS Cloud Map namespace | `string` | `""` | no |
 | <a name="input_cw_retention_in_days"></a> [cw\_retention\_in\_days](#input\_cw\_retention\_in\_days) | Retention period in days for CloudWatch logs | `number` | `30` | no |
@@ -195,11 +199,13 @@ No modules.
 | <a name="input_region"></a> [region](#input\_region) | The AWS region where resources are created | `string` | n/a | yes |
 | <a name="input_s3_viewer_bucket_name"></a> [s3\_viewer\_bucket\_name](#input\_s3\_viewer\_bucket\_name) | Name of the S3 bucket for the viewer | `string` | `""` | no |
 | <a name="input_s3_viewer_bucket_role_name"></a> [s3\_viewer\_bucket\_role\_name](#input\_s3\_viewer\_bucket\_role\_name) | Name of the IAM role for the ecr-viewer bucket | `string` | `""` | no |
+| <a name="input_secrets_manager_auth_azure_ad_secret_version"></a> [secrets\_manager\_auth\_azure\_ad\_secret\_version](#input\_secrets\_manager\_auth\_azure\_ad\_secret\_version) | n/a | `string` | `""` | no |
+| <a name="input_secrets_manager_auth_keycloak_secret_version"></a> [secrets\_manager\_auth\_keycloak\_secret\_version](#input\_secrets\_manager\_auth\_keycloak\_secret\_version) | n/a | `string` | `""` | no |
 | <a name="input_secrets_manager_postgresql_connection_string_version"></a> [secrets\_manager\_postgresql\_connection\_string\_version](#input\_secrets\_manager\_postgresql\_connection\_string\_version) | n/a | `string` | `""` | no |
 | <a name="input_secrets_manager_sqlserver_host_version"></a> [secrets\_manager\_sqlserver\_host\_version](#input\_secrets\_manager\_sqlserver\_host\_version) | n/a | `string` | `""` | no |
 | <a name="input_secrets_manager_sqlserver_password_version"></a> [secrets\_manager\_sqlserver\_password\_version](#input\_secrets\_manager\_sqlserver\_password\_version) | n/a | `string` | `""` | no |
 | <a name="input_secrets_manager_sqlserver_user_version"></a> [secrets\_manager\_sqlserver\_user\_version](#input\_secrets\_manager\_sqlserver\_user\_version) | n/a | `string` | `""` | no |
-| <a name="input_service_data"></a> [service\_data](#input\_service\_data) | Data for the DIBBS services | <pre>map(object({<br>    short_name        = string<br>    fargate_cpu       = number<br>    fargate_memory    = number<br>    min_capacity      = number<br>    max_capacity      = number<br>    app_repo          = string<br>    app_image         = string<br>    app_version       = string<br>    container_port    = number<br>    host_port         = number<br>    public            = bool<br>    registry_url      = string<br>    root_service      = bool<br>    listener_priority = number<br>    env_vars = list(object({<br>      name  = string<br>      value = string<br>    }))<br>  }))</pre> | `{}` | no |
+| <a name="input_service_data"></a> [service\_data](#input\_service\_data) | Data for the DIBBS services | <pre>map(object({<br/>    short_name        = string<br/>    fargate_cpu       = number<br/>    fargate_memory    = number<br/>    min_capacity      = number<br/>    max_capacity      = number<br/>    app_repo          = string<br/>    app_image         = string<br/>    app_version       = string<br/>    container_port    = number<br/>    host_port         = number<br/>    public            = bool<br/>    registry_url      = string<br/>    root_service      = bool<br/>    listener_priority = number<br/>    env_vars = list(object({<br/>      name  = string<br/>      value = string<br/>    }))<br/>  }))</pre> | `{}` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to apply to resources | `map(string)` | `{}` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ID of the VPC | `string` | n/a | yes |
 
