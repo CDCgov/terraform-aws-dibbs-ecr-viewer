@@ -170,10 +170,10 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_appmesh_name"></a> [appmesh\_name](#input\_appmesh\_name) | Name of the AWS App Mesh | `string` | `""` | no |
-| <a name="input_auth_azure_ad_id"></a> [auth\_azure\_ad\_id](#input\_auth\_azure\_ad\_id) | The application (client) ID of the app registration | `string` | n/a | yes |
-| <a name="input_auth_azure_ad_tenant_id"></a> [auth\_azure\_ad\_tenant\_id](#input\_auth\_azure\_ad\_tenant\_id) | The directory (tenant) ID of the azure ad/entra instance | `string` | n/a | yes |
-| <a name="input_auth_keycloak_id"></a> [auth\_keycloak\_id](#input\_auth\_keycloak\_id) | The id to identify the client in key cloak | `string` | n/a | yes |
-| <a name="input_auth_keycloak_issuer"></a> [auth\_keycloak\_issuer](#input\_auth\_keycloak\_issuer) | The url issuer to keycloak. This should inclue the realm - e.g. https://my-keycloak-domain.com/realms/My_Realm | `string` | n/a | yes |
+| <a name="input_auth_azure_ad_id"></a> [auth\_azure\_ad\_id](#input\_auth\_azure\_ad\_id) | The application (client) ID of the app registration | `string` | `""` | no |
+| <a name="input_auth_azure_ad_tenant_id"></a> [auth\_azure\_ad\_tenant\_id](#input\_auth\_azure\_ad\_tenant\_id) | The directory (tenant) ID of the azure ad/entra instance | `string` | `""` | no |
+| <a name="input_auth_keycloak_id"></a> [auth\_keycloak\_id](#input\_auth\_keycloak\_id) | The id to identify the client in key cloak | `string` | `""` | no |
+| <a name="input_auth_keycloak_issuer"></a> [auth\_keycloak\_issuer](#input\_auth\_keycloak\_issuer) | The url issuer to keycloak. This should inclue the realm - e.g. https://my-keycloak-domain.com/realms/My_Realm | `string` | `""` | no |
 | <a name="input_certificate_arn"></a> [certificate\_arn](#input\_certificate\_arn) | ARN of the SSL certificate that enables ssl termination on the ALB | `string` | `""` | no |
 | <a name="input_cloudmap_namespace_name"></a> [cloudmap\_namespace\_name](#input\_cloudmap\_namespace\_name) | Name of the AWS Cloud Map namespace | `string` | `""` | no |
 | <a name="input_cw_retention_in_days"></a> [cw\_retention\_in\_days](#input\_cw\_retention\_in\_days) | Retention period in days for CloudWatch logs | `number` | `30` | no |

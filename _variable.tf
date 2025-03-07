@@ -154,11 +154,13 @@ variable "secrets_manager_sqlserver_host_version" {
 
 variable "auth_azure_ad_id" {
   type        = string
+  default     = ""
   description = "The application (client) ID of the app registration"
 }
 
 variable "auth_azure_ad_tenant_id" {
   type        = string
+  default     = ""
   description = "The directory (tenant) ID of the azure ad/entra instance"
 }
 
@@ -170,11 +172,13 @@ variable "secrets_manager_auth_azure_ad_secret_version" {
 
 variable "auth_keycloak_id" {
   type        = string
+  default     = ""
   description = "The id to identify the client in key cloak"
 }
 
 variable "auth_keycloak_issuer" {
   type        = string
+  default     = ""
   description = "The url issuer to keycloak. This should inclue the realm - e.g. https://my-keycloak-domain.com/realms/My_Realm"
 }
 
