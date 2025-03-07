@@ -59,10 +59,6 @@ locals {
           value = "0.0.0.0"
         },
         {
-          name  = "NBS_AUTH",
-          value = var.nbs_auth
-        },
-        {
           name  = "CONFIG_NAME",
           value = var.dibbs_config_name
         },

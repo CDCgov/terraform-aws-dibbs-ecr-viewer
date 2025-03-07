@@ -187,12 +187,6 @@ variable "tags" {
   default     = {}
 }
 
-variable "nbs_auth" {
-  type        = string
-  description = "enabled or disabled authentication for the eCR Viewer"
-  default     = true
-}
-
 variable "ecr_viewer_auth_pub_key" {
   type        = string
   description = "The public key used to validate the incoming authenication for the eCR Viewer."
