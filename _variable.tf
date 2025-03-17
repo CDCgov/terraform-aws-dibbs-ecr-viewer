@@ -171,16 +171,11 @@ variable "secrets_manager_auth_client_secret" {
   sensitive   = true
 }
 
-variable "auth_tenant_id" {
-  type        = string
-  default     = ""
-  description = "Used for azure ad/entra only. The directory (tenant) ID of the azure ad/entra instance"
-}
 
 variable "auth_issuer" {
   type        = string
   default     = ""
-  description = "Used for keycloak only. The url issuer for the authentication provider. This should include the realm - e.g. https://my-keycloak-domain.com/realms/My_Realm"
+  description = "Additional information used during authentication process. For Azure AD, this will be the 'Tenant Id'. For Keycloak, this will be the url issuer including the realm - e.g. https://my-keycloak-domain.com/realms/My_Realm"
 }
 
 variable "auth_url" {

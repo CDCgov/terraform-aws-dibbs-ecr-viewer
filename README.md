@@ -171,9 +171,8 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_appmesh_name"></a> [appmesh\_name](#input\_appmesh\_name) | Name of the AWS App Mesh | `string` | `""` | no |
 | <a name="input_auth_client_id"></a> [auth\_client\_id](#input\_auth\_client\_id) | The application/client id used to idenitfy the client | `string` | `""` | no |
-| <a name="input_auth_issuer"></a> [auth\_issuer](#input\_auth\_issuer) | Used for keycloak only. The url issuer for the authentication provider. This should include the realm - e.g. https://my-keycloak-domain.com/realms/My_Realm | `string` | `""` | no |
+| <a name="input_auth_issuer"></a> [auth\_issuer](#input\_auth\_issuer) | Additional information used during authentication process. For Azure AD, this will be the 'Tenant Id'. For Keycloak, this will be the url issuer including the realm - e.g. https://my-keycloak-domain.com/realms/My_Realm | `string` | `""` | no |
 | <a name="input_auth_provider"></a> [auth\_provider](#input\_auth\_provider) | The authentication provider used. Either keycloak or ad. | `string` | `""` | no |
-| <a name="input_auth_tenant_id"></a> [auth\_tenant\_id](#input\_auth\_tenant\_id) | Used for azure ad/entra only. The directory (tenant) ID of the azure ad/entra instance | `string` | `""` | no |
 | <a name="input_auth_url"></a> [auth\_url](#input\_auth\_url) | Optional. The full URL of the auth api. By default https://your-site.com/ecr-viewer/api/auth. | `string` | `""` | no |
 | <a name="input_certificate_arn"></a> [certificate\_arn](#input\_certificate\_arn) | ARN of the SSL certificate that enables ssl termination on the ALB | `string` | `""` | no |
 | <a name="input_cloudmap_namespace_name"></a> [cloudmap\_namespace\_name](#input\_cloudmap\_namespace\_name) | Name of the AWS Cloud Map namespace | `string` | `""` | no |
