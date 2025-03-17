@@ -29,6 +29,13 @@ locals {
     name  = "DB_CIPHER",
     value = var.db_cipher
   } : null
+  auth_provider      = var.auth_provider != "" ? { name = "AUTH_PROVIDER", value = var.auth_provider } : null
+  auth_client_id     = var.auth_client_id != "" ? { name = "AUTH_CLIENT_ID", value = var.auth_client_id } : null
+  auth_client_secret = var.secrets_manager_auth_client_secret != "" ? { name = "AUTH_CLIENT_SECRET", value = var.secrets_manager_auth_client_secret } : null
+  auth_issuer        = var.auth_issuer != "" ? { name = "AUTH_ISSUER", value = var.auth_issuer } : null
+  auth_tenant_id     = var.auth_tenant_id != "" ? { name = "AUTH_TENANT_ID", value = var.auth_tenant_id } : null
+  auth_url           = var.auth_url != "" ? { name = "NEXTAUTH_URL", value = var.auth_url } : null
+  auth_secret        = var.secrets_manager_auth_secret != "" ? { name = "NEXTAUTH_SECRET", value = var.secrets_manager_auth_secret } : null
   service_data = length(var.service_data) > 0 ? var.service_data : {
     ecr-viewer = {
       short_name        = "ecrv",
@@ -66,35 +73,18 @@ locals {
           name  = "NBS_PUB_KEY",
           value = var.ecr_viewer_auth_pub_key
         },
-        {
-          name  = "AUTH_AZURE_AD_ID",
-          value = var.auth_azure_ad_id
-        },
-        {
-          name  = "AUTH_AZURE_AD_TENANT_ID",
-          value = var.auth_azure_ad_tenant_id
-        },
-        {
-          name  = "AUTH_AZURE_AD_SECRET",
-          value = var.secrets_manager_auth_azure_ad_secret_version
-        },
-        {
-          name  = "AUTH_KEYCLOAK_ID",
-          value = var.auth_keycloak_id
-        },
-        {
-          name  = "AUTH_KEYCLOAK_ISSUER",
-          value = var.auth_keycloak_issuer
-        },
-        {
-          name  = "AUTH_KEYCLOAK_SECRET",
-          value = var.secrets_manager_auth_keycloak_secret_version
-        },
         local.database_url,
         local.sqlserver_user,
         local.sqlserver_password,
         local.sqlserver_host,
-        local.db_cipher
+        local.db_cipher,
+        local.auth_provider,
+        local.auth_client_id,
+        local.auth_client_secret,
+        local.auth_issuer,
+        local.auth_tenant_id,
+        local.auth_url,
+        local.auth_secret
       ]
     },
     fhir-converter = {
