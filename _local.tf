@@ -31,10 +31,10 @@ locals {
   } : null
   auth_provider      = var.auth_provider != "" ? { name = "AUTH_PROVIDER", value = var.auth_provider } : null
   auth_client_id     = var.auth_client_id != "" ? { name = "AUTH_CLIENT_ID", value = var.auth_client_id } : null
-  auth_client_secret = var.secrets_manager_auth_client_secret != "" ? { name = "AUTH_CLIENT_SECRET", value = var.secrets_manager_auth_client_secret } : null
+  auth_client_secret = var.secrets_manager_auth_client_secret_version != "" ? { name = "AUTH_CLIENT_SECRET", value = var.secrets_manager_auth_client_secret_version } : null
   auth_issuer        = var.auth_issuer != "" ? { name = "AUTH_ISSUER", value = var.auth_issuer } : null
   auth_url           = var.auth_url != "" ? { name = "NEXTAUTH_URL", value = var.auth_url } : null
-  auth_secret        = var.secrets_manager_auth_secret != "" ? { name = "NEXTAUTH_SECRET", value = var.secrets_manager_auth_secret } : null
+  auth_secret        = var.secrets_manager_auth_secret_version != "" ? { name = "NEXTAUTH_SECRET", value = var.secrets_manager_auth_secret_version } : null
   service_data = length(var.service_data) > 0 ? var.service_data : {
     ecr-viewer = {
       short_name        = "ecrv",
