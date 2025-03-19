@@ -29,6 +29,12 @@ locals {
     name  = "DB_CIPHER",
     value = var.db_cipher
   } : null
+  auth_provider      = var.auth_provider != "" ? { name = "AUTH_PROVIDER", value = var.auth_provider } : null
+  auth_client_id     = var.auth_client_id != "" ? { name = "AUTH_CLIENT_ID", value = var.auth_client_id } : null
+  auth_client_secret = var.secrets_manager_auth_client_secret_version != "" ? { name = "AUTH_CLIENT_SECRET", value = var.secrets_manager_auth_client_secret_version } : null
+  auth_issuer        = var.auth_issuer != "" ? { name = "AUTH_ISSUER", value = var.auth_issuer } : null
+  auth_url           = var.auth_url != "" ? { name = "NEXTAUTH_URL", value = var.auth_url } : null
+  auth_secret        = var.secrets_manager_auth_secret_version != "" ? { name = "NEXTAUTH_SECRET", value = var.secrets_manager_auth_secret_version } : null
   service_data = length(var.service_data) > 0 ? var.service_data : {
     ecr-viewer = {
       short_name        = "ecrv",
@@ -59,10 +65,6 @@ locals {
           value = "0.0.0.0"
         },
         {
-          name  = "NBS_AUTH",
-          value = var.nbs_auth
-        },
-        {
           name  = "CONFIG_NAME",
           value = var.dibbs_config_name
         },
@@ -74,7 +76,13 @@ locals {
         local.sqlserver_user,
         local.sqlserver_password,
         local.sqlserver_host,
-        local.db_cipher
+        local.db_cipher,
+        local.auth_provider,
+        local.auth_client_id,
+        local.auth_client_secret,
+        local.auth_issuer,
+        local.auth_url,
+        local.auth_secret
       ]
     },
     fhir-converter = {
