@@ -74,7 +74,7 @@ locals {
         },
         {
           name  = "ORCHESTRATION_URL",
-          value = "http://orchestration:8080/"
+          value = "http://orchestration:8080"
         },
         local.database_url,
         local.sqlserver_user,
