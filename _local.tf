@@ -72,6 +72,10 @@ locals {
           name  = "NBS_PUB_KEY",
           value = var.ecr_viewer_auth_pub_key
         },
+        {
+          name  = "ORCHESTRATION_URL",
+          value = "http://orchestration:8080/"
+        },
         local.database_url,
         local.sqlserver_user,
         local.sqlserver_password,
