@@ -100,10 +100,6 @@ variable "phdi_version" {
 variable "service_data" {
   type = map(object({
     short_name        = string
-    fargate_cpu       = number
-    fargate_memory    = number
-    min_capacity      = number
-    max_capacity      = number
     app_repo          = string
     app_image         = string
     app_version       = string
@@ -119,6 +115,19 @@ variable "service_data" {
     }))
   }))
   description = "Data for the DIBBS services"
+  default     = {}
+}
+
+variable "override_autoscaling" {
+  type = map(object({
+    cpu           = number
+    memory        = number
+    min_capacity  = number
+    max_capacity  = number
+    target_cpu    = number
+    target_memory = number
+  }))
+  description = "Autoscaling configuration for the DIBBS services"
   default     = {}
 }
 
@@ -230,18 +239,18 @@ variable "ecr_viewer_auth_pub_key" {
   description = "The public key used to validate the incoming authenication for the eCR Viewer."
   default     = <<EOT
 -----BEGIN PUBLIC KEY-----
-MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAqjrH9PprQCB5dX15zYfd
-S6K2ezNi/ZOu8vKEhQuLqwHACy1iUt1Yyp2PZLIV7FVDgBHMMVWPVx3GJ2wEyaJw
-MHkv6XNpUpWLhbs0V1T7o/OZfEIqcNua07OEoBxX9vhKIHtaksWdoMyKRXQJz0js
-oWpawfOWxETnLqGvybT4yvY2RJhquTXLcLu90L4LdvIkADIZshaOtAU/OwI5ATcb
-fE3ip15E6jIoUm7FAtfRiuncpI5l/LJPP6fvwf8QCbbUJBZklLqcUuf4qe/L/nIq
-pIONb8KZFWPhnGeRZ9bwIcqYWt3LAAshQLSGEYl2PGXaqbkUD2XLETSKDjisxd0g
-9j8bIMPgBKi+dBYcmBZnR7DxJe+vEDDw8prHG/+HRy5fim/BcibTKnIl8PR5yqHa
-mWQo7N+xXhILdD9e33KLRgbg97+erHqvHlNMdwDhAfrBT+W6GCdPwp3cePPsbhsc
-oGSHOUDhzyAujr0J8h5WmZDGUNWjGzWqubNZD8dBXB8x+9dDoWhfM82nw0pvAeKf
-wJodvn3Qo8/S5hxJ6HyGkUTANKN8IxWh/6R5biET5BuztZP6jfPEaOAnt6sq+C38
-hR9rUr59dP2BTlcJ19ZXobLwuJEa81S5BrcbDwYNOAzC8jl2EV1i4bQIwJJaY27X
-Iynom6unaheZpS4DFIh2w9UCAwEAAQ==
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAnlA1YmmbydxQdBh7DAq0
+wUfsjR25eWZOB995mHclT3C46oLat3YLu70akLfoMXd9YcJe0d4q3sP7tS1J4QDO
+IkfapvK3ClDJR2VUERTzR9yQ+1B1Sd+MSful/V3aP9L6wPRAJmsmziizUBz+X0oN
+WTkGP/xi0F/IlyBfh2sk89JKKmgXSFbgDTD7+8L5WeRY5koR0KfDJLBcyerrcIPW
+1FyD8RbkUH78yJXc+/ThXKBNpsDTvV0k/4zqLSADIEmhQFkW8oYOfF4ufBGSnGdZ
+gPoWbKHtlK+m1sFWMq0hAtJsNKsJQocPAEO2NIxRCX4k6X9HfvCYVniDI4OdVz0V
+jTF+galQDAybgtYc9ZN8ROpePDVkCANHzniBJFOwzv2yekreqdX7M399uLB+ztDX
+Iz2RpZbGkgspl4TWvvB+eN64DJykmExImIw1nFc/6AVd3jhKSnCrckpGV3XaF8lW
+WMA6au0RXjmRa4YxO/uQbFZeFkM7aQtQK/CxqdBfG0SACcIMwU2S7Kb5+c9Hs687
+LI8j7j0oVyCiAyJ44Mi70i4A2GedyM6kzdixTmszin+c4tT8mYjmEMpJle6GLBIa
+aqEy3CVEqecFIo4ypfoo4GjTqvv/JjtxwBl1FPC+HzFkOjSoLbrDmn64NnQhXlC9
+kd+ONf43CmqDSTa3atSFq4sCAwEAAQ==
 -----END PUBLIC KEY-----
 EOT
 }
