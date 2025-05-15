@@ -100,10 +100,6 @@ variable "phdi_version" {
 variable "service_data" {
   type = map(object({
     short_name        = string
-    fargate_cpu       = number
-    fargate_memory    = number
-    min_capacity      = number
-    max_capacity      = number
     app_repo          = string
     app_image         = string
     app_version       = string
@@ -119,6 +115,19 @@ variable "service_data" {
     }))
   }))
   description = "Data for the DIBBS services"
+  default     = {}
+}
+
+variable "override_autoscaling" {
+  type = map(object({
+    cpu           = number
+    memory        = number
+    min_capacity  = number
+    max_capacity  = number
+    target_cpu    = number
+    target_memory = number
+  }))
+  description = "Autoscaling configuration for the DIBBS services"
   default     = {}
 }
 

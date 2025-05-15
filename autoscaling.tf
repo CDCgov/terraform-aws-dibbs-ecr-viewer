@@ -2,8 +2,8 @@
 
 resource "aws_appautoscaling_target" "this" {
   for_each           = var.enable_autoscaling ? aws_ecs_service.this : {}
-  max_capacity       = local.service_data[each.key].max_capacity
-  min_capacity       = local.service_data[each.key].min_capacity
+  max_capacity       = local.override_autoscaling[each.key].max_capacity
+  min_capacity       = local.override_autoscaling[each.key].min_capacity
   resource_id        = "service/${aws_ecs_cluster.dibbs_app_cluster.name}/${each.key}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
@@ -22,7 +22,7 @@ resource "aws_appautoscaling_policy" "memory" {
       predefined_metric_type = "ECSServiceAverageMemoryUtilization"
     }
 
-    target_value = 80
+    target_value = local.override_autoscaling[each.key].target_memory
   }
 }
 
@@ -39,6 +39,6 @@ resource "aws_appautoscaling_policy" "cpu" {
       predefined_metric_type = "ECSServiceAverageCPUUtilization"
     }
 
-    target_value = 50
+    target_value = local.override_autoscaling[each.key].target_cpu
   }
 }
