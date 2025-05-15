@@ -37,69 +37,65 @@ locals {
   auth_secret        = var.secrets_manager_auth_secret_version != "" ? { name = "NEXTAUTH_SECRET", value = var.secrets_manager_auth_secret_version } : null
   override_autoscaling = {
     ecr-viewer = {
-      cpu           = var.override_autoscaling["ecr-viewer"].cpu != null ? var.override_autoscaling["ecr-viewer"].cpu : 512,
-      memory        = var.override_autoscaling["ecr-viewer"].memory != null ? var.override_autoscaling["ecr-viewer"].memory : 1024,
-      min_capacity  = var.override_autoscaling["ecr-viewer"].min_capacity != null ? var.override_autoscaling["ecr-viewer"].min_capacity : 1,
-      max_capacity  = var.override_autoscaling["ecr-viewer"].max_capacity != null ? var.override_autoscaling["ecr-viewer"].max_capacity : 5,
-      target_cpu    = var.override_autoscaling["ecr-viewer"].target_cpu != null ? var.override_autoscaling["ecr-viewer"].target_cpu : 50,
-      target_memory = var.override_autoscaling["ecr-viewer"].target_memory != null ? var.override_autoscaling["ecr-viewer"].target_memory : 80
+      cpu           = try(var.override_autoscaling["ecr-viewer"].cpu, 512),
+      memory        = try(var.override_autoscaling["ecr-viewer"].memory, 1024),
+      min_capacity  = try(var.override_autoscaling["ecr-viewer"].min_capacity, 1),
+      max_capacity  = try(var.override_autoscaling["ecr-viewer"].max_capacity, 5),
+      target_cpu    = try(var.override_autoscaling["ecr-viewer"].target_cpu, 50),
+      target_memory = try(var.override_autoscaling["ecr-viewer"].target_memory, 80)
     },
     fhir-converter = {
-      cpu           = var.override_autoscaling["fhir-converter"].cpu != null ? var.override_autoscaling["fhir-converter"].cpu : 1024,
-      memory        = var.override_autoscaling["fhir-converter"].memory != null ? var.override_autoscaling["fhir-converter"].memory : 2048,
-      min_capacity  = var.override_autoscaling["fhir-converter"].min_capacity != null ? var.override_autoscaling["fhir-converter"].min_capacity : 1,
-      max_capacity  = var.override_autoscaling["fhir-converter"].max_capacity != null ? var.override_autoscaling["fhir-converter"].max_capacity : 5,
-      target_cpu    = var.override_autoscaling["fhir-converter"].target_cpu != null ? var.override_autoscaling["fhir-converter"].target_cpu : 50,
-      target_memory = var.override_autoscaling["fhir-converter"].target_memory != null ? var.override_autoscaling["fhir-converter"].target_memory : 80
+      cpu           = try(var.override_autoscaling["fhir-converter"].cpu, 512),
+      memory        = try(var.override_autoscaling["fhir-converter"].memory, 1024),
+      min_capacity  = try(var.override_autoscaling["fhir-converter"].min_capacity, 1),
+      max_capacity  = try(var.override_autoscaling["fhir-converter"].max_capacity, 5),
+      target_cpu    = try(var.override_autoscaling["fhir-converter"].target_cpu, 50),
+      target_memory = try(var.override_autoscaling["fhir-converter"].target_memory, 80)
     },
     ingestion = {
-      cpu           = var.override_autoscaling["ingestion"].cpu != null ? var.override_autoscaling["ingestion"].cpu : 512,
-      memory        = var.override_autoscaling["ingestion"].memory != null ? var.override_autoscaling["ingestion"].memory : 1024,
-      min_capacity  = var.override_autoscaling["ingestion"].min_capacity != null ? var.override_autoscaling["ingestion"].min_capacity : 1,
-      max_capacity  = var.override_autoscaling["ingestion"].max_capacity != null ? var.override_autoscaling["ingestion"].max_capacity : 5,
-      target_cpu    = var.override_autoscaling["ingestion"].target_cpu != null ? var.override_autoscaling["ingestion"].target_cpu : 50,
-      target_memory = var.override_autoscaling["ingestion"].target_memory != null ? var.override_autoscaling["ingestion"].target_memory : 80
+      cpu           = try(var.override_autoscaling["ingestion"].cpu, 512),
+      memory        = try(var.override_autoscaling["ingestion"].memory, 1024),
+      min_capacity  = try(var.override_autoscaling["ingestion"].min_capacity, 1),
+      max_capacity  = try(var.override_autoscaling["ingestion"].max_capacity, 5),
+      target_cpu    = try(var.override_autoscaling["ingestion"].target_cpu, 50),
+      target_memory = try(var.override_autoscaling["ingestion"].target_memory, 80)
     },
     validation = {
-      cpu           = var.override_autoscaling["validation"].cpu != null ? var.override_autoscaling["validation"].cpu : 512,
-      memory        = var.override_autoscaling["validation"].memory != null ? var.override_autoscaling["validation"].memory : 1024,
-      min_capacity  = var.override_autoscaling["validation"].min_capacity != null ? var.override_autoscaling["validation"].min_capacity : 1,
-      max_capacity  = var.override_autoscaling["validation"].max_capacity != null ? var.override_autoscaling["validation"].max_capacity : 5,
-      target_cpu    = var.override_autoscaling["validation"].target_cpu != null ? var.override_autoscaling["validation"].target_cpu : 50,
-      target_memory = var.override_autoscaling["validation"].target_memory != null ? var.override_autoscaling["validation"].target_memory : 80
+      cpu           = try(var.override_autoscaling["validation"].cpu, 512),
+      memory        = try(var.override_autoscaling["validation"].memory, 1024),
+      min_capacity  = try(var.override_autoscaling["validation"].min_capacity, 1),
+      max_capacity  = try(var.override_autoscaling["validation"].max_capacity, 5),
+      target_cpu    = try(var.override_autoscaling["validation"].target_cpu, 50),
+      target_memory = try(var.override_autoscaling["validation"].target_memory, 80)
     },
     trigger-code-reference = {
-      cpu           = var.override_autoscaling["trigger-code-reference"].cpu != null ? var.override_autoscaling["trigger-code-reference"].cpu : 512,
-      memory        = var.override_autoscaling["trigger-code-reference"].memory != null ? var.override_autoscaling["trigger-code-reference"].memory : 1024,
-      min_capacity  = var.override_autoscaling["trigger-code-reference"].min_capacity != null ? var.override_autoscaling["trigger-code-reference"].min_capacity : 1,
-      max_capacity  = var.override_autoscaling["trigger-code-reference"].max_capacity != null ? var.override_autoscaling["trigger-code-reference"].max_capacity : 5,
-      target_cpu    = var.override_autoscaling["trigger-code-reference"].target_cpu != null ? var.override_autoscaling["trigger-code-reference"].target_cpu : 50,
-      target_memory = var.override_autoscaling["trigger-code-reference"].target_memory != null ? var.override_autoscaling["trigger-code-reference"].target_memory : 80
+      cpu           = try(var.override_autoscaling["trigger-code-reference"].cpu, 512),
+      memory        = try(var.override_autoscaling["trigger-code-reference"].memory, 1024),
+      min_capacity  = try(var.override_autoscaling["trigger-code-reference"].min_capacity, 1),
+      max_capacity  = try(var.override_autoscaling["trigger-code-reference"].max_capacity, 5),
+      target_cpu    = try(var.override_autoscaling["trigger-code-reference"].target_cpu, 50),
+      target_memory = try(var.override_autoscaling["trigger-code-reference"].target_memory, 80)
     },
     message-parser = {
-      cpu           = var.override_autoscaling["message-parser"].cpu != null ? var.override_autoscaling["message-parser"].cpu : 512,
-      memory        = var.override_autoscaling["message-parser"].memory != null ? var.override_autoscaling["message-parser"].memory : 1024,
-      min_capacity  = var.override_autoscaling["message-parser"].min_capacity != null ? var.override_autoscaling["message-parser"].min_capacity : 1,
-      max_capacity  = var.override_autoscaling["message-parser"].max_capacity != null ? var.override_autoscaling["message-parser"].max_capacity : 5
-      target_cpu    = var.override_autoscaling["message-parser"].target_cpu != null ? var.override_autoscaling["message-parser"].target_cpu : 50,
-      target_memory = var.override_autoscaling["message-parser"].target_memory != null ? var.override_autoscaling["message-parser"].target_memory : 80
+      cpu           = try(var.override_autoscaling["message-parser"].cpu, 512),
+      memory        = try(var.override_autoscaling["message-parser"].memory, 1024),
+      min_capacity  = try(var.override_autoscaling["message-parser"].min_capacity, 1),
+      max_capacity  = try(var.override_autoscaling["message-parser"].max_capacity, 5),
+      target_cpu    = try(var.override_autoscaling["message-parser"].target_cpu, 50),
+      target_memory = try(var.override_autoscaling["message-parser"].target_memory, 80)
     },
     orchestration = {
-      cpu           = var.override_autoscaling["orchestration"].cpu != null ? var.override_autoscaling["orchestration"].cpu : 512,
-      memory        = var.override_autoscaling["orchestration"].memory != null ? var.override_autoscaling["orchestration"].memory : 1024,
-      min_capacity  = var.override_autoscaling["orchestration"].min_capacity != null ? var.override_autoscaling["orchestration"].min_capacity : 1,
-      max_capacity  = var.override_autoscaling["orchestration"].max_capacity != null ? var.override_autoscaling["orchestration"].max_capacity : 5
-      target_cpu    = var.override_autoscaling["orchestration"].target_cpu != null ? var.override_autoscaling["orchestration"].target_cpu : 50,
-      target_memory = var.override_autoscaling["orchestration"].target_memory != null ? var.override_autoscaling["orchestration"].target_memory : 80
+      cpu           = try(var.override_autoscaling["orchestration"].cpu, 512),
+      memory        = try(var.override_autoscaling["orchestration"].memory, 1024),
+      min_capacity  = try(var.override_autoscaling["orchestration"].min_capacity, 1),
+      max_capacity  = try(var.override_autoscaling["orchestration"].max_capacity, 5),
+      target_cpu    = try(var.override_autoscaling["orchestration"].target_cpu, 50),
+      target_memory = try(var.override_autoscaling["orchestration"].target_memory, 80)
     }
   }
   service_data = length(var.service_data) > 0 ? var.service_data : {
     ecr-viewer = {
       short_name        = "ecrv",
-      fargate_cpu       = local.override_autoscaling["ecr-viewer"].cpu,
-      fargate_memory    = local.override_autoscaling["ecr-viewer"].memory,
-      min_capacity      = local.override_autoscaling["ecr-viewer"].min_capacity,
-      max_capacity      = local.override_autoscaling["ecr-viewer"].max_capacity,
       app_repo          = local.dibbs_repo,
       app_image         = var.disable_ecr == false ? "${terraform.workspace}-ecr-viewer" : "ecr-viewer",
       app_version       = var.phdi_version,
@@ -149,10 +145,6 @@ locals {
     },
     fhir-converter = {
       short_name        = "fhirc",
-      fargate_cpu       = local.override_autoscaling["fhir-converter"].cpu,
-      fargate_memory    = local.override_autoscaling["fhir-converter"].memory,
-      min_capacity      = local.override_autoscaling["fhir-converter"].min_capacity,
-      max_capacity      = local.override_autoscaling["fhir-converter"].max_capacity,
       app_repo          = local.dibbs_repo,
       app_image         = var.disable_ecr == false ? "${terraform.workspace}-fhir-converter" : "fhir-converter",
       app_version       = var.phdi_version,
@@ -166,10 +158,6 @@ locals {
     },
     ingestion = {
       short_name        = "inge",
-      fargate_cpu       = local.override_autoscaling["ingestion"].cpu,
-      fargate_memory    = local.override_autoscaling["ingestion"].memory,
-      min_capacity      = local.override_autoscaling["ingestion"].min_capacity,
-      max_capacity      = local.override_autoscaling["ingestion"].max_capacity,
       app_repo          = local.dibbs_repo,
       app_image         = var.disable_ecr == false ? "${terraform.workspace}-ingestion" : "ingestion",
       app_version       = var.phdi_version,
@@ -183,10 +171,6 @@ locals {
     },
     validation = {
       short_name        = "vali",
-      fargate_cpu       = local.override_autoscaling["validation"].cpu,
-      fargate_memory    = local.override_autoscaling["validation"].memory,
-      min_capacity      = local.override_autoscaling["validation"].min_capacity,
-      max_capacity      = local.override_autoscaling["validation"].max_capacity,
       app_repo          = local.dibbs_repo,
       app_image         = var.disable_ecr == false ? "${terraform.workspace}-validation" : "validation",
       app_version       = var.phdi_version,
@@ -200,10 +184,6 @@ locals {
     },
     trigger-code-reference = {
       short_name        = "trigcr",
-      fargate_cpu       = local.override_autoscaling["trigger-code-reference"].cpu,
-      fargate_memory    = local.override_autoscaling["trigger-code-reference"].memory,
-      min_capacity      = local.override_autoscaling["trigger-code-reference"].min_capacity,
-      max_capacity      = local.override_autoscaling["trigger-code-reference"].max_capacity,
       app_repo          = local.dibbs_repo,
       app_image         = var.disable_ecr == false ? "${terraform.workspace}-trigger-code-reference" : "trigger-code-reference",
       app_version       = var.phdi_version,
@@ -217,10 +197,6 @@ locals {
     },
     message-parser = {
       short_name        = "msgp",
-      fargate_cpu       = local.override_autoscaling["message-parser"].cpu,
-      fargate_memory    = local.override_autoscaling["message-parser"].memory,
-      min_capacity      = local.override_autoscaling["message-parser"].min_capacity,
-      max_capacity      = local.override_autoscaling["message-parser"].max_capacity,
       app_repo          = local.dibbs_repo,
       app_image         = var.disable_ecr == false ? "${terraform.workspace}-message-parser" : "message-parser",
       app_version       = var.phdi_version,
@@ -234,10 +210,6 @@ locals {
     },
     orchestration = {
       short_name        = "orch",
-      fargate_cpu       = local.override_autoscaling["orchestration"].cpu,
-      fargate_memory    = local.override_autoscaling["orchestration"].memory,
-      min_capacity      = local.override_autoscaling["orchestration"].min_capacity,
-      max_capacity      = local.override_autoscaling["orchestration"].max_capacity,
       app_repo          = local.dibbs_repo,
       app_image         = var.disable_ecr == false ? "${terraform.workspace}-orchestration" : "orchestration",
       app_version       = var.phdi_version,

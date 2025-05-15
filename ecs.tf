@@ -9,8 +9,8 @@ resource "aws_ecs_task_definition" "this" {
   execution_role_arn       = aws_iam_role.ecs_task_execution.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = each.value.fargate_cpu
-  memory                   = each.value.fargate_memory
+  cpu                      = local.override_autoscaling[each.key].cpu
+  memory                   = local.override_autoscaling[each.key].memory
   container_definitions = jsonencode([
     {
       name        = each.key,
@@ -48,7 +48,7 @@ resource "aws_ecs_service" "this" {
   name            = each.key
   cluster         = aws_ecs_cluster.dibbs_app_cluster.id
   task_definition = each.value.arn
-  desired_count   = local.service_data[each.key].min_capacity
+  desired_count   = local.override_autoscaling[each.key].min_capacity
   launch_type     = "FARGATE"
 
   scheduling_strategy = "REPLICA"

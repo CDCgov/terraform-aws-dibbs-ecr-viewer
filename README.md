@@ -11,6 +11,12 @@
   - [2.5 Records Management Standard Notice](#25-records-management-standard-notice)
   - [2.6 Additional Standard Notices](#26-additional-standard-notices)
 - [3. Architectural Design](#3-architectural-design)
+  - [Requirements](#requirements)
+  - [Providers](#providers)
+  - [Modules](#modules)
+  - [Resources](#resources)
+  - [Inputs](#inputs)
+  - [Outputs](#outputs)
 
 # 1. Overview
 
