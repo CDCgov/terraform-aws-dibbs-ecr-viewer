@@ -8,6 +8,12 @@ resource "aws_alb" "ecs" {
 
   enable_deletion_protection = false
 
+  access_logs {
+    bucket  = aws_s3_bucket.logging.id
+    prefix  = local.ecs_alb_name
+    enabled = var.enable_alb_logs
+  }
+
   tags = local.tags
 }
 
