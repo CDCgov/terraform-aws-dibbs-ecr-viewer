@@ -237,11 +237,13 @@ variable "tags" {
 variable "ecr_viewer_auth_pub_key" {
   type        = string
   description = "The public key used to validate the incoming authenication for the eCR Viewer."
+  default     = ""
 }
 
 variable "ecr_viewer_auth_api_pub_key" {
   type        = string
   description = "The public key used to validate the incoming authenication for the eCR Viewer API."
+  default     = ""
 }
 
 variable "dibbs_config_name" {
