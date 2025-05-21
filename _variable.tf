@@ -64,6 +64,12 @@ variable "enable_autoscaling" {
   default     = true
 }
 
+variable "enable_alb_logs" {
+  type        = bool
+  description = "Flag to enable ALB access and connection logging to s3 logging bucket"
+  default     = true
+}
+
 variable "private_subnet_ids" {
   type        = list(string)
   description = "List of private subnet IDs"
@@ -91,6 +97,11 @@ variable "s3_viewer_bucket_role_name" {
   default     = ""
 }
 
+variable "s3_logging_bucket_name" {
+  type        = string
+  description = "Name of the S3 bucket for logging"
+  default     = ""
+}
 variable "phdi_version" {
   type        = string
   description = "Version of the PHDI application"

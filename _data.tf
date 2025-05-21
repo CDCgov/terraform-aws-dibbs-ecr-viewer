@@ -1,4 +1,5 @@
 data "aws_caller_identity" "current" {}
+data "aws_elb_service_account" "elb_account_id" {}
 
 data "aws_iam_policy_document" "assume_role" {
   statement {
@@ -24,6 +25,49 @@ data "aws_iam_policy_document" "ecr_viewer_s3" {
       aws_s3_bucket.ecr_viewer.arn,
       "${aws_s3_bucket.ecr_viewer.arn}/*",
     ]
+  }
+}
+
+data "aws_iam_policy_document" "logging" {
+  statement {
+    effect = "Allow"
+    resources = [
+      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/access-logs/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/connection-logs/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+    ]
+    actions = ["s3:PutObject"]
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:aws:iam::${data.aws_elb_service_account.elb_account_id.id}:root"]
+    }
+  }
+  statement {
+    effect = "Allow"
+    resources = [
+      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/access-logs/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/connection-logs/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+    ]
+    actions = ["s3:PutObject"]
+    principals {
+      type        = "Service"
+      identifiers = ["delivery.logs.amazonaws.com"]
+    }
+    condition {
+      test     = "StringEquals"
+      variable = "s3:x-amz-acl"
+      values   = ["bucket-owner-full-control"]
+    }
+  }
+  statement {
+    effect = "Allow"
+    resources = [
+      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}",
+    ]
+    actions = ["s3:GetBucketAcl"]
+    principals {
+      type        = "Service"
+      identifiers = ["delivery.logs.amazonaws.com"]
+    }
   }
 }
 
