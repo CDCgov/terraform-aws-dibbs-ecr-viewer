@@ -36,6 +36,11 @@ resource "aws_s3_bucket" "logging" {
   tags          = local.tags
 }
 
+resource "aws_s3_bucket_policy" "logging" {
+  bucket = aws_s3_bucket.logging.id
+  policy = data.aws_iam_policy_document.logging.json
+}
+
 resource "aws_s3_bucket_public_access_block" "logging" {
   bucket                  = aws_s3_bucket.logging.id
   block_public_acls       = true
@@ -52,12 +57,5 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "logging" {
     apply_server_side_encryption_by_default {
       sse_algorithm = "aws:kms"
     }
-  }
-}
-
-resource "aws_s3_bucket_versioning" "logging" {
-  bucket = aws_s3_bucket.logging.id
-  versioning_configuration {
-    status = "Enabled"
   }
 }

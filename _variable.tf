@@ -66,7 +66,7 @@ variable "enable_autoscaling" {
 
 variable "enable_alb_logs" {
   type        = bool
-  description = "Flag to enable ALB access logs"
+  description = "Flag to enable ALB access and connection logging to s3 logging bucket"
   default     = true
 }
 
