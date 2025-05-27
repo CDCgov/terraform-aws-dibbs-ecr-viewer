@@ -142,12 +142,6 @@ variable "override_autoscaling" {
   default     = {}
 }
 
-variable "database_type" {
-  type        = string
-  description = "The type of database to use (postgresql or sqlserver)"
-  default     = "postgresql"
-}
-
 variable "secrets_manager_postgresql_connection_string_version" {
   type      = string
   default   = ""

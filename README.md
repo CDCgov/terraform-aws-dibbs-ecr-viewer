@@ -191,7 +191,6 @@ No modules.
 | <a name="input_certificate_arn"></a> [certificate\_arn](#input\_certificate\_arn) | ARN of the SSL certificate that enables ssl termination on the ALB | `string` | `""` | no |
 | <a name="input_cloudmap_namespace_name"></a> [cloudmap\_namespace\_name](#input\_cloudmap\_namespace\_name) | Name of the AWS Cloud Map namespace | `string` | `""` | no |
 | <a name="input_cw_retention_in_days"></a> [cw\_retention\_in\_days](#input\_cw\_retention\_in\_days) | Retention period in days for CloudWatch logs | `number` | `30` | no |
-| <a name="input_database_type"></a> [database\_type](#input\_database\_type) | The type of database to use (postgresql or sqlserver) | `string` | `"postgresql"` | no |
 | <a name="input_db_cipher"></a> [db\_cipher](#input\_db\_cipher) | The cipher to use for the sql server database connection | `string` | `""` | no |
 | <a name="input_dibbs_config_name"></a> [dibbs\_config\_name](#input\_dibbs\_config\_name) | Name of the DIBBS configuration | `string` | `""` | no |
 | <a name="input_dibbs_repo"></a> [dibbs\_repo](#input\_dibbs\_repo) | Name of the DIBBS repository | `string` | `"ghcr.io/cdcgov/dibbs-ecr-viewer"` | no |
@@ -207,7 +206,7 @@ No modules.
 | <a name="input_enable_alb_logs"></a> [enable\_alb\_logs](#input\_enable\_alb\_logs) | Flag to enable ALB access and connection logging to s3 logging bucket | `bool` | `true` | no |
 | <a name="input_enable_autoscaling"></a> [enable\_autoscaling](#input\_enable\_autoscaling) | Flag to enable autoscaling for the ECS services | `bool` | `true` | no |
 | <a name="input_internal"></a> [internal](#input\_internal) | Flag to determine if the several AWS resources are public (intended for external access, public internet) or private (only intended to be accessed within your AWS VPC or avaiable with other means, a transit gateway for example). | `bool` | `true` | no |
-| <a name="input_override_autoscaling"></a> [override\_autoscaling](#input\_override\_autoscaling) | Autoscaling configuration for the DIBBS services | <pre>map(object({<br/>    cpu           = number<br/>    memory        = number<br/>    min_capacity  = number<br/>    max_capacity  = number<br/>    target_cpu    = number<br/>    target_memory = number<br/>  }))</pre> | `{}` | no |
+| <a name="input_override_autoscaling"></a> [override\_autoscaling](#input\_override\_autoscaling) | Autoscaling configuration for the DIBBS services | <pre>map(object({<br>    cpu           = number<br>    memory        = number<br>    min_capacity  = number<br>    max_capacity  = number<br>    target_cpu    = number<br>    target_memory = number<br>  }))</pre> | `{}` | no |
 | <a name="input_owner"></a> [owner](#input\_owner) | Owner of the resources | `string` | `"CDC"` | no |
 | <a name="input_phdi_version"></a> [phdi\_version](#input\_phdi\_version) | Version of the PHDI application | `string` | `"v2.0.0-beta"` | no |
 | <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | List of private subnet IDs | `list(string)` | n/a | yes |
@@ -223,7 +222,7 @@ No modules.
 | <a name="input_secrets_manager_sqlserver_host_version"></a> [secrets\_manager\_sqlserver\_host\_version](#input\_secrets\_manager\_sqlserver\_host\_version) | n/a | `string` | `""` | no |
 | <a name="input_secrets_manager_sqlserver_password_version"></a> [secrets\_manager\_sqlserver\_password\_version](#input\_secrets\_manager\_sqlserver\_password\_version) | n/a | `string` | `""` | no |
 | <a name="input_secrets_manager_sqlserver_user_version"></a> [secrets\_manager\_sqlserver\_user\_version](#input\_secrets\_manager\_sqlserver\_user\_version) | n/a | `string` | `""` | no |
-| <a name="input_service_data"></a> [service\_data](#input\_service\_data) | Data for the DIBBS services | <pre>map(object({<br/>    short_name        = string<br/>    app_repo          = string<br/>    app_image         = string<br/>    app_version       = string<br/>    container_port    = number<br/>    host_port         = number<br/>    public            = bool<br/>    registry_url      = string<br/>    root_service      = bool<br/>    listener_priority = number<br/>    env_vars = list(object({<br/>      name  = string<br/>      value = string<br/>    }))<br/>  }))</pre> | `{}` | no |
+| <a name="input_service_data"></a> [service\_data](#input\_service\_data) | Data for the DIBBS services | <pre>map(object({<br>    short_name        = string<br>    app_repo          = string<br>    app_image         = string<br>    app_version       = string<br>    container_port    = number<br>    host_port         = number<br>    public            = bool<br>    registry_url      = string<br>    root_service      = bool<br>    listener_priority = number<br>    env_vars = list(object({<br>      name  = string<br>      value = string<br>    }))<br>  }))</pre> | `{}` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to apply to resources | `map(string)` | `{}` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ID of the VPC | `string` | n/a | yes |
 

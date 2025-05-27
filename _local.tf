@@ -9,23 +9,23 @@ locals {
   registry_username = data.aws_ecr_authorization_token.this.user_name
   registry_password = data.aws_ecr_authorization_token.this.password
   dibbs_repo        = var.dibbs_repo
-  database_url = var.database_type == "postgresql" ? {
+  database_url = var.secrets_manager_postgresql_connection_string_version != "" ? {
     name  = "DATABASE_URL",
     value = var.secrets_manager_postgresql_connection_string_version
   } : null
-  sqlserver_user = var.database_type == "sqlserver" ? {
+  sqlserver_user = var.secrets_manager_sqlserver_user_version != "" ? {
     name  = "SQL_SERVER_USER",
     value = var.secrets_manager_sqlserver_user_version
   } : null
-  sqlserver_password = var.database_type == "sqlserver" ? {
+  sqlserver_password = var.secrets_manager_sqlserver_password_version != "" ? {
     name  = "SQL_SERVER_PASSWORD",
     value = var.secrets_manager_sqlserver_password_version
   } : null
-  sqlserver_host = var.database_type == "sqlserver" ? {
+  sqlserver_host = var.secrets_manager_sqlserver_host_version != "" ? {
     name  = "SQL_SERVER_HOST",
     value = var.secrets_manager_sqlserver_host_version
   } : null
-  db_cipher = var.database_type == "sqlserver" ? {
+  db_cipher = var.db_cipher != "" ? {
     name  = "DB_CIPHER",
     value = var.db_cipher
   } : null
