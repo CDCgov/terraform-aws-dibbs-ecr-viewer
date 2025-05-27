@@ -142,7 +142,7 @@ variable "override_autoscaling" {
   default     = {}
 }
 
-variable "secrets_manager_postgresql_connection_string_version" {
+variable "secrets_manager_connection_string_version" {
   type      = string
   default   = ""
   sensitive = true
