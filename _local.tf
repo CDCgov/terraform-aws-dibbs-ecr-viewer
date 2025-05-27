@@ -9,9 +9,9 @@ locals {
   registry_username = data.aws_ecr_authorization_token.this.user_name
   registry_password = data.aws_ecr_authorization_token.this.password
   dibbs_repo        = var.dibbs_repo
-  database_url = var.secrets_manager_postgresql_connection_string_version != "" ? {
+  database_url = var.secrets_manager_connection_string_version != "" ? {
     name  = "DATABASE_URL",
-    value = var.secrets_manager_postgresql_connection_string_version
+    value = var.secrets_manager_connection_string_version
   } : null
   sqlserver_user = var.secrets_manager_sqlserver_user_version != "" ? {
     name  = "SQL_SERVER_USER",
