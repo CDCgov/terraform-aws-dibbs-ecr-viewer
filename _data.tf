@@ -17,6 +17,7 @@ data "aws_iam_policy_document" "ecr_viewer_s3" {
     actions = [
       "s3:PutObject",
       "s3:PutObjectAcl",
+      "s3:DeleteObject",
       "s3:GetObject",
       "s3:GetObjectAcl",
       "s3:ListBucket",
