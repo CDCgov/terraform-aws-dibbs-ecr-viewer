@@ -158,7 +158,12 @@ locals {
       registry_url      = local.registry_url,
       root_service      = false,
       listener_priority = 50000
-      env_vars          = []
+      env_vars          = [
+        {
+          name  = "WEB_CONCURRENCY",
+          value = try(((floor(var.override_autoscaling["fhir-converter"].cpu/1000)*2)+1), 1)
+        }
+      ]
     },
     ingestion = {
       short_name        = "inge",
