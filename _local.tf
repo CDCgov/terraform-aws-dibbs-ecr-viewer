@@ -159,10 +159,10 @@ locals {
       root_service      = false,
       listener_priority = 50000
       env_vars = [
-        {
-          name  = "WEB_CONCURRENCY",
-          value = try(((floor(var.override_autoscaling["fhir-converter"].cpu / 1000) * 2) + 1), 2)
-        }
+        # {
+        #   name  = "WEB_CONCURRENCY",
+        #   value = try(((floor(var.override_autoscaling["fhir-converter"].cpu / 1000) * 2) + 1), 2)
+        # }
       ]
     },
     ingestion = {
@@ -177,10 +177,10 @@ locals {
       root_service      = false,
       listener_priority = 50000
       env_vars = [
-        {
-          name  = "WEB_CONCURRENCY",
-          value = try(((floor(var.override_autoscaling["ingestion"].cpu / 1000) * 2) + 1), 2)
-        }
+        # {
+        #   name  = "WEB_CONCURRENCY",
+        #   value = try(((floor(var.override_autoscaling["ingestion"].cpu / 1000) * 2) + 1), 2)
+        # }
       ]
     },
     validation = {
@@ -195,10 +195,10 @@ locals {
       root_service      = false,
       listener_priority = 50000
       env_vars = [
-        {
-          name  = "WEB_CONCURRENCY",
-          value = try(((floor(var.override_autoscaling["validation"].cpu / 1000) * 2) + 1), 2)
-        }
+        # {
+        #   name  = "WEB_CONCURRENCY",
+        #   value = try(((floor(var.override_autoscaling["validation"].cpu / 1000) * 2) + 1), 2)
+        # }
       ]
     },
     trigger-code-reference = {
@@ -213,10 +213,10 @@ locals {
       root_service      = false,
       listener_priority = 50000
       env_vars = [
-        {
-          name  = "WEB_CONCURRENCY",
-          value = try(((floor(var.override_autoscaling["trigger-code-reference"].cpu / 1000) * 2) + 1), 2)
-        }
+        # {
+        #   name  = "WEB_CONCURRENCY",
+        #   value = try(((floor(var.override_autoscaling["trigger-code-reference"].cpu / 1000) * 2) + 1), 2)
+        # }
       ]
     },
     message-parser = {
@@ -231,10 +231,10 @@ locals {
       root_service      = false,
       listener_priority = 50000
       env_vars = [
-        {
-          name  = "WEB_CONCURRENCY",
-          value = try(((floor(var.override_autoscaling["message-parser"].cpu / 1000) * 2) + 1), 2)
-        }
+        # {
+        #   name  = "WEB_CONCURRENCY",
+        #   value = try(((floor(var.override_autoscaling["message-parser"].cpu / 1000) * 2) + 1), 2)
+        # }
       ]
     },
     orchestration = {
