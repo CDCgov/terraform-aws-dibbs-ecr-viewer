@@ -158,7 +158,12 @@ locals {
       registry_url      = local.registry_url,
       root_service      = false,
       listener_priority = 50000
-      env_vars          = []
+      env_vars = [
+        {
+          name  = "WEB_CONCURRENCY",
+          value = try(((floor(var.override_autoscaling["fhir-converter"].cpu / 1000) * 2) + 1), 2)
+        }
+      ]
     },
     ingestion = {
       short_name        = "inge",
@@ -171,7 +176,12 @@ locals {
       registry_url      = local.registry_url,
       root_service      = false,
       listener_priority = 50000
-      env_vars          = []
+      env_vars = [
+        {
+          name  = "WEB_CONCURRENCY",
+          value = try(((floor(var.override_autoscaling["ingestion"].cpu / 1000) * 2) + 1), 2)
+        }
+      ]
     },
     validation = {
       short_name        = "vali",
@@ -184,7 +194,12 @@ locals {
       registry_url      = local.registry_url,
       root_service      = false,
       listener_priority = 50000
-      env_vars          = []
+      env_vars = [
+        {
+          name  = "WEB_CONCURRENCY",
+          value = try(((floor(var.override_autoscaling["validation"].cpu / 1000) * 2) + 1), 2)
+        }
+      ]
     },
     trigger-code-reference = {
       short_name        = "trigcr",
@@ -197,7 +212,12 @@ locals {
       registry_url      = local.registry_url,
       root_service      = false,
       listener_priority = 50000
-      env_vars          = []
+      env_vars = [
+        {
+          name  = "WEB_CONCURRENCY",
+          value = try(((floor(var.override_autoscaling["trigger-code-reference"].cpu / 1000) * 2) + 1), 2)
+        }
+      ]
     },
     message-parser = {
       short_name        = "msgp",
@@ -210,7 +230,12 @@ locals {
       registry_url      = local.registry_url
       root_service      = false,
       listener_priority = 50000
-      env_vars          = []
+      env_vars = [
+        {
+          name  = "WEB_CONCURRENCY",
+          value = try(((floor(var.override_autoscaling["message-parser"].cpu / 1000) * 2) + 1), 2)
+        }
+      ]
     },
     orchestration = {
       short_name        = "orch",
@@ -224,6 +249,10 @@ locals {
       root_service      = false,
       listener_priority = 1
       env_vars = [
+        {
+          name  = "WEB_CONCURRENCY",
+          value = try(((floor(var.override_autoscaling["orchestration"].cpu / 1000) * 2) + 1), 2)
+        },
         {
           name  = "OTEL_METRICS",
           value = "none"

@@ -20,7 +20,8 @@ resource "aws_alb" "ecs" {
     prefix  = "connection-logs"
   }
 
-  tags = local.tags
+  depends_on = [aws_s3_bucket_policy.logging]
+  tags       = local.tags
 }
 
 resource "aws_alb_target_group" "this" {
