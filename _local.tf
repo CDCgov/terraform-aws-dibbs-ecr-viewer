@@ -29,6 +29,10 @@ locals {
     name  = "DB_CIPHER",
     value = var.db_cipher
   } : null
+  metadata_database_migration_secret = var.secrets_manager_metadata_database_migration_secret_version != "" ? {
+    name  = "METADATA_DATABASE_MIGRATION_SECRET",
+    value = var.secrets_manager_metadata_database_migration_secret_version
+  } : null
   auth_provider      = var.auth_provider != "" ? { name = "AUTH_PROVIDER", value = var.auth_provider } : null
   auth_client_id     = var.auth_client_id != "" ? { name = "AUTH_CLIENT_ID", value = var.auth_client_id } : null
   auth_client_secret = var.secrets_manager_auth_client_secret_version != "" ? { name = "AUTH_CLIENT_SECRET", value = var.secrets_manager_auth_client_secret_version } : null
@@ -139,6 +143,7 @@ locals {
         local.sqlserver_password,
         local.sqlserver_host,
         local.db_cipher,
+        local.metadata_database_migration_secret,
         local.auth_provider,
         local.auth_client_id,
         local.auth_client_secret,
