@@ -166,6 +166,12 @@ variable "secrets_manager_sqlserver_host_version" {
   sensitive = true
 }
 
+variable "secrets_manager_metadata_database_migration_secret_version" {
+  type      = string
+  default   = ""
+  sensitive = true
+}
+
 variable "auth_provider" {
   type        = string
   default     = ""
