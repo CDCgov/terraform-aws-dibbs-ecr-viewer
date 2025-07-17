@@ -64,14 +64,6 @@ locals {
       target_cpu    = try(var.override_autoscaling["ingestion"].target_cpu, 50),
       target_memory = try(var.override_autoscaling["ingestion"].target_memory, 80)
     },
-    validation = {
-      cpu           = try(var.override_autoscaling["validation"].cpu, 512),
-      memory        = try(var.override_autoscaling["validation"].memory, 1024),
-      min_capacity  = try(var.override_autoscaling["validation"].min_capacity, 1),
-      max_capacity  = try(var.override_autoscaling["validation"].max_capacity, 5),
-      target_cpu    = try(var.override_autoscaling["validation"].target_cpu, 50),
-      target_memory = try(var.override_autoscaling["validation"].target_memory, 80)
-    },
     trigger-code-reference = {
       cpu           = try(var.override_autoscaling["trigger-code-reference"].cpu, 512),
       memory        = try(var.override_autoscaling["trigger-code-reference"].memory, 1024),
@@ -188,24 +180,6 @@ locals {
         }
       ]
     },
-    validation = {
-      short_name        = "vali",
-      app_repo          = local.dibbs_repo,
-      app_image         = var.disable_ecr == false ? "${terraform.workspace}-validation" : "validation",
-      app_version       = var.phdi_version,
-      container_port    = 8080,
-      host_port         = 8080,
-      public            = false,
-      registry_url      = local.registry_url,
-      root_service      = false,
-      listener_priority = 50000
-      env_vars = [
-        {
-          name  = "WEB_CONCURRENCY",
-          value = try(((floor(var.override_autoscaling["validation"].cpu / 1000) * 2) + 1), 2)
-        }
-      ]
-    },
     trigger-code-reference = {
       short_name        = "trigcr",
       app_repo          = local.dibbs_repo,
@@ -269,10 +243,6 @@ locals {
         {
           name  = "INGESTION_URL",
           value = "http://ingestion:8080"
-        },
-        {
-          name  = "VALIDATION_URL",
-          value = "http://validation:8080"
         },
         {
           name  = "FHIR_CONVERTER_URL",
