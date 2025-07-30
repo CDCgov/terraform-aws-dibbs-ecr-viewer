@@ -45,8 +45,8 @@ data "aws_iam_policy_document" "logging" {
 
     ]
     principals {
-      type        = "AWS"
-      identifiers = [data.aws_elb_service_account.elb_account_id.arn]
+      type        = "Service"
+      identifiers = ["logdelivery.elasticloadbalancing.amazonaws.com"]
     }
   }
 }
