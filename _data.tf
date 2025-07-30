@@ -36,9 +36,10 @@ data "aws_iam_policy_document" "ecr_viewer_s3" {
 data "aws_iam_policy_document" "logging" {
   statement {
     effect  = "Allow"
-    actions = ["s3:PutObject"]
+    actions = ["s3:PutObject", "s3:PutObjectAcl"]
     resources = [
       "arn:aws:s3:::${aws_s3_bucket.logging.bucket}",
+      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/*",
       "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/access-logs/*",
       "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/connection-logs/*",
 
