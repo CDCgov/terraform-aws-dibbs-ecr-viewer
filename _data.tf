@@ -40,6 +40,7 @@ data "aws_iam_policy_document" "logging" {
     resources = [
       "arn:aws:s3:::${aws_s3_bucket.logging.bucket}",
       "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/*",
+      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/AWSLogs/*",
       "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/access-logs/*",
       "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/connection-logs/*",
 
@@ -47,6 +48,10 @@ data "aws_iam_policy_document" "logging" {
     principals {
       type        = "Service"
       identifiers = ["logdelivery.elasticloadbalancing.amazonaws.com"]
+    }
+    principals {
+      type        = "AWS"
+      identifiers = [data.aws_elb_service_account.elb_account_id.arn]
     }
   }
 }
