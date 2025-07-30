@@ -20,7 +20,7 @@ resource "aws_alb" "ecs" {
     prefix  = "connection-logs"
   }
 
-  depends_on = [aws_s3_bucket_policy.logging]
+  depends_on = [aws_s3_bucket_policy.logging, aws_s3_bucket.logging]
   tags       = local.tags
 }
 
