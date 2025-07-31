@@ -2,10 +2,6 @@ resource "aws_kms_key" "ecr_viewer" {
   enable_key_rotation = true
 }
 
-resource "aws_kms_key" "logging" {
-  enable_key_rotation = true
-}
-
 resource "aws_s3_bucket" "ecr_viewer" {
   bucket        = local.s3_viewer_bucket_name
   force_destroy = true
@@ -60,8 +56,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "logging" {
   bucket = aws_s3_bucket.logging.bucket
   rule {
     apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.logging.arn
-      sse_algorithm     = "aws:kms"
+      sse_algorithm = "AES256"
     }
   }
 }
