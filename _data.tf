@@ -36,7 +36,7 @@ data "aws_iam_policy_document" "ecr_viewer_s3" {
 data "aws_iam_policy_document" "logging" {
   statement {
     effect  = "Allow"
-    actions = ["*"]
+    actions = ["s3:PutObject"]
     resources = [
       "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
     ]
@@ -44,7 +44,6 @@ data "aws_iam_policy_document" "logging" {
       type        = "AWS"
       identifiers = [data.aws_elb_service_account.elb_account_id.arn]
     }
-    # 127311923021 is the AWS ELB service account ID for us-east-1
   }
 }
 
