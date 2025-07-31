@@ -38,21 +38,22 @@ data "aws_iam_policy_document" "logging" {
     effect  = "Allow"
     actions = ["s3:PutObject", "s3:PutObjectAcl"]
     resources = [
-      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}",
-      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+      "${aws_s3_bucket.logging.bucket.arn}",
+      "${aws_s3_bucket.logging.bucket.arn}/*",
+      "${aws_s3_bucket.logging.bucket.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
 
     ]
     condition {
       test     = "ArnLike"
       variable = "aws:SourceArn"
       values = [
-        "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:loadbalancer/*"
+        "${aws_alb.ecs.arn}",
       ]
     }
-    # principals {
-    #   type        = "Service"
-    #   identifiers = ["logdelivery.elasticloadbalancing.amazonaws.com"]
-    # }
+    principals {
+      type        = "Service"
+      identifiers = ["logdelivery.elasticloadbalancing.amazonaws.com"]
+    }
     principals {
       type        = "AWS"
       identifiers = [data.aws_elb_service_account.elb_account_id.arn]
