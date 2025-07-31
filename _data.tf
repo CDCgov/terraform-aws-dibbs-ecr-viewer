@@ -38,9 +38,7 @@ data "aws_iam_policy_document" "logging" {
     effect  = "Allow"
     actions = ["s3:PutObject", "s3:PutObjectAcl"]
     resources = [
-      "${aws_s3_bucket.logging.bucket.arn}",
-      "${aws_s3_bucket.logging.bucket.arn}/*",
-      "${aws_s3_bucket.logging.bucket.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+      "*",
 
     ]
     condition {
