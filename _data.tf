@@ -39,8 +39,7 @@ data "aws_iam_policy_document" "logging" {
     actions = ["s3:PutObject", "s3:PutObjectAcl"]
     resources = [
       "arn:aws:s3:::${aws_s3_bucket.logging.bucket}",
-      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/access-logs/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
-      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/connection-logs/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
 
     ]
     condition {
@@ -50,18 +49,14 @@ data "aws_iam_policy_document" "logging" {
         "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:loadbalancer/*"
       ]
     }
-    principals {
-      type        = "*"
-      identifiers = ["*"]
-    }
     # principals {
     #   type        = "Service"
     #   identifiers = ["logdelivery.elasticloadbalancing.amazonaws.com"]
     # }
-    # principals {
-    #   type        = "AWS"
-    #   identifiers = [data.aws_elb_service_account.elb_account_id.arn]
-    # }
+    principals {
+      type        = "AWS"
+      identifiers = [data.aws_elb_service_account.elb_account_id.arn]
+    }
   }
 }
 
