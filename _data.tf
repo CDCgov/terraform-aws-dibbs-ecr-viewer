@@ -36,26 +36,15 @@ data "aws_iam_policy_document" "ecr_viewer_s3" {
 data "aws_iam_policy_document" "logging" {
   statement {
     effect  = "Allow"
-    actions = ["s3:PutObject", "s3:PutObjectAcl"]
+    actions = ["*"]
     resources = [
-      "*",
-
+      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
     ]
-    condition {
-      test     = "ArnLike"
-      variable = "aws:SourceArn"
-      values = [
-        "${aws_alb.ecs.arn}",
-      ]
-    }
-    principals {
-      type        = "Service"
-      identifiers = ["logdelivery.elasticloadbalancing.amazonaws.com"]
-    }
     principals {
       type        = "AWS"
       identifiers = [data.aws_elb_service_account.elb_account_id.arn]
     }
+    # 127311923021 is the AWS ELB service account ID for us-east-1
   }
 }
 
