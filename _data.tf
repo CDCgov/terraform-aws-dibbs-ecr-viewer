@@ -43,18 +43,18 @@ data "aws_iam_policy_document" "logging" {
       "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/connection-logs/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
 
     ]
+    # principals {
+    #   type        = "*"
+    #   identifiers = ["*"]
+    # }
     principals {
-      type        = "*"
-      identifiers = ["*"]
+      type        = "Service"
+      identifiers = ["logdelivery.elasticloadbalancing.amazonaws.com"]
     }
-    # principals {
-    #   type        = "Service"
-    #   identifiers = ["logdelivery.elasticloadbalancing.amazonaws.com"]
-    # }
-    # principals {
-    #   type        = "AWS"
-    #   identifiers = [data.aws_elb_service_account.elb_account_id.arn]
-    # }
+    principals {
+      type        = "AWS"
+      identifiers = [data.aws_elb_service_account.elb_account_id.arn]
+    }
   }
 }
 
