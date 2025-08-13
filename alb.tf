@@ -11,16 +11,14 @@ resource "aws_alb" "ecs" {
   access_logs {
     enabled = var.enable_alb_logs
     bucket  = aws_s3_bucket.logging.id
-    prefix  = "access-logs"
   }
 
   connection_logs {
     enabled = var.enable_alb_logs
     bucket  = aws_s3_bucket.logging.id
-    prefix  = "connection-logs"
   }
 
-  depends_on = [aws_s3_bucket_policy.logging]
+  depends_on = [aws_s3_bucket_policy.logging, aws_s3_bucket.logging]
   tags       = local.tags
 }
 
