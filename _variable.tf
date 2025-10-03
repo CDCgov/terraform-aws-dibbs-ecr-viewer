@@ -196,6 +196,12 @@ variable "auth_url" {
   description = "Optional. The full URL of the auth api. By default https://your-site.com/ecr-viewer/api/auth."
 }
 
+variable "auth_session_duration_min" {
+  type        = string
+  default     = ""
+  description = "Duration in minutes before auto signout, defaults to 30 if not set"
+}
+
 variable "secrets_manager_auth_secret_version" {
   type        = string
   default     = ""
