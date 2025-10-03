@@ -1,2 +1,5 @@
 .terraform.*
 .terraform/**
+
+#JetBrains IDE
+.idea
