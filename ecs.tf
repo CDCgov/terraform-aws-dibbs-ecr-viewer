@@ -13,9 +13,10 @@ resource "aws_ecs_task_definition" "this" {
   memory                   = local.override_autoscaling[each.key].memory
   container_definitions = jsonencode([
     {
-      name        = each.key,
-      image       = var.disable_ecr == false ? dockerless_remote_image.dibbs[each.key].target : "${each.value.registry_url}/${each.value.app_image}:${each.value.app_version}",
-      networkMode = "awsvpc",
+      name                   = each.key,
+      image                  = var.disable_ecr == false ? dockerless_remote_image.dibbs[each.key].target : "${each.value.registry_url}/${each.value.app_image}:${each.value.app_version}",
+      networkMode            = "awsvpc",
+      readonlyRootFilesystem = true,
       logConfiguration = {
         logDriver = "awslogs",
         options = {
