@@ -62,3 +62,25 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "logging" {
     }
   }
 }
+
+resource "aws_s3_bucket_object_lock_configuration" "ecr_viewer" {
+  bucket = aws_s3_bucket.ecr_viewer.id
+
+  rule {
+    default_retention {
+      mode = "COMPLIANCE"
+      days = var.ecr_viewer_object_retention_days
+    }
+  }
+}
+
+resource "aws_s3_bucket_object_lock_configuration" "logging" {
+  bucket = aws_s3_bucket.logging.id
+
+  rule {
+    default_retention {
+      mode = "COMPLIANCE"
+      days = var.logging_object_retention_days
+    }
+  }
+}

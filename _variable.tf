@@ -280,3 +280,15 @@ variable "db_cipher" {
   description = "The cipher to use for the sql server database connection"
   default     = ""
 }
+
+variable "ecr_viewer_object_retention_days" {
+  type        = number
+  description = "Number of days to retain S3 ecr viewer objects in compliance mode"
+  default     = 3650
+}
+
+variable "logging_object_retention_days" {
+  type        = number
+  description = "Number of days to retain S3 logging objects in compliance mode"
+  default     = 90
+}
