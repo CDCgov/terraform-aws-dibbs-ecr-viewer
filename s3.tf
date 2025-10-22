@@ -63,6 +63,13 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "logging" {
   }
 }
 
+resource "aws_s3_bucket_versioning" "logging" {
+  bucket = aws_s3_bucket.logging.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 resource "aws_s3_bucket_object_lock_configuration" "ecr_viewer" {
   bucket = aws_s3_bucket.ecr_viewer.id
 
