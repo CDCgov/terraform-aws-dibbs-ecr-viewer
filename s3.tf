@@ -84,6 +84,7 @@ resource "aws_s3_bucket_object_lock_configuration" "ecr_viewer" {
       days = var.ecr_viewer_object_retention_days
     }
   }
+  depends_on = [aws_s3_bucket_versioning.ecr_viewer]
 }
 
 resource "aws_s3_bucket_object_lock_configuration" "logging" {
@@ -95,6 +96,7 @@ resource "aws_s3_bucket_object_lock_configuration" "logging" {
       days = var.logging_object_retention_days
     }
   }
+  depends_on = [aws_s3_bucket_versioning.logging]
 }
 
 resource "aws_s3_bucket_logging" "logging_s3_access_logs" {
