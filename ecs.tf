@@ -1,5 +1,9 @@
 resource "aws_ecs_cluster" "dibbs_app_cluster" {
   name = local.ecs_cluster_name
+  setting {
+    name  = "containerInsights"
+    value = "enabled"
+  }
   tags = local.tags
 }
 
