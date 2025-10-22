@@ -7,10 +7,10 @@ resource "dockerless_remote_image" "dibbs" {
 data "aws_ecr_authorization_token" "this" {}
 
 resource "aws_ecr_repository" "this" {
-  for_each     = var.disable_ecr == false ? local.service_data : {}
-  name         = each.value.app_image
-  force_delete = true
-
+  for_each             = var.disable_ecr == false ? local.service_data : {}
+  name                 = each.value.app_image
+  force_delete         = true
+  image_tag_mutability = "IMMUTABLE"
   image_scanning_configuration {
     scan_on_push = true
   }
