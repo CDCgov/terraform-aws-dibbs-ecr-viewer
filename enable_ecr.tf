@@ -33,8 +33,8 @@ resource "aws_ecr_repository" "this" {
 }
 
 resource "aws_ecr_lifecycle_policy" "this" {
-  for_each   = aws_ecr_repository.this[each.key] != null ? aws_ecr_repository.this : {}
-  repository = each.value.name
+  for_each   = var.disable_ecr == false ? local.service_data : {}
+  repository = aws_ecr_repository.this[each.key].name
 
   policy = data.aws_ecr_lifecycle_policy_document.this.json
 }
