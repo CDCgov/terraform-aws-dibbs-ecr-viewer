@@ -91,3 +91,27 @@ resource "aws_s3_bucket_object_lock_configuration" "logging" {
     }
   }
 }
+
+resource "aws_s3_bucket_logging" "logging_s3_access_logs" {
+  bucket = aws_s3_bucket.logging.id
+
+  target_bucket = aws_s3_bucket.logging.bucket
+  target_prefix = "${aws_s3_bucket.logging.bucket}/"
+  target_object_key_format {
+    partitioned_prefix {
+      partition_date_source = "EventTime"
+    }
+  }
+}
+
+resource "aws_s3_bucket_logging" "ecr_viewer_s3_access_logs" {
+  bucket = aws_s3_bucket.ecr_viewer.id
+
+  target_bucket = aws_s3_bucket.logging.bucket
+  target_prefix = "${aws_s3_bucket.logging.bucket}/"
+  target_object_key_format {
+    partitioned_prefix {
+      partition_date_source = "EventTime"
+    }
+  }
+}
