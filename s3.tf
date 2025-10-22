@@ -33,6 +33,16 @@ resource "aws_s3_bucket_versioning" "ecr_viewer" {
   }
 }
 
+resource "aws_s3_bucket_policy" "logging_ssl" {
+  bucket = aws_s3_bucket.logging.id
+  policy = data.aws_iam_policy_document.logging_ssl.json
+}
+
+resource "aws_s3_bucket_policy" "ecr_viewer_ssl" {
+  bucket = aws_s3_bucket.ecr_viewer.id
+  policy = data.aws_iam_policy_document.ecr_viewer_ssl.json
+}
+
 resource "aws_s3_bucket" "logging" {
   bucket        = local.s3_logging_bucket_name
   force_destroy = true

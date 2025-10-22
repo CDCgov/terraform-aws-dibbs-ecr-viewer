@@ -47,6 +47,48 @@ data "aws_iam_policy_document" "logging" {
   }
 }
 
+data "aws_iam_policy_document" "ecr_viewer_ssl" {
+  statement {
+    sid     = "AllowSSLRequestsOnly"
+    effect  = "Deny"
+    actions = ["s3:*"]
+    resources = [
+      "arn:aws:s3:::${aws_s3_bucket.ecr_viewer.bucket}",
+      "arn:aws:s3:::${aws_s3_bucket.ecr_viewer.bucket}/*",
+    ]
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "logging_ssl" {
+  statement {
+    sid     = "AllowSSLRequestsOnly"
+    effect  = "Deny"
+    actions = ["s3:*"]
+    resources = [
+      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}",
+      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/*",
+    ]
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+  }
+}
+
 data "aws_iam_policy" "ecs_task_execution" {
   name = "AmazonECSTaskExecutionRolePolicy"
 }
