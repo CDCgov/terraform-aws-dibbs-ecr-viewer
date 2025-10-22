@@ -14,24 +14,6 @@ data "aws_iam_policy_document" "assume_role" {
 
 data "aws_iam_policy_document" "ecr_viewer_s3" {
   statement {
-    sid     = "AllowSSLRequestsOnly"
-    effect  = "Deny"
-    actions = ["s3:*"]
-    resources = [
-      "arn:aws:s3:::${aws_s3_bucket.ecr_viewer.bucket}",
-      "arn:aws:s3:::${aws_s3_bucket.ecr_viewer.bucket}/*",
-    ]
-    condition {
-      test     = "Bool"
-      variable = "aws:SecureTransport"
-      values   = ["false"]
-    }
-    principals {
-      type        = "AWS"
-      identifiers = ["*"]
-    }
-  }
-  statement {
     actions = [
       "s3:PutObject",
       "s3:PutObjectAcl",
@@ -53,6 +35,17 @@ data "aws_iam_policy_document" "ecr_viewer_s3" {
 
 data "aws_iam_policy_document" "logging" {
   statement {
+    effect  = "Allow"
+    actions = ["s3:PutObject"]
+    resources = [
+      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+    ]
+    principals {
+      type        = "AWS"
+      identifiers = [data.aws_elb_service_account.elb_account_id.arn]
+    }
+  }
+  statement {
     sid     = "AllowSSLRequestsOnly"
     effect  = "Deny"
     actions = ["s3:*"]
@@ -70,15 +63,25 @@ data "aws_iam_policy_document" "logging" {
       identifiers = ["*"]
     }
   }
+}
+
+data "aws_iam_policy_document" "ecr_viewer_ssl" {
   statement {
-    effect  = "Allow"
-    actions = ["s3:PutObject"]
+    sid     = "AllowSSLRequestsOnly"
+    effect  = "Deny"
+    actions = ["s3:*"]
     resources = [
-      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+      "arn:aws:s3:::${aws_s3_bucket.ecr_viewer.bucket}",
+      "arn:aws:s3:::${aws_s3_bucket.ecr_viewer.bucket}/*",
     ]
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
     principals {
       type        = "AWS"
-      identifiers = [data.aws_elb_service_account.elb_account_id.arn]
+      identifiers = ["*"]
     }
   }
 }
