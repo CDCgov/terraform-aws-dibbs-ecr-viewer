@@ -33,12 +33,12 @@ locals {
     name  = "METADATA_DATABASE_MIGRATION_SECRET",
     value = var.secrets_manager_metadata_database_migration_secret_version
   } : null
-  auth_provider      = var.auth_provider != "" ? { name = "AUTH_PROVIDER", value = var.auth_provider } : null
-  auth_client_id     = var.auth_client_id != "" ? { name = "AUTH_CLIENT_ID", value = var.auth_client_id } : null
-  auth_client_secret = var.secrets_manager_auth_client_secret_version != "" ? { name = "AUTH_CLIENT_SECRET", value = var.secrets_manager_auth_client_secret_version } : null
-  auth_issuer        = var.auth_issuer != "" ? { name = "AUTH_ISSUER", value = var.auth_issuer } : null
-  auth_url           = var.auth_url != "" ? { name = "NEXTAUTH_URL", value = var.auth_url } : null
-  auth_secret        = var.secrets_manager_auth_secret_version != "" ? { name = "NEXTAUTH_SECRET", value = var.secrets_manager_auth_secret_version } : null
+  auth_provider             = var.auth_provider != "" ? { name = "AUTH_PROVIDER", value = var.auth_provider } : null
+  auth_client_id            = var.auth_client_id != "" ? { name = "AUTH_CLIENT_ID", value = var.auth_client_id } : null
+  auth_client_secret        = var.secrets_manager_auth_client_secret_version != "" ? { name = "AUTH_CLIENT_SECRET", value = var.secrets_manager_auth_client_secret_version } : null
+  auth_issuer               = var.auth_issuer != "" ? { name = "AUTH_ISSUER", value = var.auth_issuer } : null
+  auth_url                  = var.auth_url != "" ? { name = "NEXTAUTH_URL", value = var.auth_url } : null
+  auth_secret               = var.secrets_manager_auth_secret_version != "" ? { name = "NEXTAUTH_SECRET", value = var.secrets_manager_auth_secret_version } : null
   auth_session_duration_min = var.auth_session_duration_min != "" ? { name = "AUTH_SESSION_DURATION_MIN", value = var.auth_session_duration_min } : null
   override_autoscaling = {
     ecr-viewer = {
