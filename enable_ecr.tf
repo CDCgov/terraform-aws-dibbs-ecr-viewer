@@ -6,10 +6,10 @@ data "aws_ecr_lifecycle_policy_document" "this" {
     description = "Keep last 10 images"
 
     selection {
-      tag_status      = "tagged"
-      tag_prefix_list = [""]
-      count_type      = "imageCountMoreThan"
-      count_number    = 10
+      tag_status       = "tagged"
+      tag_pattern_list = ["*"]
+      count_type       = "imageCountMoreThan"
+      count_number     = 10
     }
   }
 }
