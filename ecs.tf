@@ -1,5 +1,9 @@
 resource "aws_ecs_cluster" "dibbs_app_cluster" {
   name = local.ecs_cluster_name
+  setting {
+    name  = "containerInsights"
+    value = "enabled"
+  }
   tags = local.tags
 }
 
@@ -13,9 +17,10 @@ resource "aws_ecs_task_definition" "this" {
   memory                   = local.override_autoscaling[each.key].memory
   container_definitions = jsonencode([
     {
-      name        = each.key,
-      image       = var.disable_ecr == false ? dockerless_remote_image.dibbs[each.key].target : "${each.value.registry_url}/${each.value.app_image}:${each.value.app_version}",
-      networkMode = "awsvpc",
+      name                   = each.key,
+      image                  = var.disable_ecr == false ? dockerless_remote_image.dibbs[each.key].target : "${each.value.registry_url}/${each.value.app_image}:${each.value.app_version}",
+      networkMode            = "awsvpc",
+      readonlyRootFilesystem = each.key == "trigger-code-reference" ? false : true,
       logConfiguration = {
         logDriver = "awslogs",
         options = {

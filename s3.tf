@@ -33,6 +33,11 @@ resource "aws_s3_bucket_versioning" "ecr_viewer" {
   }
 }
 
+resource "aws_s3_bucket_policy" "ecr_viewer_ssl" {
+  bucket = aws_s3_bucket.ecr_viewer.id
+  policy = data.aws_iam_policy_document.ecr_viewer_ssl.json
+}
+
 resource "aws_s3_bucket" "logging" {
   bucket        = local.s3_logging_bucket_name
   force_destroy = true
@@ -59,6 +64,61 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "logging" {
   rule {
     apply_server_side_encryption_by_default {
       sse_algorithm = "AES256"
+    }
+  }
+}
+
+resource "aws_s3_bucket_versioning" "logging" {
+  bucket = aws_s3_bucket.logging.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_object_lock_configuration" "ecr_viewer" {
+  bucket = aws_s3_bucket.ecr_viewer.id
+
+  rule {
+    default_retention {
+      mode = "COMPLIANCE"
+      days = var.ecr_viewer_object_retention_days
+    }
+  }
+  depends_on = [aws_s3_bucket_versioning.ecr_viewer]
+}
+
+resource "aws_s3_bucket_object_lock_configuration" "logging" {
+  bucket = aws_s3_bucket.logging.id
+
+  rule {
+    default_retention {
+      mode = "COMPLIANCE"
+      days = var.logging_object_retention_days
+    }
+  }
+  depends_on = [aws_s3_bucket_versioning.logging]
+}
+
+resource "aws_s3_bucket_logging" "logging_s3_access_logs" {
+  bucket = aws_s3_bucket.logging.id
+
+  target_bucket = aws_s3_bucket.logging.bucket
+  target_prefix = "${aws_s3_bucket.logging.bucket}/"
+  target_object_key_format {
+    partitioned_prefix {
+      partition_date_source = "EventTime"
+    }
+  }
+}
+
+resource "aws_s3_bucket_logging" "ecr_viewer_s3_access_logs" {
+  bucket = aws_s3_bucket.ecr_viewer.id
+
+  target_bucket = aws_s3_bucket.logging.bucket
+  target_prefix = "${aws_s3_bucket.logging.bucket}/"
+  target_object_key_format {
+    partitioned_prefix {
+      partition_date_source = "EventTime"
     }
   }
 }

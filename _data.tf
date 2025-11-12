@@ -45,6 +45,45 @@ data "aws_iam_policy_document" "logging" {
       identifiers = [data.aws_elb_service_account.elb_account_id.arn]
     }
   }
+  statement {
+    sid     = "AllowSSLRequestsOnly"
+    effect  = "Deny"
+    actions = ["s3:*"]
+    resources = [
+      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}",
+      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/*",
+    ]
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "ecr_viewer_ssl" {
+  statement {
+    sid     = "AllowSSLRequestsOnly"
+    effect  = "Deny"
+    actions = ["s3:*"]
+    resources = [
+      "arn:aws:s3:::${aws_s3_bucket.ecr_viewer.bucket}",
+      "arn:aws:s3:::${aws_s3_bucket.ecr_viewer.bucket}/*",
+    ]
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+  }
 }
 
 data "aws_iam_policy" "ecs_task_execution" {
