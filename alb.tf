@@ -8,6 +8,7 @@ resource "aws_alb" "ecs" {
 
   enable_deletion_protection = false
 
+  idle_timeout = var.alb_idle_timeout
   access_logs {
     enabled = var.enable_alb_logs
     bucket  = aws_s3_bucket.logging.id

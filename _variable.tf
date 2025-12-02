@@ -4,6 +4,12 @@ variable "internal" {
   default     = true
 }
 
+variable "alb_idle_timeout" {
+  type        = number
+  description = "The idle timeout value in seconds for the Application Load Balancer (ALB)"
+  default     = 900
+}
+
 variable "appmesh_name" {
   type        = string
   description = "Name of the AWS App Mesh"
