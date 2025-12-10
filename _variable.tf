@@ -25,7 +25,7 @@ variable "cloudmap_namespace_name" {
 variable "cw_retention_in_days" {
   type        = number
   description = "Retention period in days for CloudWatch logs"
-  default     = 30
+  default     = 365
 }
 
 variable "ecs_alb_name" {
