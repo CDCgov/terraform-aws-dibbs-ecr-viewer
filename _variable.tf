@@ -300,7 +300,7 @@ variable "logging_object_retention_days" {
 }
 
 variable "ecr_processing_timeout" {
-  type = number
+  type        = string
   description = "Set processing timeout length in ms,if not set defaults to 900000ms (15min)"
-  default = ""
+  default     = "450000"
 }
