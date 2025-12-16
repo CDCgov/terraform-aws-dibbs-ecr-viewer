@@ -40,6 +40,7 @@ locals {
   auth_url                  = var.auth_url != "" ? { name = "NEXTAUTH_URL", value = var.auth_url } : null
   auth_secret               = var.secrets_manager_auth_secret_version != "" ? { name = "NEXTAUTH_SECRET", value = var.secrets_manager_auth_secret_version } : null
   auth_session_duration_min = var.auth_session_duration_min != "" ? { name = "AUTH_SESSION_DURATION_MIN", value = var.auth_session_duration_min } : null
+  ecr_processing_timeout = var.ecr_processing_timeout != "" ? { name = ECR_PROCESSING_TIMEOUT , value = var.ecr_processing_timeout } : null
   override_autoscaling = {
     ecr-viewer = {
       cpu           = try(var.override_autoscaling["ecr-viewer"].cpu, 512),
@@ -144,6 +145,7 @@ locals {
         local.auth_url,
         local.auth_secret,
         local.auth_session_duration_min
+        local.ecr_processing_timeout
       ]
     },
     fhir-converter = {
