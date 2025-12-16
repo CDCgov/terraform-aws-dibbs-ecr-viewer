@@ -205,7 +205,7 @@ No modules.
 | <a name="input_dibbs_config_name"></a> [dibbs\_config\_name](#input\_dibbs\_config\_name) | Name of the DIBBS configuration | `string` | `""` | no |
 | <a name="input_dibbs_repo"></a> [dibbs\_repo](#input\_dibbs\_repo) | Name of the DIBBS repository | `string` | `"ghcr.io/cdcgov/dibbs-ecr-viewer"` | no |
 | <a name="input_disable_ecr"></a> [disable\_ecr](#input\_disable\_ecr) | Flag to disable the aws ecr service for docker image storage, defaults to false | `bool` | `false` | no |
-| <a name="input_ecr_processing_timeout"></a> [ecr\_processing\_timeout](#input\_ecr\_processing\_timeout) | Set processing timeout length in ms,if not set defaults to 900000ms (15min) | `string` | `"450000"` | no |
+| <a name="input_ecr_processing_timeout"></a> [ecr\_processing\_timeout](#input\_ecr\_processing\_timeout) | Set processing timeout length in ms,if not set defaults to 900000ms (15min) | `string` | `"900000"` | no |
 | <a name="input_ecr_viewer_auth_api_pub_key"></a> [ecr\_viewer\_auth\_api\_pub\_key](#input\_ecr\_viewer\_auth\_api\_pub\_key) | The public key used to validate the incoming authenication for the eCR Viewer API. | `string` | `""` | no |
 | <a name="input_ecr_viewer_auth_pub_key"></a> [ecr\_viewer\_auth\_pub\_key](#input\_ecr\_viewer\_auth\_pub\_key) | The public key used to validate the incoming authenication for the eCR Viewer. | `string` | `""` | no |
 | <a name="input_ecr_viewer_object_retention_days"></a> [ecr\_viewer\_object\_retention\_days](#input\_ecr\_viewer\_object\_retention\_days) | Number of days to retain S3 ecr viewer objects in compliance mode | `number` | `3650` | no |
