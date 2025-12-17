@@ -298,3 +298,9 @@ variable "logging_object_retention_days" {
   description = "Number of days to retain S3 logging objects in compliance mode"
   default     = 90
 }
+
+variable "ecr_processing_timeout" {
+  type        = string
+  description = "Set processing timeout length in ms,if not set defaults to 900000ms (15min)"
+  default     = "900000"
+}
