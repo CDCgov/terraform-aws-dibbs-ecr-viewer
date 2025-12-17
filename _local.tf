@@ -132,10 +132,6 @@ locals {
           name  = "ORCHESTRATION_URL",
           value = "http://orchestration:8080"
         },
-        {
-          name  = "ECR_PROCESSING_TIMEOUT",
-          value = "30000"
-        },
         local.database_url,
         local.sqlserver_user,
         local.sqlserver_password,
