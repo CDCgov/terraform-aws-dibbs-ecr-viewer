@@ -276,8 +276,10 @@ locals {
   ecs_cloudwatch_group         = var.ecs_cloudwatch_group == "" ? "/${local.local_name}" : var.ecs_cloudwatch_group
   ecs_cluster_name             = var.ecs_cluster_name == "" ? local.local_name : var.ecs_cluster_name
   s3_viewer_bucket_name        = var.s3_viewer_bucket_name == "" ? "${local.local_name}-${random_string.s3_viewer.result}" : var.s3_viewer_bucket_name
+  s3_viewer_replication_bucket_name = var.s3_viewer_bucket_name == "" ? "${local.local_name}-replication-${random_string.s3_viewer.result}" : "${var.s3_viewer_bucket_name}-replication"
   s3_logging_bucket_name       = var.s3_logging_bucket_name == "" ? "${local.local_name}-${random_string.s3_viewer.result}-logging" : var.s3_logging_bucket_name
   s3_viewer_bucket_role_name   = var.s3_viewer_bucket_role_name == "" ? "${local.local_name}-ecrv" : var.s3_viewer_bucket_role_name
+  s3_viewer_replication_bucket_role_name = var.s3_viewer_bucket_role_name == "" ? "${local.local_name}-ecrv-replication" : "${var.s3_viewer_bucket_role_name}-replication"
   tags                         = var.tags
   vpc_endpoints = [
     "com.amazonaws.${var.region}.ecr.dkr",

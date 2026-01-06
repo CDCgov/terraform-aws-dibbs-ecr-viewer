@@ -1,3 +1,16 @@
+resource "aws_iam_role" "s3_replication" {
+  name = local.s3_viewer_replication_bucket_role_name
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect    = "Allow"
+      Principal = { Service = "s3.amazonaws.com" }
+      Action    = "sts:AssumeRole"
+    }]
+  })
+}
+
 # task execution role
 resource "aws_iam_role" "ecs_task_execution" {
   name = local.ecs_task_execution_role_name
@@ -27,6 +40,11 @@ resource "aws_iam_role" "s3_role_for_ecr_viewer" {
   ]
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
   tags               = local.tags
+}
+
+resource "aws_iam_role_policy_attachment" "s3_replication" {
+  role       = data.aws_iam_role.s3_replication.name
+  policy_arn = data.aws_iam_policy.s3_replication.arn
 }
 
 resource "aws_iam_policy" "s3_bucket_ecr_viewer" {
