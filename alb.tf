@@ -6,7 +6,7 @@ resource "aws_alb" "ecs" {
   security_groups            = [aws_security_group.alb.id]
   drop_invalid_header_fields = true
 
-  enable_deletion_protection = false
+  enable_deletion_protection = var.enable_alb_deletion_protection
 
   idle_timeout = var.alb_idle_timeout
   access_logs {

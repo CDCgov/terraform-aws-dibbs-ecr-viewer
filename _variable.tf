@@ -76,6 +76,11 @@ variable "enable_alb_logs" {
   default     = true
 }
 
+variable "enable_alb_deletion_protection" {
+  type        = bool
+  description = "Flag to enable ALB deletion protection"
+  default     = true
+}
 variable "private_subnet_ids" {
   type        = list(string)
   description = "List of private subnet IDs"
