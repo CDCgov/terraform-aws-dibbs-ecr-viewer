@@ -99,22 +99,15 @@ data "aws_route_table" "this" {
   subnet_id = each.value
 }
 
-data "aws_iam_policy" "s3_replication" {
-  name        = local.s3_viewer_replication_bucket_role_name
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect   = "Allow"
-        Action   = ["s3:ReplicateObject", "s3:ReplicateDelete", "s3:GetObjectVersion", "s3:GetObjectVersionAcl"]
-        Resource = "arn:aws:s3:::${aws_s3_bucket.ecr_viewer.bucket}/*"
-      },
-      {
-        Effect   = "Allow"
-        Action   = ["s3:ReplicateObject", "s3:ReplicateDelete"]
-        Resource = "arn:aws:s3:::${aws_s3_bucket.ecr_viewer_replication.bucket}/*"
-      }
-    ]
-  })
+data "aws_iam_policy_document" "s3_replication" {
+  statement {
+    effect    = "Allow"
+    actions   = ["s3:ReplicateObject", "s3:ReplicateDelete", "s3:GetObjectVersion", "s3:GetObjectVersionAcl"]
+    resources = ["arn:aws:s3:::${aws_s3_bucket.ecr_viewer.bucket}/*"]
+  }
+  statement {
+    effect    = "Allow"
+    actions   = ["s3:ReplicateObject", "s3:ReplicateDelete"]
+    resources = ["arn:aws:s3:::${aws_s3_bucket.ecr_viewer_replication.bucket}/*"]
+  }
 }

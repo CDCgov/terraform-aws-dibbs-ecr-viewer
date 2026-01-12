@@ -9,7 +9,7 @@ resource "aws_s3_bucket" "ecr_viewer" {
 }
 
 resource "aws_s3_bucket" "ecr_viewer_replication" {
-  provider = aws.replication
+  provider      = aws.replication
   bucket        = local.s3_viewer_replication_bucket_name
   force_destroy = true
   tags          = local.tags
@@ -138,8 +138,8 @@ resource "aws_s3_bucket_logging" "ecr_viewer_s3_access_logs" {
 }
 
 resource "aws_s3_bucket_replication_configuration" "replication" {
-  bucket   = aws_s3_bucket.ecr_viewer.id
-  role     = aws_iam_role.s3_replication.arn
+  bucket = aws_s3_bucket.ecr_viewer.id
+  role   = aws_iam_role.s3_replication.arn
 
   rule {
     id     = "cross-region-replication"
