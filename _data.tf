@@ -98,16 +98,3 @@ data "aws_route_table" "this" {
   for_each  = local.private_subnet_kvs
   subnet_id = each.value
 }
-
-data "aws_iam_policy_document" "s3_replication" {
-  statement {
-    effect    = "Allow"
-    actions   = ["s3:ReplicateObject", "s3:ReplicateDelete", "s3:GetObjectVersion", "s3:GetObjectVersionAcl"]
-    resources = ["arn:aws:s3:::${aws_s3_bucket.ecr_viewer.bucket}/*"]
-  }
-  statement {
-    effect    = "Allow"
-    actions   = ["s3:ReplicateObject", "s3:ReplicateDelete"]
-    resources = ["arn:aws:s3:::${aws_s3_bucket.ecr_viewer_replication.bucket}/*"]
-  }
-}

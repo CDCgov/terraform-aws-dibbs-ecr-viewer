@@ -1,3 +1,23 @@
+resource "aws_iam_policy" "s3_replication" {
+  name = local.s3_viewer_replication_bucket_role_name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = ["s3:ReplicateObject", "s3:ReplicateDelete", "s3:GetObjectVersion", "s3:GetObjectVersionAcl"]
+        Resource = "arn:aws:s3:::${aws_s3_bucket.ecr_viewer.bucket}/*"
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["s3:ReplicateObject", "s3:ReplicateDelete"]
+        Resource = "arn:aws:s3:::${aws_s3_bucket.ecr_viewer_replication.bucket}/*"
+      }
+    ]
+  })
+}
+
 resource "aws_iam_role" "s3_replication" {
   name = local.s3_viewer_replication_bucket_role_name
 
@@ -44,7 +64,7 @@ resource "aws_iam_role" "s3_role_for_ecr_viewer" {
 
 resource "aws_iam_role_policy_attachment" "s3_replication" {
   role       = aws_iam_role.s3_replication.name
-  policy_arn = data.aws_iam_policy_document.s3_replication.arn
+  policy_arn = aws_iam_policy.s3_replication.arn
 }
 
 resource "aws_iam_policy" "s3_bucket_ecr_viewer" {
