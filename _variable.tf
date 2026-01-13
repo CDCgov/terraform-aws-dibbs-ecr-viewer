@@ -96,9 +96,16 @@ variable "region" {
   description = "The AWS region where resources are created"
 }
 
-variable "replication_region" {
-  type        = string
-  description = "The AWS region where S3 bucket replication destination is located"
+variable "s3_replication_bucket_name" {
+  type = string
+  description = "Name of the S3 bucket for replication"
+  default     = ""
+}
+
+variable "s3_replication_bucket_arn" {
+  type = string
+  description = "ARN of the S3 replication bucket"
+  default = ""
 }
 
 variable "s3_viewer_bucket_name" {

@@ -8,13 +8,6 @@ resource "aws_s3_bucket" "ecr_viewer" {
   tags          = local.tags
 }
 
-resource "aws_s3_bucket" "ecr_viewer_replication" {
-  provider      = aws.replication
-  bucket        = local.s3_viewer_replication_bucket_name
-  force_destroy = true
-  tags          = local.tags
-}
-
 resource "aws_s3_bucket_public_access_block" "ecr_viewer" {
   bucket                  = aws_s3_bucket.ecr_viewer.id
   block_public_acls       = true
@@ -35,13 +28,6 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "ecr_viewer" {
 
 resource "aws_s3_bucket_versioning" "ecr_viewer" {
   bucket = aws_s3_bucket.ecr_viewer.id
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
-
-resource "aws_s3_bucket_versioning" "ecr_viewer_replication" {
-  bucket = aws_s3_bucket.ecr_viewer_replication.id
   versioning_configuration {
     status = "Enabled"
   }
@@ -138,8 +124,9 @@ resource "aws_s3_bucket_logging" "ecr_viewer_s3_access_logs" {
 }
 
 resource "aws_s3_bucket_replication_configuration" "replication" {
+  count = var.s3_replication_bucket_arn != "" && var.s3_replication_bucket_name != "" ? 1 : 0
   bucket = aws_s3_bucket.ecr_viewer.id
-  role   = aws_iam_role.s3_replication.arn
+  role   = var.s3_replication_bucket_arn
 
   rule {
     id     = "cross-region-replication"
@@ -150,7 +137,7 @@ resource "aws_s3_bucket_replication_configuration" "replication" {
     }
 
     destination {
-      bucket        = aws_s3_bucket.ecr_viewer_replication.arn
+      bucket        = var.s3_replication_bucket_name
       storage_class = "STANDARD"
     }
     delete_marker_replication {

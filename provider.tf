@@ -28,11 +28,3 @@ provider "dockerless" {
     }
   }
 }
-
-provider "aws" {
-  alias  = "replication"
-  region = var.replication_region
-  default_tags {
-    tags = local.tags
-  }
-}
