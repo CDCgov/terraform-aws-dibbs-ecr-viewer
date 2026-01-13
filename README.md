@@ -112,7 +112,6 @@ The current architectural design for dibbs-aws is as follows:
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | 5.86.1 |
-| <a name="provider_aws.replication"></a> [aws.replication](#provider\_aws.replication) | 5.86.1 |
 | <a name="provider_dockerless"></a> [dockerless](#provider\_dockerless) | 0.1.1 |
 | <a name="provider_null"></a> [null](#provider\_null) | 3.2.4 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.6.3 |
@@ -181,6 +180,7 @@ No modules.
 | [aws_vpc_endpoint.s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
 | [dockerless_remote_image.dibbs](https://registry.terraform.io/providers/nullstone-io/dockerless/latest/docs/resources/remote_image) | resource |
 | [null_resource.target_groups](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [random_string.replication](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [random_string.s3_viewer](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_ecr_authorization_token.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ecr_authorization_token) | data source |
