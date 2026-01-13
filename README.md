@@ -112,7 +112,6 @@ The current architectural design for dibbs-aws is as follows:
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | 5.86.1 |
-| <a name="provider_aws.replication"></a> [aws.replication](#provider\_aws.replication) | 5.86.1 |
 | <a name="provider_dockerless"></a> [dockerless](#provider\_dockerless) | 0.1.1 |
 | <a name="provider_null"></a> [null](#provider\_null) | 3.2.4 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.6.3 |
@@ -152,7 +151,6 @@ No modules.
 | [aws_iam_role_policy_attachment.s3_replication](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_kms_key.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
 | [aws_s3_bucket.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
-| [aws_s3_bucket.ecr_viewer_replication](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket_logging.ecr_viewer_s3_access_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_logging) | resource |
 | [aws_s3_bucket_logging.logging_s3_access_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_logging) | resource |
@@ -166,7 +164,6 @@ No modules.
 | [aws_s3_bucket_server_side_encryption_configuration.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
 | [aws_s3_bucket_server_side_encryption_configuration.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
 | [aws_s3_bucket_versioning.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
-| [aws_s3_bucket_versioning.ecr_viewer_replication](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
 | [aws_s3_bucket_versioning.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
 | [aws_security_group.alb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group.ecs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
@@ -181,7 +178,6 @@ No modules.
 | [aws_vpc_endpoint.s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
 | [dockerless_remote_image.dibbs](https://registry.terraform.io/providers/nullstone-io/dockerless/latest/docs/resources/remote_image) | resource |
 | [null_resource.target_groups](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
-| [random_string.replication](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [random_string.s3_viewer](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_ecr_authorization_token.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ecr_authorization_token) | data source |
@@ -234,8 +230,9 @@ No modules.
 | <a name="input_project"></a> [project](#input\_project) | The project name | `string` | `"dibbs"` | no |
 | <a name="input_public_subnet_ids"></a> [public\_subnet\_ids](#input\_public\_subnet\_ids) | List of public subnet IDs | `list(string)` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | The AWS region where resources are created | `string` | n/a | yes |
-| <a name="input_replication_region"></a> [replication\_region](#input\_replication\_region) | The AWS region where S3 bucket replication destination is located | `string` | n/a | yes |
 | <a name="input_s3_logging_bucket_name"></a> [s3\_logging\_bucket\_name](#input\_s3\_logging\_bucket\_name) | Name of the S3 bucket for logging | `string` | `""` | no |
+| <a name="input_s3_replication_bucket_arn"></a> [s3\_replication\_bucket\_arn](#input\_s3\_replication\_bucket\_arn) | ARN of the S3 replication bucket | `string` | `""` | no |
+| <a name="input_s3_replication_bucket_name"></a> [s3\_replication\_bucket\_name](#input\_s3\_replication\_bucket\_name) | Name of the S3 bucket for replication | `string` | `""` | no |
 | <a name="input_s3_viewer_bucket_name"></a> [s3\_viewer\_bucket\_name](#input\_s3\_viewer\_bucket\_name) | Name of the S3 bucket for the viewer | `string` | `""` | no |
 | <a name="input_s3_viewer_bucket_role_name"></a> [s3\_viewer\_bucket\_role\_name](#input\_s3\_viewer\_bucket\_role\_name) | Name of the IAM role for the ecr-viewer bucket | `string` | `""` | no |
 | <a name="input_secrets_manager_auth_client_secret_version"></a> [secrets\_manager\_auth\_client\_secret\_version](#input\_secrets\_manager\_auth\_client\_secret\_version) | The secret containing the auth client secret. This is the secret that comes from the authentication provider. | `string` | `""` | no |

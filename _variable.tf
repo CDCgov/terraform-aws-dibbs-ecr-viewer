@@ -97,15 +97,15 @@ variable "region" {
 }
 
 variable "s3_replication_bucket_name" {
-  type = string
+  type        = string
   description = "Name of the S3 bucket for replication"
   default     = ""
 }
 
 variable "s3_replication_bucket_arn" {
-  type = string
+  type        = string
   description = "ARN of the S3 replication bucket"
-  default = ""
+  default     = ""
 }
 
 variable "s3_viewer_bucket_name" {

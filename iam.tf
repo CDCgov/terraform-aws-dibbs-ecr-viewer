@@ -1,6 +1,6 @@
 resource "aws_iam_policy" "s3_replication" {
   count = var.s3_replication_bucket_name != "" ? 1 : 0
-  name = var.s3_replication_bucket_name
+  name  = var.s3_replication_bucket_name
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -21,7 +21,7 @@ resource "aws_iam_policy" "s3_replication" {
 
 resource "aws_iam_role" "s3_replication" {
   count = var.s3_replication_bucket_name != "" ? 1 : 0
-  name = var.s3_replication_bucket_name
+  name  = var.s3_replication_bucket_name
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -65,7 +65,7 @@ resource "aws_iam_role" "s3_role_for_ecr_viewer" {
 }
 
 resource "aws_iam_role_policy_attachment" "s3_replication" {
-  count = var.s3_replication_bucket_name != "" ? 1 : 0
+  count      = var.s3_replication_bucket_name != "" ? 1 : 0
   role       = aws_iam_role.s3_replication[0].arn
   policy_arn = aws_iam_policy.s3_replication[0].arn
 }
