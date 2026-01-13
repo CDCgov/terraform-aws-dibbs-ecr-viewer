@@ -9,7 +9,7 @@ resource "aws_s3_bucket" "ecr_viewer" {
 }
 
 resource "aws_s3_bucket" "ecr_viewer_replication" {
-  region        = var.replication_region
+  provider      = aws.replication
   bucket        = local.s3_viewer_replication_bucket_name
   force_destroy = true
   tags          = local.tags

@@ -29,7 +29,11 @@ provider "dockerless" {
   }
 }
 
-# provider "aws" {
-#   alias  = "replication"
-#   region = var.replication_region
-# }
+provider "aws" {
+  region = var.region
+}
+
+provider "aws" {
+  alias  = "replication"
+  region = var.replication_region
+}
