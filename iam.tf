@@ -64,11 +64,11 @@ resource "aws_iam_role" "s3_role_for_ecr_viewer" {
   tags               = local.tags
 }
 
-resource "aws_iam_role_policy_attachment" "s3_replication" {
-  count      = var.s3_replication_bucket_name != "" ? 1 : 0
-  role       = aws_iam_role.s3_replication[0].arn
-  policy_arn = aws_iam_policy.s3_replication[0].arn
-}
+# resource "aws_iam_role_policy_attachment" "s3_replication" {
+#   count      = var.s3_replication_bucket_name != "" ? 1 : 0
+#   role       = aws_iam_role.s3_replication[0].arn
+#   policy_arn = aws_iam_policy.s3_replication[0].arn
+# }
 
 resource "aws_iam_policy" "s3_bucket_ecr_viewer" {
   name        = "${local.s3_viewer_bucket_role_name}-policy"
