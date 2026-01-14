@@ -81,6 +81,13 @@ variable "enable_alb_deletion_protection" {
   description = "Flag to enable ALB deletion protection"
   default     = true
 }
+
+variable "enable_s3_replication" {
+  type       = bool
+  description = "Flag to enable S3 replication"
+  default     = false
+}
+
 variable "private_subnet_ids" {
   type        = list(string)
   description = "List of private subnet IDs"
