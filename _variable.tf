@@ -10,6 +10,12 @@ variable "alb_idle_timeout" {
   default     = 900
 }
 
+variable "alb_listener_ssl_policy" {
+  type        = string
+  description = "SSL policy to use for the listener. This policy determines how SSL/TLS connections are handled."
+  default     = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+}
+
 variable "appmesh_name" {
   type        = string
   description = "Name of the AWS App Mesh"
@@ -25,7 +31,7 @@ variable "cloudmap_namespace_name" {
 variable "cw_retention_in_days" {
   type        = number
   description = "Retention period in days for CloudWatch logs"
-  default     = 30
+  default     = 365
 }
 
 variable "ecs_alb_name" {
@@ -73,6 +79,12 @@ variable "enable_autoscaling" {
 variable "enable_alb_logs" {
   type        = bool
   description = "Flag to enable ALB access and connection logging to s3 logging bucket"
+  default     = true
+}
+
+variable "enable_alb_deletion_protection" {
+  type        = bool
+  description = "Flag to enable ALB deletion protection"
   default     = true
 }
 

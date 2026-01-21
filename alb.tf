@@ -6,7 +6,7 @@ resource "aws_alb" "ecs" {
   security_groups            = [aws_security_group.alb.id]
   drop_invalid_header_fields = true
 
-  enable_deletion_protection = false
+  enable_deletion_protection = var.enable_alb_deletion_protection
 
   idle_timeout = var.alb_idle_timeout
   access_logs {
@@ -143,7 +143,7 @@ resource "aws_alb_listener" "https" {
   load_balancer_arn = aws_alb.ecs.arn
   port              = "443"
   protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  ssl_policy        = var.alb_listener_ssl_policy
   certificate_arn   = var.certificate_arn
 
   default_action {
