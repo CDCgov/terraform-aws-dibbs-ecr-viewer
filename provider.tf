@@ -28,8 +28,3 @@ provider "dockerless" {
     }
   }
 }
-
-provider "aws" {
-  alias  = "replication"
-  region = "us-west-2"
-}

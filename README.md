@@ -143,12 +143,9 @@ No modules.
 | [aws_ecs_task_definition.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_task_definition) | resource |
 | [aws_flow_log.ecs_flow_log](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/flow_log) | resource |
 | [aws_iam_policy.s3_bucket_ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
-| [aws_iam_policy.s3_replication](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_role.ecs_task](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.ecs_task_execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role.s3_replication](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.s3_role_for_ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role_policy_attachment.s3_replication](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_kms_key.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
 | [aws_s3_bucket.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
@@ -160,7 +157,6 @@ No modules.
 | [aws_s3_bucket_policy.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
 | [aws_s3_bucket_public_access_block.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
 | [aws_s3_bucket_public_access_block.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
-| [aws_s3_bucket_replication_configuration.replication](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_replication_configuration) | resource |
 | [aws_s3_bucket_server_side_encryption_configuration.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
 | [aws_s3_bucket_server_side_encryption_configuration.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
 | [aws_s3_bucket_versioning.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
@@ -196,6 +192,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_alb_idle_timeout"></a> [alb\_idle\_timeout](#input\_alb\_idle\_timeout) | The idle timeout value in seconds for the Application Load Balancer (ALB) | `number` | `900` | no |
+| <a name="input_alb_listener_ssl_policy"></a> [alb\_listener\_ssl\_policy](#input\_alb\_listener\_ssl\_policy) | SSL policy to use for the listener. This policy determines how SSL/TLS connections are handled. | `string` | `"ELBSecurityPolicy-TLS13-1-2-2021-06"` | no |
 | <a name="input_appmesh_name"></a> [appmesh\_name](#input\_appmesh\_name) | Name of the AWS App Mesh | `string` | `""` | no |
 | <a name="input_auth_client_id"></a> [auth\_client\_id](#input\_auth\_client\_id) | The application/client id used to idenitfy the client | `string` | `""` | no |
 | <a name="input_auth_issuer"></a> [auth\_issuer](#input\_auth\_issuer) | Additional information used during authentication process. For Azure AD, this will be the 'Tenant Id'. For Keycloak, this will be the url issuer including the realm - e.g. https://my-keycloak-domain.com/realms/My_Realm | `string` | `""` | no |
@@ -231,8 +228,6 @@ No modules.
 | <a name="input_public_subnet_ids"></a> [public\_subnet\_ids](#input\_public\_subnet\_ids) | List of public subnet IDs | `list(string)` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | The AWS region where resources are created | `string` | n/a | yes |
 | <a name="input_s3_logging_bucket_name"></a> [s3\_logging\_bucket\_name](#input\_s3\_logging\_bucket\_name) | Name of the S3 bucket for logging | `string` | `""` | no |
-| <a name="input_s3_replication_bucket_arn"></a> [s3\_replication\_bucket\_arn](#input\_s3\_replication\_bucket\_arn) | ARN of the S3 replication bucket | `string` | `""` | no |
-| <a name="input_s3_replication_bucket_name"></a> [s3\_replication\_bucket\_name](#input\_s3\_replication\_bucket\_name) | Name of the S3 bucket for replication | `string` | `""` | no |
 | <a name="input_s3_viewer_bucket_name"></a> [s3\_viewer\_bucket\_name](#input\_s3\_viewer\_bucket\_name) | Name of the S3 bucket for the viewer | `string` | `""` | no |
 | <a name="input_s3_viewer_bucket_role_name"></a> [s3\_viewer\_bucket\_role\_name](#input\_s3\_viewer\_bucket\_role\_name) | Name of the IAM role for the ecr-viewer bucket | `string` | `""` | no |
 | <a name="input_secrets_manager_auth_client_secret_version"></a> [secrets\_manager\_auth\_client\_secret\_version](#input\_secrets\_manager\_auth\_client\_secret\_version) | The secret containing the auth client secret. This is the secret that comes from the authentication provider. | `string` | `""` | no |

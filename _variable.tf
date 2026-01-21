@@ -10,6 +10,12 @@ variable "alb_idle_timeout" {
   default     = 900
 }
 
+variable "alb_listener_ssl_policy" {
+  type        = string
+  description = "SSL policy to use for the listener. This policy determines how SSL/TLS connections are handled."
+  default     = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+}
+
 variable "appmesh_name" {
   type        = string
   description = "Name of the AWS App Mesh"
@@ -82,12 +88,6 @@ variable "enable_alb_deletion_protection" {
   default     = true
 }
 
-variable "enable_s3_replication" {
-  type       = bool
-  description = "Flag to enable S3 replication"
-  default     = false
-}
-
 variable "private_subnet_ids" {
   type        = list(string)
   description = "List of private subnet IDs"
@@ -101,18 +101,6 @@ variable "public_subnet_ids" {
 variable "region" {
   type        = string
   description = "The AWS region where resources are created"
-}
-
-variable "s3_replication_bucket_name" {
-  type        = string
-  description = "Name of the S3 bucket for replication"
-  default     = ""
-}
-
-variable "s3_replication_bucket_arn" {
-  type        = string
-  description = "ARN of the S3 replication bucket"
-  default     = ""
 }
 
 variable "s3_viewer_bucket_name" {

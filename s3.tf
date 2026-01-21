@@ -122,26 +122,3 @@ resource "aws_s3_bucket_logging" "ecr_viewer_s3_access_logs" {
     }
   }
 }
-
-resource "aws_s3_bucket_replication_configuration" "replication" {
-  count  = var.enable_s3_replication ? 1 : 0
-  bucket = aws_s3_bucket.ecr_viewer.id
-  role   = var.s3_replication_bucket_arn
-
-  rule {
-    id     = "cross-region-replication"
-    status = "Enabled"
-
-    filter {
-      prefix = ""
-    }
-
-    destination {
-      bucket        = var.s3_replication_bucket_name
-      storage_class = "STANDARD"
-    }
-    delete_marker_replication {
-      status = "Enabled"
-    }
-  }
-}
