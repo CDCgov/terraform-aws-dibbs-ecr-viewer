@@ -267,6 +267,7 @@ locals {
       ]
     }
   }
+  waf_rules  = var.waf_rules
   local_name = "${var.project}-${var.owner}-${terraform.workspace}"
 
   appmesh_name                 = var.appmesh_name == "" ? local.local_name : var.appmesh_name

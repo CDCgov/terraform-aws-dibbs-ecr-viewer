@@ -316,3 +316,155 @@ variable "ecr_processing_timeout" {
   description = "Set processing timeout length in ms,if not set defaults to 900000ms (15min)"
   default     = "900000"
 }
+
+variable "waf_enabled" {
+  type        = bool
+  description = "Flag to enable AWS WAF for ALB - NIST ELB.16 Compliance"
+  default     = true
+}
+
+variable "waf_web_acl_id" {
+  type        = string
+  description = "Existing WAF Web ACL ID to associate with ALB. If empty, a new ACL will be created."
+  default     = ""
+}
+
+variable "waf_web_acl_name" {
+  type        = string
+  description = "Name of the WAF Web ACL to create if not using existing one"
+  default     = ""
+}
+
+variable "waf_rules" {
+  type = list(any)
+  default = [
+    {
+      name        = "AWSManagedRulesCommonRuleSet"
+      vendor_name = "AWS"
+      priority    = 1
+      allow       = []
+      block       = []
+      captcha     = []
+      challenge   = []
+      count = [
+        "NoUserAgent_HEADER",
+        "UserAgent_BadBots_HEADER",
+        "SizeRestrictions_BODY",
+        "SizeRestrictions_QUERYSTRING",
+        "SizeRestrictions_Cookie_HEADER",
+        "SizeRestrictions_URIPATH",
+        "EC2MetaDataSSRF_BODY",
+        "EC2MetaDataSSRF_COOKIE",
+        "EC2MetaDataSSRF_URIPATH",
+        "EC2MetaDataSSRF_QUERYARGUMENTS",
+        "GenericLFI_QUERYARGUMENTS",
+        "GenericLFI_URIPATH",
+        "GenericLFI_BODY",
+        "RestrictedExtensions_URIPATH",
+        "RestrictedExtensions_QUERYARGUMENTS",
+        "GenericRFI_QUERYARGUMENTS",
+        "GenericRFI_BODY",
+        "GenericRFI_URIPATH",
+        "CrossSiteScripting_BODY",
+        "CrossSiteScripting_COOKIE",
+        "CrossSiteScripting_QUERYARGUMENTS",
+        "CrossSiteScripting_URIPATH",
+      ]
+      }, {
+      name        = "AWSManagedRulesLinuxRuleSet"
+      vendor_name = "AWS"
+      priority    = 2
+      allow       = []
+      block       = []
+      captcha     = []
+      challenge   = []
+      count = [
+        "LFI_URIPATH",
+        "LFI_QUERYSTRING",
+        "LFI_HEADER"
+      ]
+      }, {
+      name        = "AWSManagedRulesUnixRuleSet"
+      vendor_name = "AWS"
+      priority    = 3
+      allow       = []
+      block       = []
+      captcha     = []
+      challenge   = []
+      count = [
+        "UNIXShellCommandsVariables_QUERYARGUMENTS",
+        "UNIXShellCommandsVariables_BODY",
+      ]
+      }, {
+      name        = "AWSManagedRulesSQLiRuleSet"
+      vendor_name = "AWS"
+      priority    = 4
+      allow       = []
+      block       = []
+      captcha     = []
+      challenge   = []
+      count = [
+        "SQLi_QUERYARGUMENTS",
+        "SQLiExtendedPatterns_QUERYARGUMENTS",
+        "SQLi_BODY",
+        "SQLiExtendedPatterns_BODY",
+        "SQLi_COOKIE",
+      ]
+      }, {
+      name        = "AWSManagedRulesKnownBadInputsRuleSet"
+      vendor_name = "AWS"
+      priority    = 5
+      allow       = []
+      block       = []
+      captcha     = []
+      challenge   = []
+      count = [
+        "JavaDeserializationRCE_HEADER",
+        "JavaDeserializationRCE_BODY",
+        "JavaDeserializationRCE_URIPATH",
+        "JavaDeserializationRCE_QUERYSTRING",
+        "Host_localhost_HEADER",
+        "PROPFIND_METHOD",
+        "ExploitablePaths_URIPATH",
+        "Log4JRCE_HEADER",
+        "Log4JRCE_QUERYSTRING",
+        "Log4JRCE_BODY",
+        "Log4JRCE_URIPATH",
+      ]
+      }, {
+      name        = "AWSManagedRulesBotControlRuleSet"
+      vendor_name = "AWS"
+      priority    = 6
+      allow       = []
+      block = [
+      ]
+      captcha   = []
+      challenge = []
+      count = [
+        "SignalAutomatedBrowser",
+        "CategoryHttpLibrary",
+        "SignalNonBrowserUserAgent",
+        "CategoryAdvertising",
+        "CategoryArchiver",
+        "CategoryContentFetcher",
+        "CategoryEmailClient",
+        "CategoryLinkChecker",
+        "CategoryMiscellaneous",
+        "CategoryMonitoring",
+        "CategoryScrapingFramework",
+        "CategorySearchEngine",
+        "CategorySecurity",
+        "CategorySeo",
+        "CategorySocialMedia",
+        "CategoryAI",
+        "SignalKnownBotDataCenter"
+      ]
+    }
+  ]
+}
+
+variable "block_ip_set" {
+  default     = []
+  type        = list(string)
+  description = "List of IP to block"
+}
