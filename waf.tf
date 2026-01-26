@@ -5,7 +5,7 @@
 
 # Create WAF Web ACL if not provided
 resource "aws_wafv2_web_acl" "this" {
-  count = var.waf_web_acl_id == "" ? 1 : 0
+  count = var.waf_web_acl_arn == "" ? 1 : 0
 
   name  = "${local.ecs_alb_name}-waf"
   scope = "REGIONAL"
@@ -115,16 +115,16 @@ resource "aws_wafv2_web_acl" "this" {
 }
 
 resource "aws_wafv2_web_acl_association" "this" {
-  count        = var.waf_web_acl_id == "" ? 1 : 0
+  count        = var.waf_web_acl_arn == "" ? 1 : 0
   resource_arn = aws_alb.ecs.id
-  web_acl_arn  = aws_wafv2_web_acl.traffic_control.id
+  web_acl_arn  = aws_wafv2_web_acl.this.arn
 }
 
 
 resource "aws_wafv2_web_acl_association" "external_waf" {
-  count        = var.waf_web_acl_id != "" ? 1 : 0
+  count        = var.waf_web_acl_arn != "" ? 1 : 0
   resource_arn = aws_alb.ecs.id
-  web_acl_arn  = var.waf_web_acl_id
+  web_acl_arn  = var.waf_web_acl_arn
 }
 
 resource "aws_wafv2_ip_set" "block" {

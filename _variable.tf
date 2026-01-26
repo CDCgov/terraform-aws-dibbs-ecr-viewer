@@ -317,7 +317,7 @@ variable "ecr_processing_timeout" {
   default     = "900000"
 }
 
-variable "waf_web_acl_id" {
+variable "waf_web_acl_arn" {
   type        = string
   description = "Existing WAF Web ACL ID to associate with ALB. If empty, a new ACL will be created."
   default     = ""
