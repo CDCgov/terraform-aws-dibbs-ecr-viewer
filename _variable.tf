@@ -317,21 +317,9 @@ variable "ecr_processing_timeout" {
   default     = "900000"
 }
 
-variable "waf_enabled" {
-  type        = bool
-  description = "Flag to enable AWS WAF for ALB - NIST ELB.16 Compliance"
-  default     = true
-}
-
 variable "waf_web_acl_id" {
   type        = string
   description = "Existing WAF Web ACL ID to associate with ALB. If empty, a new ACL will be created."
-  default     = ""
-}
-
-variable "waf_web_acl_name" {
-  type        = string
-  description = "Name of the WAF Web ACL to create if not using existing one"
   default     = ""
 }
 

@@ -5,51 +5,9 @@
 
 # Create WAF Web ACL if not provided
 resource "aws_wafv2_web_acl" "this" {
-  count = var.waf_enabled && var.waf_web_acl_id == "" ? 1 : 0
+  count = var.waf_web_acl_id == "" ? 1 : 0
 
-  name        = var.waf_web_acl_name != "" ? var.waf_web_acl_name : "${local.ecs_alb_name}-waf"
-  description = "WAF Web ACL for Application Load Balancer"
-  scope       = "REGIONAL"
-
-  default_action {
-    allow {}
-  }
-
-  # Add a default rule to block malicious requests
-  rule {
-    name     = "AWSManagedRulesCommonRuleSet"
-    priority = 1
-
-    statement {
-      managed_rule_group_statement {
-        name        = "AWSManagedRulesCommonRuleSet"
-        vendor_name = "AWS"
-      }
-    }
-    action {
-      block {}
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = false
-      metric_name                = "${local.ecs_alb_name}-count-metrics"
-      sampled_requests_enabled   = false
-    }
-  }
-
-  visibility_config {
-    cloudwatch_metrics_enabled = false
-    metric_name                = "${local.ecs_alb_name}-waf-metrics"
-    sampled_requests_enabled   = false
-  }
-
-  tags = local.tags
-}
-
-resource "aws_wafv2_web_acl" "this" {
-  count = var.waf_enabled && var.waf_web_acl_id == "" ? 1 : 0
-
-  name  = var.waf_web_acl_name != "" ? var.waf_web_acl_name : "${local.ecs_alb_name}-waf"
+  name  = "${local.ecs_alb_name}-waf"
   scope = "REGIONAL"
 
   default_action {
@@ -157,7 +115,7 @@ resource "aws_wafv2_web_acl" "this" {
 }
 
 resource "aws_wafv2_web_acl_association" "this" {
-  count        = var.waf_enabled && var.waf_web_acl_id == "" ? 1 : 0
+  count        = var.waf_web_acl_id == "" ? 1 : 0
   resource_arn = aws_alb.ecs.id
   web_acl_arn  = aws_wafv2_web_acl.traffic_control.id
 }
