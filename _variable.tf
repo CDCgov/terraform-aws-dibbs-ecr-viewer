@@ -331,10 +331,7 @@ variable "waf_rules" {
       vendor_name = "AWS"
       priority    = 1
       allow       = []
-      block       = []
-      captcha     = []
-      challenge   = []
-      count = [
+      block       = [
         "NoUserAgent_HEADER",
         "UserAgent_BadBots_HEADER",
         "SizeRestrictions_BODY",
@@ -358,55 +355,55 @@ variable "waf_rules" {
         "CrossSiteScripting_QUERYARGUMENTS",
         "CrossSiteScripting_URIPATH",
       ]
+      captcha     = []
+      challenge   = []
+      count = []
       }, {
       name        = "AWSManagedRulesLinuxRuleSet"
       vendor_name = "AWS"
       priority    = 2
       allow       = []
-      block       = []
-      captcha     = []
-      challenge   = []
-      count = [
+      block       = [
         "LFI_URIPATH",
         "LFI_QUERYSTRING",
         "LFI_HEADER"
       ]
+      captcha     = []
+      challenge   = []
+      count = []
       }, {
       name        = "AWSManagedRulesUnixRuleSet"
       vendor_name = "AWS"
       priority    = 3
       allow       = []
-      block       = []
-      captcha     = []
-      challenge   = []
-      count = [
+      block       = [
         "UNIXShellCommandsVariables_QUERYARGUMENTS",
         "UNIXShellCommandsVariables_BODY",
       ]
+      captcha     = []
+      challenge   = []
+      count = []
       }, {
       name        = "AWSManagedRulesSQLiRuleSet"
       vendor_name = "AWS"
       priority    = 4
       allow       = []
-      block       = []
-      captcha     = []
-      challenge   = []
-      count = [
+      block       = [
         "SQLi_QUERYARGUMENTS",
         "SQLiExtendedPatterns_QUERYARGUMENTS",
         "SQLi_BODY",
         "SQLiExtendedPatterns_BODY",
         "SQLi_COOKIE",
       ]
+      captcha     = []
+      challenge   = []
+      count = []
       }, {
       name        = "AWSManagedRulesKnownBadInputsRuleSet"
       vendor_name = "AWS"
       priority    = 5
       allow       = []
-      block       = []
-      captcha     = []
-      challenge   = []
-      count = [
+      block       = [
         "JavaDeserializationRCE_HEADER",
         "JavaDeserializationRCE_BODY",
         "JavaDeserializationRCE_URIPATH",
@@ -419,16 +416,15 @@ variable "waf_rules" {
         "Log4JRCE_BODY",
         "Log4JRCE_URIPATH",
       ]
+      captcha     = []
+      challenge   = []
+      count = []
       }, {
       name        = "AWSManagedRulesBotControlRuleSet"
       vendor_name = "AWS"
       priority    = 6
       allow       = []
       block = [
-      ]
-      captcha   = []
-      challenge = []
-      count = [
         "SignalAutomatedBrowser",
         "CategoryHttpLibrary",
         "SignalNonBrowserUserAgent",
@@ -447,6 +443,9 @@ variable "waf_rules" {
         "CategoryAI",
         "SignalKnownBotDataCenter"
       ]
+      captcha   = []
+      challenge = []
+      count = []
     }
   ]
 }
