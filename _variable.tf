@@ -343,7 +343,7 @@ variable "waf_rules" {
       vendor_name = "AWS"
       priority    = 1
       allow       = []
-      block       = [
+      block = [
         "NoUserAgent_HEADER",
         "UserAgent_BadBots_HEADER",
         "SizeRestrictions_BODY",
@@ -367,55 +367,55 @@ variable "waf_rules" {
         "CrossSiteScripting_QUERYARGUMENTS",
         "CrossSiteScripting_URIPATH",
       ]
-      captcha     = []
-      challenge   = []
-      count = []
+      captcha   = []
+      challenge = []
+      count     = []
       }, {
       name        = "AWSManagedRulesLinuxRuleSet"
       vendor_name = "AWS"
       priority    = 2
       allow       = []
-      block       = [
+      block = [
         "LFI_URIPATH",
         "LFI_QUERYSTRING",
         "LFI_HEADER"
       ]
-      captcha     = []
-      challenge   = []
-      count = []
+      captcha   = []
+      challenge = []
+      count     = []
       }, {
       name        = "AWSManagedRulesUnixRuleSet"
       vendor_name = "AWS"
       priority    = 3
       allow       = []
-      block       = [
+      block = [
         "UNIXShellCommandsVariables_QUERYARGUMENTS",
         "UNIXShellCommandsVariables_BODY",
       ]
-      captcha     = []
-      challenge   = []
-      count = []
+      captcha   = []
+      challenge = []
+      count     = []
       }, {
       name        = "AWSManagedRulesSQLiRuleSet"
       vendor_name = "AWS"
       priority    = 4
       allow       = []
-      block       = [
+      block = [
         "SQLi_QUERYARGUMENTS",
         "SQLiExtendedPatterns_QUERYARGUMENTS",
         "SQLi_BODY",
         "SQLiExtendedPatterns_BODY",
         "SQLi_COOKIE",
       ]
-      captcha     = []
-      challenge   = []
-      count = []
+      captcha   = []
+      challenge = []
+      count     = []
       }, {
       name        = "AWSManagedRulesKnownBadInputsRuleSet"
       vendor_name = "AWS"
       priority    = 5
       allow       = []
-      block       = [
+      block = [
         "JavaDeserializationRCE_HEADER",
         "JavaDeserializationRCE_BODY",
         "JavaDeserializationRCE_URIPATH",
@@ -428,9 +428,9 @@ variable "waf_rules" {
         "Log4JRCE_BODY",
         "Log4JRCE_URIPATH",
       ]
-      captcha     = []
-      challenge   = []
-      count = []
+      captcha   = []
+      challenge = []
+      count     = []
       }, {
       name        = "AWSManagedRulesBotControlRuleSet"
       vendor_name = "AWS"
@@ -457,7 +457,7 @@ variable "waf_rules" {
       ]
       captcha   = []
       challenge = []
-      count = []
+      count     = []
     }
   ]
 }
