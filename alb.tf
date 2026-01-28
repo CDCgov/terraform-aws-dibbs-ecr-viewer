@@ -241,7 +241,7 @@ resource "aws_security_group_rule" "ecs_all_egress" {
   protocol          = "-1"
   description       = "Allow outbound traffic from ECS"
   security_group_id = aws_security_group.ecs.id
-  cidr_blocks       = ["0.0.0.0/0"]
+  cidr_blocks       = var.allow_security_group_egress_from_anywhere ? ["0.0.0.0/0"] : [data.aws_route_table.this[0].cidr_block]
 }
 
 # Security Group for alb
@@ -266,7 +266,7 @@ resource "aws_security_group_rule" "alb_http_ingress" {
   protocol          = "TCP"
   description       = "Allow http inbound traffic from internet"
   security_group_id = aws_security_group.alb.id
-  cidr_blocks       = ["0.0.0.0/0"]
+  cidr_blocks       = var.allow_security_group_ingress_from_anywhere ? ["0.0.0.0/0"] : [data.aws_route_table.this[0].cidr_block]
 }
 
 # Alb Security Group Rules - INBOUND
@@ -292,5 +292,5 @@ resource "aws_security_group_rule" "alb_egress" {
   protocol          = "-1"
   description       = "Allow outbound traffic from alb"
   security_group_id = aws_security_group.alb.id
-  cidr_blocks       = ["0.0.0.0/0"]
+  cidr_blocks       = var.allow_security_group_egress_from_anywhere ? ["0.0.0.0/0"] : [data.aws_route_table.this[0].cidr_block]
 }
