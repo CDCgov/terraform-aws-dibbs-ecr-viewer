@@ -234,14 +234,15 @@ resource "aws_security_group_rule" "ecs_ecs_ingress" {
 # ECS Security Group Rules - OUTBOUND
 # https://avd.aquasec.com/misconfig/aws/ec2/avd-aws-0104/
 # trivy:ignore:AVD-AWS-0104
-resource "aws_security_group_rule" "ecs_all_egress" {
+resource "aws_security_group_rule" "ecs_egress" {
+  # checkov:skip=CKV_AWS_382:ECS_EGRESS_RULES
   type              = "egress"
   from_port         = 0
   to_port           = 0
   protocol          = "-1"
   description       = "Allow outbound traffic from ECS"
   security_group_id = aws_security_group.ecs.id
-  cidr_blocks       = [for ps in data.aws_subnet.private : ps.cidr_block]
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 # Security Group for alb

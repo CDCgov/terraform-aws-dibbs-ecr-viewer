@@ -267,9 +267,8 @@ locals {
       ]
     }
   }
-  waf_rules  = var.waf_rules
-  local_name = "${var.project}-${var.owner}-${terraform.workspace}"
-  # route_table_cidr_blocks = [for rt in data.aws_route_table.this : [for route in rt.routes : route.cidr_block].flatten]
+  waf_rules                    = var.waf_rules
+  local_name                   = "${var.project}-${var.owner}-${terraform.workspace}"
   appmesh_name                 = var.appmesh_name == "" ? local.local_name : var.appmesh_name
   cloudmap_namespace_name      = var.cloudmap_namespace_name == "" ? local.local_name : var.cloudmap_namespace_name
   ecs_alb_name                 = var.ecs_alb_name == "" ? local.local_name : var.ecs_alb_name
