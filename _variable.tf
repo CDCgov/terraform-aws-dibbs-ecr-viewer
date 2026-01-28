@@ -323,6 +323,18 @@ variable "waf_web_acl_arn" {
   default     = ""
 }
 
+variable "waf_enable_cloudwatch_metrics" {
+  type        = bool
+  description = "Flag to enable CloudWatch metrics for WAF. Set to false to disable compliance."
+  default     = true
+}
+
+variable "waf_enable_sampled_requests" {
+  type        = bool
+  description = "Flag to enable sampled requests for WAF. Set to false to disable compliance."
+  default     = true
+}
+
 variable "waf_rules" {
   type = list(any)
   default = [

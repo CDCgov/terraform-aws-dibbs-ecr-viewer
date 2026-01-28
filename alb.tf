@@ -79,11 +79,11 @@ resource "aws_alb_listener" "http" {
   port              = "80"
   protocol          = "HTTP"
   default_action {
-    type = "fixed-response"
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "I care intently about your request but I'm afraid I don't have anything for you right now."
-      status_code  = "404"
+    type = "redirect"
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
     }
   }
   tags = local.tags
