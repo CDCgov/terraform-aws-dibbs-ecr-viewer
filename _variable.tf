@@ -467,15 +467,3 @@ variable "block_ip_set" {
   type        = list(string)
   description = "List of IP to block"
 }
-
-variable "allow_security_group_egress_from_anywhere" {
-  type        = bool
-  description = "Flag to allow security group egress from 0.0.0.0/0 (non-compliant). Set to false for compliance."
-  default     = false
-}
-
-variable "allow_security_group_ingress_from_anywhere" {
-  type        = bool
-  description = "Flag to allow security group ingress from 0.0.0.0/0 (non-compliant). Set to false for compliance."
-  default     = false
-}

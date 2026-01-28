@@ -98,3 +98,8 @@ data "aws_route_table" "this" {
   for_each  = local.private_subnet_kvs
   subnet_id = each.value
 }
+
+data "aws_subnet" "private" {
+  for_each = local.private_subnet_kvs
+  id       = each.value
+}
