@@ -266,7 +266,11 @@ resource "aws_security_group_rule" "alb_https_ingress" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "alb_all_egress" {
+# Alb Security Group Rules - OUTBOUND
+# https://avd.aquasec.com/misconfig/aws/ec2/avd-aws-0104/
+# trivy:ignore:AVD-AWS-0104
+resource "aws_security_group_rule" "alb_egress" {
+  # checkov:skip=CKV_AWS_382:ALB_EGRESS_RULES
   type              = "egress"
   from_port         = 0
   to_port           = 0
