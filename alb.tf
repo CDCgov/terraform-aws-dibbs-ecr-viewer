@@ -256,22 +256,6 @@ resource "aws_security_group" "alb" {
   tags = local.tags
 }
 
-# Alb Security Group Rules - INBOUND
-# https://avd.aquasec.com/misconfig/aws/ec2/avd-aws-0107/
-# trivy:ignore:AVD-AWS-0107
-# resource "aws_security_group_rule" "alb_http_ingress" {
-#   type              = "ingress"
-#   from_port         = 80
-#   to_port           = 80
-#   protocol          = "TCP"
-#   description       = "Allow http inbound traffic from internet"
-#   security_group_id = aws_security_group.alb.id
-#   cidr_blocks       = []
-# }
-
-# Alb Security Group Rules - INBOUND
-# https://avd.aquasec.com/misconfig/aws/ec2/avd-aws-0107/
-# trivy:ignore:AVD-AWS-0107
 resource "aws_security_group_rule" "alb_https_ingress" {
   type              = "ingress"
   from_port         = 443
@@ -282,10 +266,7 @@ resource "aws_security_group_rule" "alb_https_ingress" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-# Alb Security Group Rules - OUTBOUND
-# https://avd.aquasec.com/misconfig/aws/ec2/avd-aws-0104/
-# trivy:ignore:AVD-AWS-0104
-resource "aws_security_group_rule" "alb_egress" {
+resource "aws_security_group_rule" "alb_all_egress" {
   type              = "egress"
   from_port         = 0
   to_port           = 0
