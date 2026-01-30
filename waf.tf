@@ -5,6 +5,7 @@
 
 # Create WAF Web ACL if not provided
 resource "aws_wafv2_web_acl" "this" {
+  # checkov:skip=CKV_AWS_192:This is handled by the default for the variable waf_rules
   count = var.waf_web_acl_arn == "" ? 1 : 0
 
   name  = "${local.ecs_alb_name}-waf"
