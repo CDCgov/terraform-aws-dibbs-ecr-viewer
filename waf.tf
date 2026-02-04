@@ -1,39 +1,9 @@
 # WAF Configuration for Application Load Balancer
-# This module ensures compliance with NIST security issue [ELB.16]
-# which requires Application Load Balancers to be associated with an AWS WAF web ACL
 # with the Enabled field set to true.
-
-# Create WAF Web ACL if not provided
-resource "aws_kms_key" "waf_logs" {
-  enable_key_rotation = true
-  tags                = local.tags
-
-  # Allow WAF service to use this key for logging
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Principal = {
-          Service = "waf.amazonaws.com"
-        }
-        Action = [
-          "kms:Encrypt",
-          "kms:Decrypt",
-          "kms:ReEncrypt*",
-          "kms:GenerateDataKey*",
-          "kms:DescribeKey"
-        ]
-        Resource = "*"
-      }
-    ]
-  })
-}
 
 resource "aws_cloudwatch_log_group" "waf_logs" {
   name              = "${local.ecs_alb_name}-waf-logs"
   retention_in_days = var.cw_retention_in_days
-  kms_key_id        = aws_kms_key.waf_logs.arn
   tags              = local.tags
 }
 

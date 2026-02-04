@@ -1,33 +1,6 @@
-resource "aws_kms_key" "cloudwatch" {
-  enable_key_rotation = true
-  tags                = local.tags
-
-  # Allow CloudWatch service to use this key for encryption
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Principal = {
-          Service = "logs.amazonaws.com"
-        }
-        Action = [
-          "kms:Encrypt",
-          "kms:Decrypt",
-          "kms:ReEncrypt*",
-          "kms:GenerateDataKey*",
-          "kms:DescribeKey"
-        ]
-        Resource = "*"
-      }
-    ]
-  })
-}
-
 resource "aws_cloudwatch_log_group" "ecs_cloudwatch_logs" {
   name              = local.ecs_cloudwatch_group
   retention_in_days = var.cw_retention_in_days
-  kms_key_id        = aws_kms_key.cloudwatch.arn
   tags              = local.tags
 }
 
