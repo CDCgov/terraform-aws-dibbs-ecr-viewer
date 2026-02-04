@@ -1,11 +1,22 @@
-resource "aws_kms_key" "ecr_viewer" {
-  enable_key_rotation = true
-}
-
 resource "aws_s3_bucket" "ecr_viewer" {
   bucket        = local.s3_viewer_bucket_name
   force_destroy = true
   tags          = local.tags
+}
+
+resource "aws_s3_bucket_notification" "ecr_viewer" {
+  bucket = aws_s3_bucket.ecr_viewer.id
+
+  topic {
+    topic_arn     = aws_sns_topic.ecr_viewer.arn
+    events        = ["s3:ObjectCreated:*"]
+    filter_prefix = "test/"
+    id            = aws_s3_bucket.ecr_viewer.id
+  }
+  depends_on = [
+    aws_s3_bucket.ecr_viewer,
+    aws_sns_topic.ecr_viewer
+  ]
 }
 
 resource "aws_s3_bucket_public_access_block" "ecr_viewer" {
@@ -46,7 +57,7 @@ resource "aws_s3_bucket" "logging" {
 
 resource "aws_s3_bucket_policy" "logging" {
   bucket = aws_s3_bucket.logging.id
-  policy = data.aws_iam_policy_document.logging.json
+  policy = data.aws_iam_policy_document.s3_logging.json
 }
 
 resource "aws_s3_bucket_public_access_block" "logging" {
