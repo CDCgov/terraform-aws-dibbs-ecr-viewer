@@ -1,26 +1,5 @@
 resource "aws_kms_key" "ecr_viewer" {
   enable_key_rotation = true
-
-  # Allow S3 service to use this key for encryption
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Principal = {
-          Service = "s3.amazonaws.com"
-        }
-        Action = [
-          "kms:Encrypt",
-          "kms:Decrypt",
-          "kms:ReEncrypt*",
-          "kms:GenerateDataKey*",
-          "kms:DescribeKey"
-        ]
-        Resource = "*"
-      }
-    ]
-  })
 }
 
 resource "aws_s3_bucket" "ecr_viewer" {

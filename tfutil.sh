@@ -10,7 +10,7 @@ terraform-docs markdown table --output-file README.md --output-mode inject .
 tflint -f compact
 
 # Generate architecture diagram
-terraform graph -draw-cycles | dot -Tpng >graph.png
+terraform graph -draw-cycles | dot -Tpng > configuration.png
 
 # IaC security/compliance SCA
 checkov --quiet --compact --directory .
