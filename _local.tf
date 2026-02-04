@@ -227,7 +227,7 @@ locals {
       app_version       = var.phdi_version,
       container_port    = 8080,
       host_port         = 8080,
-      public            = true,
+      public            = false,
       registry_url      = local.registry_url,
       root_service      = false,
       listener_priority = 1

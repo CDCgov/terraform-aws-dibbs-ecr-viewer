@@ -1,6 +1,7 @@
 resource "aws_cloudwatch_log_group" "ecs_cloudwatch_logs" {
   name              = local.ecs_cloudwatch_group
   retention_in_days = var.cw_retention_in_days
+  kms_key_id        = aws_kms_key.ecr_viewer.arn
   tags              = local.tags
 }
 

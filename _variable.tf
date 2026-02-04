@@ -147,6 +147,59 @@ variable "service_data" {
   default     = {}
 }
 
+variable "ecr_viewer_bucket_lifecycle_configuration" {
+  type = list(object({
+    status                             = string
+    prefix                             = string
+    abort_incomplete_upload_after_days = number
+    expiration_days                    = number
+    transitions = list(object({
+      days          = number
+      storage_class = string
+    }))
+  }))
+  description = "S3 lifecycle rules"
+  default = [{
+    status                             = "Enabled"
+    prefix                             = "/"
+    abort_incomplete_upload_after_days = 3
+    expiration_days                    = 365
+    transitions = [
+      {
+        days          = 0
+        storage_class = "INTELLIGENT_TIERING"
+      }
+    ]
+  }]
+}
+
+variable "logging_bucket_lifecycle_configuration" {
+  type = list(object({
+    status                             = string
+    prefix                             = string
+    abort_incomplete_upload_after_days = number
+    expiration_days                    = number
+    transitions = list(object({
+      days          = number
+      storage_class = string
+    }))
+  }))
+  description = "S3 lifecycle rules"
+  default = [{
+    status                             = "Enabled"
+    prefix                             = "/"
+    abort_incomplete_upload_after_days = 3
+    expiration_days                    = 365
+    transitions = [
+      {
+        days          = 0
+        storage_class = "INTELLIGENT_TIERING"
+      }
+    ]
+  }]
+}
+
+
 variable "override_autoscaling" {
   type = map(object({
     cpu           = number

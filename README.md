@@ -125,9 +125,7 @@ No modules.
 | Name | Type |
 |------|------|
 | [aws_alb.ecs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb) | resource |
-| [aws_alb_listener.http](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_listener) | resource |
 | [aws_alb_listener.https](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_listener) | resource |
-| [aws_alb_listener_rule.http](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_listener_rule) | resource |
 | [aws_alb_listener_rule.https](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_listener_rule) | resource |
 | [aws_alb_target_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/alb_target_group) | resource |
 | [aws_appautoscaling_policy.cpu](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
@@ -136,7 +134,6 @@ No modules.
 | [aws_appmesh_mesh.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appmesh_mesh) | resource |
 | [aws_appmesh_virtual_node.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appmesh_virtual_node) | resource |
 | [aws_cloudwatch_log_group.ecs_cloudwatch_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
-| [aws_cloudwatch_log_group.waf_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_ecr_lifecycle_policy.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_lifecycle_policy) | resource |
 | [aws_ecr_repository.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository) | resource |
 | [aws_ecs_cluster.dibbs_app_cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_cluster) | resource |
@@ -147,9 +144,16 @@ No modules.
 | [aws_iam_role.ecs_task](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.ecs_task_execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.s3_role_for_ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy_attachment.ecs_task_amazon_ec2_container_service_for_ec2_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.ecs_task_execution_ecs_task_execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.s3_role_for_ecr_viewer_amazon_ec2_container_service_for_ec2_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.s3_role_for_ecr_viewer_s3_bucket_ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_kms_key.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
+| [aws_kms_key_policy.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key_policy) | resource |
 | [aws_s3_bucket.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
+| [aws_s3_bucket_lifecycle_configuration.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
+| [aws_s3_bucket_lifecycle_configuration.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
 | [aws_s3_bucket_logging.ecr_viewer_s3_access_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_logging) | resource |
 | [aws_s3_bucket_logging.logging_s3_access_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_logging) | resource |
 | [aws_s3_bucket_object_lock_configuration.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_object_lock_configuration) | resource |
@@ -188,7 +192,8 @@ No modules.
 | [aws_iam_policy_document.assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.ecr_viewer_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.ecr_viewer_ssl](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.kms](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.s3_logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_route_table.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route_table) | data source |
 
 ## Inputs
@@ -214,6 +219,7 @@ No modules.
 | <a name="input_ecr_processing_timeout"></a> [ecr\_processing\_timeout](#input\_ecr\_processing\_timeout) | Set processing timeout length in ms,if not set defaults to 900000ms (15min) | `string` | `"900000"` | no |
 | <a name="input_ecr_viewer_auth_api_pub_key"></a> [ecr\_viewer\_auth\_api\_pub\_key](#input\_ecr\_viewer\_auth\_api\_pub\_key) | The public key used to validate the incoming authenication for the eCR Viewer API. | `string` | `""` | no |
 | <a name="input_ecr_viewer_auth_pub_key"></a> [ecr\_viewer\_auth\_pub\_key](#input\_ecr\_viewer\_auth\_pub\_key) | The public key used to validate the incoming authenication for the eCR Viewer. | `string` | `""` | no |
+| <a name="input_ecr_viewer_bucket_lifecycle_configuration"></a> [ecr\_viewer\_bucket\_lifecycle\_configuration](#input\_ecr\_viewer\_bucket\_lifecycle\_configuration) | S3 lifecycle rules | <pre>list(object({<br>    status                             = string<br>    prefix                             = string<br>    abort_incomplete_upload_after_days = number<br>    expiration_days                    = number<br>    transitions = list(object({<br>      days          = number<br>      storage_class = string<br>    }))<br>  }))</pre> | <pre>[<br>  {<br>    "abort_incomplete_upload_after_days": 3,<br>    "expiration_days": 365,<br>    "prefix": "/",<br>    "status": "Enabled",<br>    "transitions": [<br>      {<br>        "days": 0,<br>        "storage_class": "INTELLIGENT_TIERING"<br>      }<br>    ]<br>  }<br>]</pre> | no |
 | <a name="input_ecr_viewer_object_retention_days"></a> [ecr\_viewer\_object\_retention\_days](#input\_ecr\_viewer\_object\_retention\_days) | Number of days to retain S3 ecr viewer objects in compliance mode | `number` | `3650` | no |
 | <a name="input_ecs_alb_name"></a> [ecs\_alb\_name](#input\_ecs\_alb\_name) | Name of the Application Load Balancer (ALB) | `string` | `""` | no |
 | <a name="input_ecs_alb_tg_name"></a> [ecs\_alb\_tg\_name](#input\_ecs\_alb\_tg\_name) | Name of the ALB Target Group | `string` | `""` | no |
@@ -225,6 +231,7 @@ No modules.
 | <a name="input_enable_alb_logs"></a> [enable\_alb\_logs](#input\_enable\_alb\_logs) | Flag to enable ALB access and connection logging to s3 logging bucket | `bool` | `true` | no |
 | <a name="input_enable_autoscaling"></a> [enable\_autoscaling](#input\_enable\_autoscaling) | Flag to enable autoscaling for the ECS services | `bool` | `true` | no |
 | <a name="input_internal"></a> [internal](#input\_internal) | Flag to determine if the several AWS resources are public (intended for external access, public internet) or private (only intended to be accessed within your AWS VPC or avaiable with other means, a transit gateway for example). | `bool` | `true` | no |
+| <a name="input_logging_bucket_lifecycle_configuration"></a> [logging\_bucket\_lifecycle\_configuration](#input\_logging\_bucket\_lifecycle\_configuration) | S3 lifecycle rules | <pre>list(object({<br>    status                             = string<br>    prefix                             = string<br>    abort_incomplete_upload_after_days = number<br>    expiration_days                    = number<br>    transitions = list(object({<br>      days          = number<br>      storage_class = string<br>    }))<br>  }))</pre> | <pre>[<br>  {<br>    "abort_incomplete_upload_after_days": 3,<br>    "expiration_days": 365,<br>    "prefix": "/",<br>    "status": "Enabled",<br>    "transitions": [<br>      {<br>        "days": 0,<br>        "storage_class": "INTELLIGENT_TIERING"<br>      }<br>    ]<br>  }<br>]</pre> | no |
 | <a name="input_logging_object_retention_days"></a> [logging\_object\_retention\_days](#input\_logging\_object\_retention\_days) | Number of days to retain S3 logging objects in compliance mode | `number` | `90` | no |
 | <a name="input_override_autoscaling"></a> [override\_autoscaling](#input\_override\_autoscaling) | Autoscaling configuration for the DIBBS services | <pre>map(object({<br>    cpu           = number<br>    memory        = number<br>    min_capacity  = number<br>    max_capacity  = number<br>    target_cpu    = number<br>    target_memory = number<br>  }))</pre> | `{}` | no |
 | <a name="input_owner"></a> [owner](#input\_owner) | Owner of the resources | `string` | `"CDC"` | no |
@@ -257,7 +264,6 @@ No modules.
 |------|-------------|
 | <a name="output_alb_arn"></a> [alb\_arn](#output\_alb\_arn) | n/a |
 | <a name="output_alb_dns_name"></a> [alb\_dns\_name](#output\_alb\_dns\_name) | n/a |
-| <a name="output_alb_listener_arn"></a> [alb\_listener\_arn](#output\_alb\_listener\_arn) | n/a |
 | <a name="output_alb_security_group_arn"></a> [alb\_security\_group\_arn](#output\_alb\_security\_group\_arn) | n/a |
 | <a name="output_alb_target_groups_arns"></a> [alb\_target\_groups\_arns](#output\_alb\_target\_groups\_arns) | n/a |
 | <a name="output_ecs_cluster_arn"></a> [ecs\_cluster\_arn](#output\_ecs\_cluster\_arn) | n/a |
@@ -265,7 +271,6 @@ No modules.
 | <a name="output_ecs_task_definitions_arns"></a> [ecs\_task\_definitions\_arns](#output\_ecs\_task\_definitions\_arns) | n/a |
 | <a name="output_ecs_task_execution_role_arn"></a> [ecs\_task\_execution\_role\_arn](#output\_ecs\_task\_execution\_role\_arn) | n/a |
 | <a name="output_ecs_task_role_arn"></a> [ecs\_task\_role\_arn](#output\_ecs\_task\_role\_arn) | n/a |
-| <a name="output_http_alb_listener_rules_arns"></a> [http\_alb\_listener\_rules\_arns](#output\_http\_alb\_listener\_rules\_arns) | n/a |
 | <a name="output_https_alb_listener_rules_arns"></a> [https\_alb\_listener\_rules\_arns](#output\_https\_alb\_listener\_rules\_arns) | n/a |
 | <a name="output_s3_bucket_arn"></a> [s3\_bucket\_arn](#output\_s3\_bucket\_arn) | The ARN of the S3 bucket |
 | <a name="output_s3_bucket_ecr_viewer_policy_arn"></a> [s3\_bucket\_ecr\_viewer\_policy\_arn](#output\_s3\_bucket\_ecr\_viewer\_policy\_arn) | n/a |

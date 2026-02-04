@@ -47,7 +47,7 @@ resource "aws_alb_target_group" "this" {
 }
 
 resource "aws_vpc_endpoint" "endpoints" {
-  count               = var.internal == true ? length(local.vpc_endpoints) : 0
+  count               = length(local.vpc_endpoints)
   vpc_id              = var.vpc_id
   vpc_endpoint_type   = "Interface"
   private_dns_enabled = true
@@ -69,74 +69,6 @@ resource "aws_vpc_endpoint" "s3" {
 # The aws_alb_listener and aws_alb_listener_rule resources are not depended on by other resources so
 # they can be implemented via a loop or hard coded depending ease of maintenance
 # I've chosen the ways that reduce duplicated resource blocks: hard coded listener (i.e. http), looped listener rule (i.e. this)
-
-# We may want to create this resource via a loop through our target groups but at the moment that seemed extra
-
-# https://avd.aquasec.com/misconfig/aws/elb/avd-aws-0054/
-# trivy:ignore:AVD-AWS-0054
-resource "aws_alb_listener" "http" {
-  load_balancer_arn = aws_alb.ecs.arn
-  port              = "80"
-  protocol          = "HTTP"
-  default_action {
-    type = "redirect"
-    redirect {
-      port        = "443"
-      protocol    = "HTTPS"
-      status_code = "HTTP_301"
-    }
-  }
-  tags = local.tags
-}
-
-# We may want to create this resource without the loop if the path_patterns ever break the pattern of being the name of the service
-resource "aws_alb_listener_rule" "http" {
-  for_each = {
-    for key, value in aws_alb_target_group.this : key => value
-    if local.service_data[key].public == true
-  }
-  listener_arn = aws_alb_listener.http.arn
-  priority     = local.service_data[each.key].listener_priority
-
-  dynamic "action" {
-    for_each = var.certificate_arn != "" ? [] : [each.value]
-    content {
-      type             = "forward"
-      target_group_arn = each.value.arn
-      # terraform will complain that we have a redirect action and a forward action but the issue disappears on a subsequent apply
-    }
-  }
-
-  dynamic "action" {
-    for_each = var.certificate_arn != "" ? [each.value] : []
-    content {
-      type = "redirect"
-      redirect {
-        port        = "443"
-        protocol    = "HTTPS"
-        status_code = "HTTP_301"
-      }
-    }
-  }
-
-  condition {
-    path_pattern {
-      values = local.service_data[each.key].root_service == true ? [
-        "/",
-        "/*"
-        ] : [
-        "/${each.key}",
-        "/${each.key}/*"
-      ]
-    }
-  }
-  lifecycle {
-    replace_triggered_by = [
-      null_resource.target_groups
-    ]
-  }
-  tags = local.tags
-}
 
 resource "aws_alb_listener" "https" {
   count             = var.certificate_arn != "" ? 1 : 0

@@ -49,14 +49,6 @@ output "alb_target_groups_arns" {
   value = { for tg_name, tg in aws_alb_target_group.this : tg_name => tg.arn }
 }
 
-output "alb_listener_arn" {
-  value = aws_alb_listener.http.arn
-}
-
-output "http_alb_listener_rules_arns" {
-  value = { for rule_name, rule in aws_alb_listener_rule.http : rule_name => rule.arn }
-}
-
 output "https_alb_listener_rules_arns" {
   value = { for rule_name, rule in aws_alb_listener_rule.https : rule_name => rule.arn }
 }

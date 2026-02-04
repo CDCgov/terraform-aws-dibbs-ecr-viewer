@@ -1,12 +1,6 @@
 # WAF Configuration for Application Load Balancer
 # with the Enabled field set to true.
 
-resource "aws_cloudwatch_log_group" "waf_logs" {
-  name              = "${local.ecs_alb_name}-waf-logs"
-  retention_in_days = var.cw_retention_in_days
-  tags              = local.tags
-}
-
 resource "aws_wafv2_web_acl" "this" {
   # checkov:skip=CKV_AWS_192:This is handled by the default for the variable waf_rules
   count = var.waf_web_acl_arn == "" ? 1 : 0
