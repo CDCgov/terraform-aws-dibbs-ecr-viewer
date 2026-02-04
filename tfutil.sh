@@ -9,7 +9,7 @@ terraform-docs markdown table --output-file README.md --output-mode inject .
 # Lint the Terraform configuration
 tflint -f compact
 
-# Generate architecture diagram
+# Generate visual representation of tf configs
 terraform graph -draw-cycles | dot -Tpng > configuration.png
 
 # IaC security/compliance SCA
