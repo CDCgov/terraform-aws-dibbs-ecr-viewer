@@ -4,6 +4,39 @@
 # with the Enabled field set to true.
 
 # Create WAF Web ACL if not provided
+resource "aws_kms_key" "waf_logs" {
+  enable_key_rotation = true
+  tags                = local.tags
+
+  # Allow WAF service to use this key for logging
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "waf.amazonaws.com"
+        }
+        Action = [
+          "kms:Encrypt",
+          "kms:Decrypt",
+          "kms:ReEncrypt*",
+          "kms:GenerateDataKey*",
+          "kms:DescribeKey"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_cloudwatch_log_group" "waf_logs" {
+  name              = "${local.ecs_alb_name}-waf-logs"
+  retention_in_days = var.cw_retention_in_days
+  kms_key_id        = aws_kms_key.waf_logs.arn
+  tags              = local.tags
+}
+
 resource "aws_wafv2_web_acl" "this" {
   # checkov:skip=CKV_AWS_192:This is handled by the default for the variable waf_rules
   count = var.waf_web_acl_arn == "" ? 1 : 0
@@ -112,6 +145,21 @@ resource "aws_wafv2_web_acl" "this" {
     metric_name                = "${local.ecs_alb_name}-waf-metrics"
     sampled_requests_enabled   = var.waf_enable_sampled_requests
   }
+
+  # Add logging configuration for WAF
+  logging_configuration {
+    destination_arn = aws_cloudwatch_log_group.waf_logs.arn
+    log_format      = "JSON"
+
+    redacted_fields {
+      field_to_match {
+        single_header {
+          name = "user-agent"
+        }
+      }
+    }
+  }
+
   tags = local.tags
 }
 
