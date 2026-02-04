@@ -146,20 +146,6 @@ resource "aws_wafv2_web_acl" "this" {
     sampled_requests_enabled   = var.waf_enable_sampled_requests
   }
 
-  # Add logging configuration for WAF
-  logging_configuration {
-    destination_arn = aws_cloudwatch_log_group.waf_logs.arn
-    log_format      = "JSON"
-
-    redacted_fields {
-      field_to_match {
-        single_header {
-          name = "user-agent"
-        }
-      }
-    }
-  }
-
   tags = local.tags
 }
 
