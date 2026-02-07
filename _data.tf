@@ -12,7 +12,7 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
-data "aws_iam_policy_document" "ecr_viewer_s3" {
+data "aws_iam_policy_document" "ecr_viewer" {
   statement {
     actions = [
       "s3:PutObject",
@@ -21,19 +21,73 @@ data "aws_iam_policy_document" "ecr_viewer_s3" {
       "s3:GetObject",
       "s3:GetObjectAcl",
       "s3:ListBucket",
-      "kms:GenerateDataKey",
-      "kms:Decrypt"
+      "kms:Decrypt",
+      "kms:Encrypt",
+      "kms:ReEncrypt*",
+      "kms:GenerateDataKey*",
+      "kms:Describe*"
     ]
     resources = [
       aws_s3_bucket.ecr_viewer.arn,
       "${aws_s3_bucket.ecr_viewer.arn}/*",
       aws_kms_key.ecr_viewer.arn,
       "${aws_kms_key.ecr_viewer.arn}/*",
+      aws_kms_key.ecr_viewer.arn,
+      "${aws_kms_key.logging.arn}/*",
+      aws_kms_key.logging.arn
     ]
   }
 }
 
-data "aws_iam_policy_document" "logging" {
+data "aws_iam_policy_document" "kms" {
+  statement {
+    sid    = "Allow administration of the key"
+    effect = "Allow"
+    actions = [
+      "kms:ReplicateKey",
+      "kms:Create*",
+      "kms:Describe*",
+      "kms:Enable*",
+      "kms:List*",
+      "kms:Put*",
+      "kms:Update*",
+      "kms:Revoke*",
+      "kms:Disable*",
+      "kms:Get*",
+      "kms:Delete*",
+      "kms:ScheduleKeyDeletion",
+      "kms:CancelKeyDeletion"
+    ]
+    resources = [
+      "*"
+    ]
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+  }
+  statement {
+    sid    = "Allow use of the key"
+    effect = "Allow"
+    actions = [
+      "kms:DescribeKey",
+      "kms:Encrypt",
+      "kms:Decrypt",
+      "kms:ReEncrypt*",
+      "kms:GenerateDataKey",
+      "kms:GenerateDataKeyWithoutPlaintext"
+    ]
+    resources = [
+      "*"
+    ]
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "s3_logging" {
   statement {
     effect  = "Allow"
     actions = ["s3:PutObject"]
@@ -82,6 +136,26 @@ data "aws_iam_policy_document" "ecr_viewer_ssl" {
     principals {
       type        = "AWS"
       identifiers = ["*"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "ecr_viewer_sns" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["s3.amazonaws.com"]
+    }
+
+    actions   = ["SNS:Publish"]
+    resources = ["arn:aws:sns:*:*:s3-event-notification-topic"]
+
+    condition {
+      test     = "ArnLike"
+      variable = "aws:SourceArn"
+      values   = [aws_s3_bucket.ecr_viewer.arn]
     }
   }
 }

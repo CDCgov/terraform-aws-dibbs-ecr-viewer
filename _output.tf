@@ -35,8 +35,8 @@ output "s3_role_for_ecr_viewer_arn" {
   value = aws_iam_role.s3_role_for_ecr_viewer.arn
 }
 
-output "s3_bucket_ecr_viewer_policy_arn" {
-  value = aws_iam_policy.s3_bucket_ecr_viewer.arn
+output "ecr_viewer_policy_arn" {
+  value = aws_iam_policy.ecr_viewer.arn
 }
 
 # alb

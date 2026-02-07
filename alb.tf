@@ -79,11 +79,11 @@ resource "aws_alb_listener" "http" {
   port              = "80"
   protocol          = "HTTP"
   default_action {
-    type = "fixed-response"
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "I care intently about your request but I'm afraid I don't have anything for you right now."
-      status_code  = "404"
+    type = "redirect"
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
     }
   }
   tags = local.tags
@@ -234,7 +234,8 @@ resource "aws_security_group_rule" "ecs_ecs_ingress" {
 # ECS Security Group Rules - OUTBOUND
 # https://avd.aquasec.com/misconfig/aws/ec2/avd-aws-0104/
 # trivy:ignore:AVD-AWS-0104
-resource "aws_security_group_rule" "ecs_all_egress" {
+resource "aws_security_group_rule" "ecs_egress" {
+  # checkov:skip=CKV_AWS_382:ECS_EGRESS_RULES
   type              = "egress"
   from_port         = 0
   to_port           = 0
@@ -256,22 +257,6 @@ resource "aws_security_group" "alb" {
   tags = local.tags
 }
 
-# Alb Security Group Rules - INBOUND
-# https://avd.aquasec.com/misconfig/aws/ec2/avd-aws-0107/
-# trivy:ignore:AVD-AWS-0107
-resource "aws_security_group_rule" "alb_http_ingress" {
-  type              = "ingress"
-  from_port         = 80
-  to_port           = 80
-  protocol          = "TCP"
-  description       = "Allow http inbound traffic from internet"
-  security_group_id = aws_security_group.alb.id
-  cidr_blocks       = ["0.0.0.0/0"]
-}
-
-# Alb Security Group Rules - INBOUND
-# https://avd.aquasec.com/misconfig/aws/ec2/avd-aws-0107/
-# trivy:ignore:AVD-AWS-0107
 resource "aws_security_group_rule" "alb_https_ingress" {
   type              = "ingress"
   from_port         = 443
@@ -286,6 +271,7 @@ resource "aws_security_group_rule" "alb_https_ingress" {
 # https://avd.aquasec.com/misconfig/aws/ec2/avd-aws-0104/
 # trivy:ignore:AVD-AWS-0104
 resource "aws_security_group_rule" "alb_egress" {
+  # checkov:skip=CKV_AWS_382:ALB_EGRESS_RULES
   type              = "egress"
   from_port         = 0
   to_port           = 0
