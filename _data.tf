@@ -57,8 +57,7 @@ data "aws_iam_policy_document" "kms" {
       "kms:CancelKeyDeletion"
     ]
     resources = [
-      aws_kms_key.ecr_viewer.arn,
-      "${aws_kms_key.ecr_viewer.arn}/*"
+      aws_kms_key.ecr_viewer.arn
     ]
     principals {
       type        = "AWS"
@@ -77,8 +76,7 @@ data "aws_iam_policy_document" "kms" {
       "kms:GenerateDataKeyWithoutPlaintext"
     ]
     resources = [
-      aws_kms_key.ecr_viewer.arn,
-      "${aws_kms_key.ecr_viewer.arn}/*"
+      aws_kms_key.ecr_viewer.arn
     ]
     principals {
       type        = "AWS"

@@ -35,7 +35,6 @@ resource "aws_s3_bucket_policy" "ecr_viewer_ssl" {
 }
 
 resource "aws_s3_bucket" "logging" {
-  # checkov:skip=CKV_AWS_145:it is encrypted with an AWS managed key
   bucket        = local.s3_logging_bucket_name
   force_destroy = true
   tags          = local.tags
@@ -54,13 +53,12 @@ resource "aws_s3_bucket_public_access_block" "logging" {
   restrict_public_buckets = true
 }
 
-# ignoring because aws load balancer logging requires AWS managed keys
-# trivy:ignore:AVD-AWS-0132
 resource "aws_s3_bucket_server_side_encryption_configuration" "logging" {
   bucket = aws_s3_bucket.logging.bucket
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      kms_master_key_id = aws_kms_key.ecr_viewer.arn
+      sse_algorithm     = "aws:kms"
     }
   }
 }
