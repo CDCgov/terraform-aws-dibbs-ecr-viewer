@@ -1,6 +1,16 @@
 #!/bin/bash
 
+# Format the Terraform configuration
 terraform fmt
+
+# Generate terraform docs
 terraform-docs markdown table --output-file README.md --output-mode inject .
+
+# Lint the Terraform configuration
 tflint -f compact
-terraform graph -draw-cycles | dot -Tpng >graph.png
+
+# Generate visual representation of tf configs
+terraform graph -draw-cycles | dot -Tpng > configuration.png
+
+# IaC security/compliance SCA
+checkov --quiet --compact --directory .

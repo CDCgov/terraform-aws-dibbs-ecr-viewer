@@ -1,7 +1,3 @@
-resource "aws_kms_key" "ecr_viewer" {
-  enable_key_rotation = true
-}
-
 resource "aws_s3_bucket" "ecr_viewer" {
   bucket        = local.s3_viewer_bucket_name
   force_destroy = true
@@ -46,7 +42,7 @@ resource "aws_s3_bucket" "logging" {
 
 resource "aws_s3_bucket_policy" "logging" {
   bucket = aws_s3_bucket.logging.id
-  policy = data.aws_iam_policy_document.logging.json
+  policy = data.aws_iam_policy_document.s3_logging.json
 }
 
 resource "aws_s3_bucket_public_access_block" "logging" {
@@ -57,13 +53,12 @@ resource "aws_s3_bucket_public_access_block" "logging" {
   restrict_public_buckets = true
 }
 
-# ignoring because aws load balancer logging requires AWS managed keys
-# trivy:ignore:AVD-AWS-0132
 resource "aws_s3_bucket_server_side_encryption_configuration" "logging" {
   bucket = aws_s3_bucket.logging.bucket
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      kms_master_key_id = aws_kms_key.ecr_viewer.arn
+      sse_algorithm     = "aws:kms"
     }
   }
 }
@@ -119,6 +114,60 @@ resource "aws_s3_bucket_logging" "ecr_viewer_s3_access_logs" {
   target_object_key_format {
     partitioned_prefix {
       partition_date_source = "EventTime"
+    }
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "ecr_viewer" {
+  bucket = aws_s3_bucket.ecr_viewer.bucket
+  dynamic "rule" {
+    for_each = var.ecr_viewer_bucket_lifecycle_configuration
+    content {
+      id     = "rule-${rule.key}"
+      status = rule.value.status
+      filter {
+        prefix = rule.value.prefix
+      }
+      expiration {
+        days = rule.value.expiration_days
+      }
+      abort_incomplete_multipart_upload {
+        days_after_initiation = rule.value.abort_incomplete_upload_after_days
+      }
+      dynamic "transition" {
+        for_each = rule.value.transitions
+        content {
+          days          = transition.value.days
+          storage_class = transition.value.storage_class
+        }
+      }
+    }
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "logging" {
+  bucket = aws_s3_bucket.logging.bucket
+  dynamic "rule" {
+    for_each = var.logging_bucket_lifecycle_configuration
+    content {
+      id     = "rule-${rule.key}"
+      status = rule.value.status
+      filter {
+        prefix = rule.value.prefix
+      }
+      expiration {
+        days = rule.value.expiration_days
+      }
+      abort_incomplete_multipart_upload {
+        days_after_initiation = rule.value.abort_incomplete_upload_after_days
+      }
+      dynamic "transition" {
+        for_each = rule.value.transitions
+        content {
+          days          = transition.value.days
+          storage_class = transition.value.storage_class
+        }
+      }
     }
   }
 }
