@@ -520,3 +520,27 @@ variable "block_ip_set" {
   type        = list(string)
   description = "List of IP to block"
 }
+
+variable "enable_ecr_viewer_sns_topic" {
+  type        = bool
+  description = "Enable ECR Viewer bucket SNS topic"
+  default     = true
+}
+
+variable "ecr_viewer_bucket_sns_topic_events" {
+  type        = list(any)
+  default     = ["s3:ObjectCreated:CompleteMultipartUpload"]
+  description = "List of events that trigger the SNS ecr viewer topic"
+}
+
+variable "enable_logging_sns_topic" {
+  type        = bool
+  description = "Enable logging bucket SNS topic"
+  default     = true
+}
+
+variable "logging_bucket_sns_topic_events" {
+  type        = list(any)
+  default     = ["s3:ObjectCreated:CompleteMultipartUpload"]
+  description = "List of events that trigger the SNS logging topic"
+}

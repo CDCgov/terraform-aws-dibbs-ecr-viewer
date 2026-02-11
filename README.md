@@ -156,6 +156,8 @@ No modules.
 | [aws_s3_bucket_lifecycle_configuration.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
 | [aws_s3_bucket_logging.ecr_viewer_s3_access_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_logging) | resource |
 | [aws_s3_bucket_logging.logging_s3_access_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_logging) | resource |
+| [aws_s3_bucket_notification.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_notification) | resource |
+| [aws_s3_bucket_notification.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_notification) | resource |
 | [aws_s3_bucket_object_lock_configuration.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_object_lock_configuration) | resource |
 | [aws_s3_bucket_object_lock_configuration.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_object_lock_configuration) | resource |
 | [aws_s3_bucket_policy.ecr_viewer_ssl](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
@@ -174,6 +176,10 @@ No modules.
 | [aws_security_group_rule.ecs_ecs_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_security_group_rule.ecs_egress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_service_discovery_private_dns_namespace.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/service_discovery_private_dns_namespace) | resource |
+| [aws_sns_topic.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic) | resource |
+| [aws_sns_topic.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic) | resource |
+| [aws_sns_topic_policy.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_policy) | resource |
+| [aws_sns_topic_policy.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_policy) | resource |
 | [aws_vpc_endpoint.endpoints](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
 | [aws_vpc_endpoint.s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
 | [aws_wafv2_ip_set.block](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_ip_set) | resource |
@@ -190,9 +196,11 @@ No modules.
 | [aws_iam_policy.amazon_ec2_container_service_for_ec2_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy) | data source |
 | [aws_iam_policy.ecs_task_execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy) | data source |
 | [aws_iam_policy_document.assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.ecr_viewer_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.ecr_viewer_ssl](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.kms](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.s3_logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_route_table.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route_table) | data source |
 
@@ -220,6 +228,7 @@ No modules.
 | <a name="input_ecr_viewer_auth_api_pub_key"></a> [ecr\_viewer\_auth\_api\_pub\_key](#input\_ecr\_viewer\_auth\_api\_pub\_key) | The public key used to validate the incoming authenication for the eCR Viewer API. | `string` | `""` | no |
 | <a name="input_ecr_viewer_auth_pub_key"></a> [ecr\_viewer\_auth\_pub\_key](#input\_ecr\_viewer\_auth\_pub\_key) | The public key used to validate the incoming authenication for the eCR Viewer. | `string` | `""` | no |
 | <a name="input_ecr_viewer_bucket_lifecycle_configuration"></a> [ecr\_viewer\_bucket\_lifecycle\_configuration](#input\_ecr\_viewer\_bucket\_lifecycle\_configuration) | S3 lifecycle rules | <pre>list(object({<br>    status                             = string<br>    prefix                             = string<br>    abort_incomplete_upload_after_days = number<br>    expiration_days                    = number<br>    transitions = list(object({<br>      days          = number<br>      storage_class = string<br>    }))<br>  }))</pre> | <pre>[<br>  {<br>    "abort_incomplete_upload_after_days": 3,<br>    "expiration_days": 365,<br>    "prefix": "/",<br>    "status": "Enabled",<br>    "transitions": [<br>      {<br>        "days": 0,<br>        "storage_class": "INTELLIGENT_TIERING"<br>      }<br>    ]<br>  }<br>]</pre> | no |
+| <a name="input_ecr_viewer_bucket_sns_topic_events"></a> [ecr\_viewer\_bucket\_sns\_topic\_events](#input\_ecr\_viewer\_bucket\_sns\_topic\_events) | List of events that trigger the SNS ecr viewer topic | `list(any)` | <pre>[<br>  "s3:ObjectCreated:CompleteMultipartUpload"<br>]</pre> | no |
 | <a name="input_ecr_viewer_object_retention_days"></a> [ecr\_viewer\_object\_retention\_days](#input\_ecr\_viewer\_object\_retention\_days) | Number of days to retain S3 ecr viewer objects in compliance mode | `number` | `3650` | no |
 | <a name="input_ecs_alb_name"></a> [ecs\_alb\_name](#input\_ecs\_alb\_name) | Name of the Application Load Balancer (ALB) | `string` | `""` | no |
 | <a name="input_ecs_alb_tg_name"></a> [ecs\_alb\_tg\_name](#input\_ecs\_alb\_tg\_name) | Name of the ALB Target Group | `string` | `""` | no |
@@ -230,8 +239,11 @@ No modules.
 | <a name="input_enable_alb_deletion_protection"></a> [enable\_alb\_deletion\_protection](#input\_enable\_alb\_deletion\_protection) | Flag to enable ALB deletion protection | `bool` | `true` | no |
 | <a name="input_enable_alb_logs"></a> [enable\_alb\_logs](#input\_enable\_alb\_logs) | Flag to enable ALB access and connection logging to s3 logging bucket | `bool` | `true` | no |
 | <a name="input_enable_autoscaling"></a> [enable\_autoscaling](#input\_enable\_autoscaling) | Flag to enable autoscaling for the ECS services | `bool` | `true` | no |
+| <a name="input_enable_ecr_viewer_sns_topic"></a> [enable\_ecr\_viewer\_sns\_topic](#input\_enable\_ecr\_viewer\_sns\_topic) | Enable ECR Viewer bucket SNS topic | `bool` | `true` | no |
+| <a name="input_enable_logging_sns_topic"></a> [enable\_logging\_sns\_topic](#input\_enable\_logging\_sns\_topic) | Enable logging bucket SNS topic | `bool` | `true` | no |
 | <a name="input_internal"></a> [internal](#input\_internal) | Flag to determine if the several AWS resources are public (intended for external access, public internet) or private (only intended to be accessed within your AWS VPC or avaiable with other means, a transit gateway for example). | `bool` | `true` | no |
 | <a name="input_logging_bucket_lifecycle_configuration"></a> [logging\_bucket\_lifecycle\_configuration](#input\_logging\_bucket\_lifecycle\_configuration) | S3 lifecycle rules | <pre>list(object({<br>    status                             = string<br>    prefix                             = string<br>    abort_incomplete_upload_after_days = number<br>    expiration_days                    = number<br>    transitions = list(object({<br>      days          = number<br>      storage_class = string<br>    }))<br>  }))</pre> | <pre>[<br>  {<br>    "abort_incomplete_upload_after_days": 3,<br>    "expiration_days": 365,<br>    "prefix": "/",<br>    "status": "Enabled",<br>    "transitions": [<br>      {<br>        "days": 0,<br>        "storage_class": "INTELLIGENT_TIERING"<br>      }<br>    ]<br>  }<br>]</pre> | no |
+| <a name="input_logging_bucket_sns_topic_events"></a> [logging\_bucket\_sns\_topic\_events](#input\_logging\_bucket\_sns\_topic\_events) | List of events that trigger the SNS logging topic | `list(any)` | <pre>[<br>  "s3:ObjectCreated:CompleteMultipartUpload"<br>]</pre> | no |
 | <a name="input_logging_object_retention_days"></a> [logging\_object\_retention\_days](#input\_logging\_object\_retention\_days) | Number of days to retain S3 logging objects in compliance mode | `number` | `90` | no |
 | <a name="input_override_autoscaling"></a> [override\_autoscaling](#input\_override\_autoscaling) | Autoscaling configuration for the DIBBS services | <pre>map(object({<br>    cpu           = number<br>    memory        = number<br>    min_capacity  = number<br>    max_capacity  = number<br>    target_cpu    = number<br>    target_memory = number<br>  }))</pre> | `{}` | no |
 | <a name="input_owner"></a> [owner](#input\_owner) | Owner of the resources | `string` | `"CDC"` | no |
@@ -276,4 +288,6 @@ No modules.
 | <a name="output_s3_bucket_ecr_viewer_policy_arn"></a> [s3\_bucket\_ecr\_viewer\_policy\_arn](#output\_s3\_bucket\_ecr\_viewer\_policy\_arn) | n/a |
 | <a name="output_s3_role_for_ecr_viewer_arn"></a> [s3\_role\_for\_ecr\_viewer\_arn](#output\_s3\_role\_for\_ecr\_viewer\_arn) | n/a |
 | <a name="output_service_data"></a> [service\_data](#output\_service\_data) | n/a |
+| <a name="output_sns_topic_ecr_viewer_arn"></a> [sns\_topic\_ecr\_viewer\_arn](#output\_sns\_topic\_ecr\_viewer\_arn) | n/a |
+| <a name="output_sns_topic_logging_arn"></a> [sns\_topic\_logging\_arn](#output\_sns\_topic\_logging\_arn) | n/a |
 <!-- END_TF_DOCS -->

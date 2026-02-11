@@ -64,3 +64,13 @@ output "alb_security_group_arn" {
 output "alb_dns_name" {
   value = aws_alb.ecs.dns_name
 }
+
+# sns topic
+
+output "sns_topic_ecr_viewer_arn" {
+  value = var.enable_ecr_viewer_sns_topic ? aws_sns_topic.ecr_viewer[0].arn : ""
+}
+
+output "sns_topic_logging_arn" {
+  value = var.enable_logging_sns_topic ? aws_sns_topic.logging[0].arn : ""
+}

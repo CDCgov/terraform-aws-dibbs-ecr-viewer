@@ -32,7 +32,7 @@ data "aws_iam_policy_document" "ecr_viewer_s3" {
       aws_s3_bucket.ecr_viewer.arn,
       "${aws_s3_bucket.ecr_viewer.arn}/*",
       aws_kms_key.ecr_viewer.arn,
-      "${aws_kms_key.ecr_viewer.arn}/*"
+      "${aws_kms_key.ecr_viewer.arn}/*",
     ]
   }
 }
