@@ -399,7 +399,6 @@ variable "waf_rules" {
       block = [
         "NoUserAgent_HEADER",
         "UserAgent_BadBots_HEADER",
-        "SizeRestrictions_BODY",
         "SizeRestrictions_QUERYSTRING",
         "SizeRestrictions_Cookie_HEADER",
         "SizeRestrictions_URIPATH",
@@ -409,7 +408,6 @@ variable "waf_rules" {
         "EC2MetaDataSSRF_QUERYARGUMENTS",
         "GenericLFI_QUERYARGUMENTS",
         "GenericLFI_URIPATH",
-        "GenericLFI_BODY",
         "RestrictedExtensions_URIPATH",
         "RestrictedExtensions_QUERYARGUMENTS",
         "GenericRFI_QUERYARGUMENTS",
@@ -422,7 +420,10 @@ variable "waf_rules" {
       ]
       captcha   = []
       challenge = []
-      count     = []
+      count     = [
+        "SizeRestrictions_BODY",
+        "GenericLFI_BODY",
+      ]
       }, {
       name        = "AWSManagedRulesLinuxRuleSet"
       vendor_name = "AWS"
@@ -491,8 +492,6 @@ variable "waf_rules" {
       allow       = []
       block = [
         "SignalAutomatedBrowser",
-        "CategoryHttpLibrary",
-        "SignalNonBrowserUserAgent",
         "CategoryAdvertising",
         "CategoryArchiver",
         "CategoryContentFetcher",
@@ -510,7 +509,10 @@ variable "waf_rules" {
       ]
       captcha   = []
       challenge = []
-      count     = []
+      count     = [
+        "SignalNonBrowserUserAgent",
+        "CategoryHttpLibrary",
+      ]
     }
   ]
 }
