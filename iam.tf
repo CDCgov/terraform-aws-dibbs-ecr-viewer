@@ -4,6 +4,7 @@ resource "aws_iam_role" "ecs_task_execution" {
   managed_policy_arns = [
     data.aws_iam_policy.ecs_task_execution.arn
   ]
+  force_detach_policies = true
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
   tags               = local.tags
 }
@@ -14,6 +15,7 @@ resource "aws_iam_role" "ecs_task" {
   managed_policy_arns = [
     data.aws_iam_policy.amazon_ec2_container_service_for_ec2_role.arn
   ]
+  force_detach_policies = true
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
   tags               = local.tags
 }
@@ -25,6 +27,7 @@ resource "aws_iam_role" "s3_role_for_ecr_viewer" {
     data.aws_iam_policy.amazon_ec2_container_service_for_ec2_role.arn,
     aws_iam_policy.s3_bucket_ecr_viewer.arn
   ]
+  force_detach_policies = true
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
   tags               = local.tags
 }
