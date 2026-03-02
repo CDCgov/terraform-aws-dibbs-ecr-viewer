@@ -74,3 +74,15 @@ output "sns_topic_ecr_viewer_arn" {
 output "sns_topic_logging_arn" {
   value = var.enable_logging_sns_topic ? aws_sns_topic.logging[0].arn : ""
 }
+
+# waf
+
+output "waf_web_acl_arn" {
+  description = "The ARN of the WAF Web ACL"
+  value       = var.waf_web_acl_arn == "" ? aws_wafv2_web_acl.this[0].arn : var.waf_web_acl_arn
+}
+
+output "waf_ip_set_arn" {
+  description = "The ARN of the WAF IP Set for blocking IPs"
+  value       = aws_wafv2_ip_set.block.arn
+}

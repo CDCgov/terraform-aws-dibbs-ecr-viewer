@@ -29,6 +29,7 @@ resource "aws_ecr_repository" "this" {
 
   encryption_configuration {
     encryption_type = "KMS"
+    kms_key_id      = aws_kms_key.ecr_viewer.arn
   }
 
   image_scanning_configuration {
