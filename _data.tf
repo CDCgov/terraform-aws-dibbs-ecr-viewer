@@ -86,6 +86,10 @@ data "aws_iam_policy_document" "ecr_viewer_ssl" {
   }
 }
 
+data "aws_iam_policy" "s3_bucket_ecr_viewer" {
+  name = aws_iam_policy.s3_bucket_ecr_viewer.name
+}
+
 data "aws_iam_policy" "ecs_task_execution" {
   name = "AmazonECSTaskExecutionRolePolicy"
 }

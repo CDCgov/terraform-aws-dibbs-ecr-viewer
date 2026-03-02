@@ -112,7 +112,7 @@ The current architectural design for dibbs-aws is as follows:
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | 5.86.1 |
-| <a name="provider_dockerless"></a> [dockerless](#provider\_dockerless) | 0.1.2 |
+| <a name="provider_dockerless"></a> [dockerless](#provider\_dockerless) | 0.1.3 |
 | <a name="provider_null"></a> [null](#provider\_null) | 3.2.4 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.6.3 |
 
@@ -146,6 +146,10 @@ No modules.
 | [aws_iam_role.ecs_task](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.ecs_task_execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.s3_role_for_ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy_attachment.ecs_task_amazon_ec2_container_service_for_ec2_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.ecs_task_execution_ecs_task_execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.s3_role_for_ecr_viewer_amazon_ec2_container_service_for_ec2_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.s3_role_for_ecr_viewer_s3_bucket_ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_kms_key.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
 | [aws_s3_bucket.ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
@@ -181,6 +185,7 @@ No modules.
 | [aws_elb_service_account.elb_account_id](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/elb_service_account) | data source |
 | [aws_iam_policy.amazon_ec2_container_service_for_ec2_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy) | data source |
 | [aws_iam_policy.ecs_task_execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy) | data source |
+| [aws_iam_policy.s3_bucket_ecr_viewer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy) | data source |
 | [aws_iam_policy_document.assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.ecr_viewer_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.ecr_viewer_ssl](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
@@ -221,7 +226,7 @@ No modules.
 | <a name="input_enable_autoscaling"></a> [enable\_autoscaling](#input\_enable\_autoscaling) | Flag to enable autoscaling for the ECS services | `bool` | `true` | no |
 | <a name="input_internal"></a> [internal](#input\_internal) | Flag to determine if the several AWS resources are public (intended for external access, public internet) or private (only intended to be accessed within your AWS VPC or avaiable with other means, a transit gateway for example). | `bool` | `true` | no |
 | <a name="input_logging_object_retention_days"></a> [logging\_object\_retention\_days](#input\_logging\_object\_retention\_days) | Number of days to retain S3 logging objects in compliance mode | `number` | `90` | no |
-| <a name="input_override_autoscaling"></a> [override\_autoscaling](#input\_override\_autoscaling) | Autoscaling configuration for the DIBBS services | <pre>map(object({<br/>    cpu           = number<br/>    memory        = number<br/>    min_capacity  = number<br/>    max_capacity  = number<br/>    target_cpu    = number<br/>    target_memory = number<br/>  }))</pre> | `{}` | no |
+| <a name="input_override_autoscaling"></a> [override\_autoscaling](#input\_override\_autoscaling) | Autoscaling configuration for the DIBBS services | <pre>map(object({<br>    cpu           = number<br>    memory        = number<br>    min_capacity  = number<br>    max_capacity  = number<br>    target_cpu    = number<br>    target_memory = number<br>  }))</pre> | `{}` | no |
 | <a name="input_owner"></a> [owner](#input\_owner) | Owner of the resources | `string` | `"CDC"` | no |
 | <a name="input_phdi_version"></a> [phdi\_version](#input\_phdi\_version) | Version of the PHDI application | `string` | `"v2.0.0-beta"` | no |
 | <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | List of private subnet IDs | `list(string)` | n/a | yes |
@@ -238,7 +243,7 @@ No modules.
 | <a name="input_secrets_manager_sqlserver_host_version"></a> [secrets\_manager\_sqlserver\_host\_version](#input\_secrets\_manager\_sqlserver\_host\_version) | n/a | `string` | `""` | no |
 | <a name="input_secrets_manager_sqlserver_password_version"></a> [secrets\_manager\_sqlserver\_password\_version](#input\_secrets\_manager\_sqlserver\_password\_version) | n/a | `string` | `""` | no |
 | <a name="input_secrets_manager_sqlserver_user_version"></a> [secrets\_manager\_sqlserver\_user\_version](#input\_secrets\_manager\_sqlserver\_user\_version) | n/a | `string` | `""` | no |
-| <a name="input_service_data"></a> [service\_data](#input\_service\_data) | Data for the DIBBS services | <pre>map(object({<br/>    short_name        = string<br/>    app_repo          = string<br/>    app_image         = string<br/>    app_version       = string<br/>    container_port    = number<br/>    host_port         = number<br/>    public            = bool<br/>    registry_url      = string<br/>    root_service      = bool<br/>    listener_priority = number<br/>    env_vars = list(object({<br/>      name  = string<br/>      value = string<br/>    }))<br/>  }))</pre> | `{}` | no |
+| <a name="input_service_data"></a> [service\_data](#input\_service\_data) | Data for the DIBBS services | <pre>map(object({<br>    short_name        = string<br>    app_repo          = string<br>    app_image         = string<br>    app_version       = string<br>    container_port    = number<br>    host_port         = number<br>    public            = bool<br>    registry_url      = string<br>    root_service      = bool<br>    listener_priority = number<br>    env_vars = list(object({<br>      name  = string<br>      value = string<br>    }))<br>  }))</pre> | `{}` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to apply to resources | `map(string)` | `{}` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ID of the VPC | `string` | n/a | yes |
 
