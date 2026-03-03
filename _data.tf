@@ -150,3 +150,7 @@ data "aws_route_table" "this" {
   for_each  = local.private_subnet_kvs
   subnet_id = each.value
 }
+
+data "aws_iam_policy" "s3_bucket_ecr_viewer" {
+  name = aws_iam_policy.s3_bucket_ecr_viewer.name
+}
