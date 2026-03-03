@@ -15,10 +15,10 @@ data "aws_ecr_lifecycle_policy_document" "this" {
 }
 
 resource "dockerless_remote_image" "dibbs" {
-  for_each = var.disable_ecr == false ? local.service_data : {}
-  source   = "${each.value.app_repo}/${each.key}:${each.value.app_version}"
-  target   = "${each.value.registry_url}/${each.value.app_image}:${each.value.app_version}"
-  depends_on = [ aws_ecr_repository.this ]
+  for_each   = var.disable_ecr == false ? local.service_data : {}
+  source     = "${each.value.app_repo}/${each.key}:${each.value.app_version}"
+  target     = "${each.value.registry_url}/${each.value.app_image}:${each.value.app_version}"
+  depends_on = [aws_ecr_repository.this]
 }
 
 resource "aws_ecr_repository" "this" {
@@ -29,7 +29,6 @@ resource "aws_ecr_repository" "this" {
 
   encryption_configuration {
     encryption_type = "KMS"
-    kms_key_id      = aws_kms_key.ecr_viewer.arn
   }
 
   image_scanning_configuration {

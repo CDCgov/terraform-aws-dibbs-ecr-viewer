@@ -420,7 +420,7 @@ variable "waf_rules" {
       ]
       captcha   = []
       challenge = []
-      count     = [
+      count = [
         "SizeRestrictions_BODY",
         "GenericLFI_BODY",
       ]
@@ -509,7 +509,7 @@ variable "waf_rules" {
       ]
       captcha   = []
       challenge = []
-      count     = [
+      count = [
         "SignalNonBrowserUserAgent",
         "CategoryHttpLibrary",
       ]
