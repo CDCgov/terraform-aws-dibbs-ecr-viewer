@@ -227,7 +227,7 @@ locals {
       app_version       = var.phdi_version,
       container_port    = 8080,
       host_port         = 8080,
-      public            = true,
+      public            = false,
       registry_url      = local.registry_url,
       root_service      = false,
       listener_priority = 1
@@ -267,8 +267,8 @@ locals {
       ]
     }
   }
-  local_name = "${var.project}-${var.owner}-${terraform.workspace}"
-
+  waf_rules                    = var.waf_rules
+  local_name                   = "${var.project}-${var.owner}-${terraform.workspace}"
   appmesh_name                 = var.appmesh_name == "" ? local.local_name : var.appmesh_name
   cloudmap_namespace_name      = var.cloudmap_namespace_name == "" ? local.local_name : var.cloudmap_namespace_name
   ecs_alb_name                 = var.ecs_alb_name == "" ? local.local_name : var.ecs_alb_name

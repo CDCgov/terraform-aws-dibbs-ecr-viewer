@@ -24,6 +24,10 @@ data "aws_iam_policy_document" "ecr_viewer_s3" {
       "kms:GenerateDataKey",
       "kms:Decrypt"
     ]
+    # "kms:GenerateDataKey*",
+    # "kms:Encrypt",
+    # "kms:ReEncrypt*",
+    # "kms:Describe*"
     resources = [
       aws_s3_bucket.ecr_viewer.arn,
       "${aws_s3_bucket.ecr_viewer.arn}/*",
@@ -33,7 +37,74 @@ data "aws_iam_policy_document" "ecr_viewer_s3" {
   }
 }
 
-data "aws_iam_policy_document" "logging" {
+data "aws_iam_policy_document" "kms" {
+  statement {
+    sid    = "Allow administration of the key"
+    effect = "Allow"
+    actions = [
+      "kms:ReplicateKey",
+      "kms:Create*",
+      "kms:Describe*",
+      "kms:Enable*",
+      "kms:List*",
+      "kms:Put*",
+      "kms:Update*",
+      "kms:Revoke*",
+      "kms:Disable*",
+      "kms:Get*",
+      "kms:Delete*",
+      "kms:ScheduleKeyDeletion",
+      "kms:CancelKeyDeletion"
+    ]
+    resources = [
+      aws_kms_key.ecr_viewer.arn
+    ]
+    principals {
+      type        = "AWS"
+      identifiers = [data.aws_caller_identity.current.account_id]
+    }
+  }
+  statement {
+    sid    = "Allow use of the key"
+    effect = "Allow"
+    actions = [
+      "kms:DescribeKey",
+      "kms:Encrypt",
+      "kms:Decrypt",
+      "kms:ReEncrypt*",
+      "kms:GenerateDataKey",
+      "kms:GenerateDataKeyWithoutPlaintext"
+    ]
+    resources = [
+      aws_kms_key.ecr_viewer.arn
+    ]
+    principals {
+      type        = "AWS"
+      identifiers = [data.aws_caller_identity.current.account_id]
+    }
+  }
+  statement {
+    sid    = "Allow CloudWatch Logs to use the key"
+    effect = "Allow"
+    actions = [
+      "kms:DescribeKey",
+      "kms:Encrypt",
+      "kms:Decrypt",
+      "kms:ReEncrypt*",
+      "kms:GenerateDataKey",
+      "kms:GenerateDataKeyWithoutPlaintext"
+    ]
+    resources = [
+      aws_kms_key.ecr_viewer.arn
+    ]
+    principals {
+      type        = "Service"
+      identifiers = ["logs.amazonaws.com"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "s3_logging" {
   statement {
     effect  = "Allow"
     actions = ["s3:PutObject"]
@@ -97,4 +168,8 @@ data "aws_iam_policy" "amazon_ec2_container_service_for_ec2_role" {
 data "aws_route_table" "this" {
   for_each  = local.private_subnet_kvs
   subnet_id = each.value
+}
+
+data "aws_iam_policy" "s3_bucket_ecr_viewer" {
+  name = aws_iam_policy.s3_bucket_ecr_viewer.name
 }
