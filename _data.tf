@@ -83,6 +83,25 @@ data "aws_iam_policy_document" "kms" {
       identifiers = [data.aws_caller_identity.current.account_id]
     }
   }
+  statement {
+    sid    = "Allow CloudWatch Logs to use the key"
+    effect = "Allow"
+    actions = [
+      "kms:DescribeKey",
+      "kms:Encrypt",
+      "kms:Decrypt",
+      "kms:ReEncrypt*",
+      "kms:GenerateDataKey",
+      "kms:GenerateDataKeyWithoutPlaintext"
+    ]
+    resources = [
+      aws_kms_key.ecr_viewer.arn
+    ]
+    principals {
+      type        = "Service"
+      identifiers = ["logs.amazonaws.com"]
+    }
+  }
 }
 
 data "aws_iam_policy_document" "s3_logging" {
