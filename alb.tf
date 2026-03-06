@@ -24,6 +24,7 @@ resource "aws_alb" "ecs" {
 }
 
 resource "aws_alb_target_group" "this" {
+  # checkov:skip=CKV_AWS_378:ALB terminates HTTPS, traffic to target group uses HTTP internally
   for_each = {
     for key, value in local.service_data : key => value
     if local.service_data[key].public == true
