@@ -3,8 +3,10 @@ name: Terraform Security Scan
 on:
   pull_request:
   push:
-    branches: 
+    branches:
       - main
+
+permissions: read-all
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
