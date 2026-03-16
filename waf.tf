@@ -114,9 +114,9 @@ resource "aws_wafv2_web_acl" "this" {
 }
 
 resource "aws_wafv2_web_acl_logging_configuration" "this" {
-  count           = var.waf_web_acl_arn == "" ? 1 : 0
-  log_destination = "arn:aws:logs:${var.region}:${data.aws_caller_identity.current.account_id}:log-group:${local.ecs_cloudwatch_group}"
-  resource_arn    = aws_wafv2_web_acl.this[0].arn
+  count                   = var.waf_web_acl_arn == "" ? 1 : 0
+  log_destination_configs = [aws_cloudwatch_log_group.ecs_cloudwatch_logs.arn]
+  resource_arn            = aws_wafv2_web_acl.this[0].arn
 }
 
 resource "aws_wafv2_web_acl_association" "this" {
