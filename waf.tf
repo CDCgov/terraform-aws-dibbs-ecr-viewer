@@ -119,13 +119,6 @@ resource "aws_wafv2_web_acl_association" "this" {
   web_acl_arn  = aws_wafv2_web_acl.this[0].arn
 }
 
-
-resource "aws_wafv2_web_acl_association" "external_waf" {
-  count        = var.waf_web_acl_arn != "" ? 1 : 0
-  resource_arn = aws_alb.ecs.id
-  web_acl_arn  = var.waf_web_acl_arn
-}
-
 resource "aws_wafv2_ip_set" "block" {
   name               = "waf-${local.ecs_alb_name}-block-ipset-alb"
   scope              = "REGIONAL"
