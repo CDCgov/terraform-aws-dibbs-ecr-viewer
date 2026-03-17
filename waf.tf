@@ -113,12 +113,6 @@ resource "aws_wafv2_web_acl" "this" {
   tags = local.tags
 }
 
-resource "aws_wafv2_web_acl_logging_configuration" "this" {
-  count                   = var.waf_web_acl_arn == "" ? 1 : 0
-  log_destination_configs = [aws_cloudwatch_log_group.ecs_cloudwatch_logs.arn]
-  resource_arn            = aws_wafv2_web_acl.this[0].arn
-}
-
 resource "aws_wafv2_web_acl_association" "this" {
   count        = var.waf_web_acl_arn == "" ? 1 : 0
   resource_arn = aws_alb.ecs.id
