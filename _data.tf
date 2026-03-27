@@ -109,7 +109,7 @@ data "aws_iam_policy_document" "s3_logging" {
     effect  = "Allow"
     actions = ["s3:PutObject"]
     resources = [
-      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+      "${aws_s3_bucket.logging.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*"
     ]
     principals {
       type        = "AWS"
@@ -121,8 +121,8 @@ data "aws_iam_policy_document" "s3_logging" {
     effect  = "Deny"
     actions = ["s3:*"]
     resources = [
-      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}",
-      "arn:aws:s3:::${aws_s3_bucket.logging.bucket}/*",
+      aws_s3_bucket.logging.arn,
+      "${aws_s3_bucket.logging.arn}/*",
     ]
     condition {
       test     = "Bool"
@@ -142,8 +142,8 @@ data "aws_iam_policy_document" "ecr_viewer_ssl" {
     effect  = "Deny"
     actions = ["s3:*"]
     resources = [
-      "arn:aws:s3:::${aws_s3_bucket.ecr_viewer.bucket}",
-      "arn:aws:s3:::${aws_s3_bucket.ecr_viewer.bucket}/*",
+      aws_s3_bucket.ecr_viewer.arn,
+      "${aws_s3_bucket.ecr_viewer.arn}/*",
     ]
     condition {
       test     = "Bool"
