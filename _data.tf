@@ -106,10 +106,11 @@ data "aws_iam_policy_document" "kms" {
 
 data "aws_iam_policy_document" "s3_logging" {
   statement {
+    sid     = "AllowALBAccess"
     effect  = "Allow"
     actions = ["s3:PutObject"]
     resources = [
-      "${aws_s3_bucket.logging.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*"
+      "${aws_s3_bucket.logging.arn}/*"
     ]
     principals {
       type        = "AWS"

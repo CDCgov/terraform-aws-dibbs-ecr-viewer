@@ -19,7 +19,12 @@ resource "aws_alb" "ecs" {
     bucket  = aws_s3_bucket.logging.id
   }
 
-  depends_on = [aws_s3_bucket_policy.logging, aws_s3_bucket.logging]
+  depends_on = [
+    aws_s3_bucket_policy.logging,
+    aws_s3_bucket.logging,
+    data.aws_iam_policy_document.s3_logging,
+    aws_s3_bucket_server_side_encryption_configuration.logging
+  ]
   tags       = local.tags
 }
 
