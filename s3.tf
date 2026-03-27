@@ -77,7 +77,7 @@ resource "aws_s3_bucket_object_lock_configuration" "ecr_viewer" {
 
   rule {
     default_retention {
-      mode = "COMPLIANCE"
+      mode = var.ecr_viewer_object_mode
       days = var.ecr_viewer_object_retention_days
     }
   }
@@ -89,7 +89,7 @@ resource "aws_s3_bucket_object_lock_configuration" "logging" {
 
   rule {
     default_retention {
-      mode = "COMPLIANCE"
+      mode = var.logging_object_mode
       days = var.logging_object_retention_days
     }
   }
