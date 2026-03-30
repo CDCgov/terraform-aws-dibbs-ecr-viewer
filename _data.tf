@@ -118,30 +118,6 @@ data "aws_iam_policy_document" "s3_logging" {
     }
   }
   statement {
-    sid = "AWSLogDeliveryWrite"
-    effect = "Allow"
-    actions = ["s3:PutObject"]
-    resources = [
-      "${aws_s3_bucket.logging.arn}/*"
-    ]
-    principals {
-      type = "Service"
-      identifiers = ["elasticloadbalancing.amazonaws.com"]
-    }
-  }
-  statement {
-    sid = "AWSLogDeliveryAclCheck"
-    effect = "Allow"
-    actions = ["s3:GetBucketAcl"]
-    resources = [
-      "${aws_s3_bucket.logging.arn}"
-    ]
-    principals {
-      type = "Service"
-      identifiers = ["elasticloadbalancing.amazonaws.com"]
-    }
-  }
-  statement {
     sid     = "AllowSSLRequestsOnly"
     effect  = "Deny"
     actions = ["s3:*"]

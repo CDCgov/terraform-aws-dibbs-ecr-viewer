@@ -58,9 +58,9 @@ resource "aws_s3_bucket_public_access_block" "logging" {
 resource "aws_s3_bucket_server_side_encryption_configuration" "logging" {
   bucket = aws_s3_bucket.logging.bucket
   rule {
+    # CANNOT USER CUSTOMER MANAGED KEYS WITH ALB LOGGING
     apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.ecr_viewer.arn
-      sse_algorithm     = "aws:kms"
+      sse_algorithm     = "AES256"
     }
   }
 }
@@ -172,12 +172,4 @@ resource "aws_s3_bucket_lifecycle_configuration" "logging" {
       }
     }
   }
-}
-
-# Wait for S3 bucket policy to propagate before ALB is created
-# S3 bucket policies can take time to become effective after being updated
-resource "time_sleep" "wait_for_s3_bucket_policy" {
-  depends_on = [aws_s3_bucket_policy.logging]
-
-  create_duration = "10s"
 }

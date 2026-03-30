@@ -5,29 +5,32 @@ status: in-progress
 type: bug
 priority: normal
 created_at: 2026-03-30T22:20:15Z
-updated_at: 2026-03-30T22:21:38Z
+updated_at: 2026-03-30T22:38:00Z
 ---
 
-The ALB creation fails with 'Access Denied' when trying to write to the logging bucket. The S3 bucket policy is updated but not fully propagated before the ALB tries to use it.
+The ALB creation fails with 'Access Denied' when trying to write to the logging bucket. The S3 bucket policy was using service principals (elasticloadbalancing.amazonaws.com) which are not supported in S3 bucket policies - only AWS account principals work.
 
-## Plan
+## Root Cause
 
-1. Add a `time_sleep` resource to wait for S3 bucket policy propagation before ALB creation
-2. Update alb.tf to depend on the time_sleep resource
+S3 bucket policies **do not support service principals** like `elasticloadbalancing.amazonaws.com`. These only work with resource-based policies that explicitly support them (SQS, SNS, Lambda). For S3, you must use the account-specific ELB service account ARN.
+
+The original policy had two statements with service principals:
+1. `AWSLogDeliveryWrite` - used `elasticloadbalancing.amazonaws.com` service principal (ignored by S3)
+2. `AWSLogDeliveryAclCheck` - used `elasticloadbalancing.amazonaws.com` service principal (ignored by S3)
+
+The fix removes these invalid statements and keeps only the `AllowALBAccess` statement that uses the account-specific ELB service account ARN from `data.aws_elb_service_account.elb_account_id.arn`.
+
+Also updated `AWSLogDeliveryAclCheck` to use the account-based principal instead of service principal.
 
 ## Implementation
 
-1. Added `time_sleep` resource in `s3.tf` that waits 10 seconds after the S3 bucket policy is created/updated
-2. Added `time` provider to `provider.tf`
-3. Updated `alb.tf` to depend on the `time_sleep` resource
-
-The `time_sleep` resource ensures the S3 bucket policy has enough time to propagate before the ALB tries to use it for access logs.
+1. Updated `_data.tf` `s3_logging` policy document to remove service principal statements
+2. Changed `AWSLogDeliveryAclCheck` to use `AWS` type with ELB service account ARN
 
 ## Summary of Changes
 
-- **s3.tf**: Added `time_sleep.wait_for_s3_bucket_policy` resource that creates a 10-second delay after the S3 bucket policy is updated
-- **provider.tf**: Added `time` provider (hashicorp/time, ~> 0.13.1) required for the sleep resource
-- **alb.tf**: Added `time_sleep.wait_for_s3_bucket_policy` to the `depends_on` list to ensure the ALB is only created after the policy has propagated
+- **_data.tf**: Removed `AWSLogDeliveryWrite` statement (service principal not supported in S3)
+- **_data.tf**: Changed `AWSLogDeliveryAclCheck` to use `AWS` type with ELB service account ARN
 
 ## Reasons for Scrapping
 
