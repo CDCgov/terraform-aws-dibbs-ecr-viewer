@@ -105,6 +105,7 @@ data "aws_iam_policy_document" "kms" {
 }
 
 data "aws_iam_policy_document" "s3_logging" {
+  # ALB must have s3:PutObjectAcl to write access logs
   statement {
     sid     = "AllowALBAccess"
     effect  = "Allow"
