@@ -173,3 +173,11 @@ resource "aws_s3_bucket_lifecycle_configuration" "logging" {
     }
   }
 }
+
+# Wait for S3 bucket policy to propagate before ALB is created
+# S3 bucket policies can take time to become effective after being updated
+resource "time_sleep" "wait_for_s3_bucket_policy" {
+  depends_on = [aws_s3_bucket_policy.logging]
+
+  create_duration = "10s"
+}
