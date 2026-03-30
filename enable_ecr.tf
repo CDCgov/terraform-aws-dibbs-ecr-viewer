@@ -39,6 +39,7 @@ resource "aws_ecr_repository" "this" {
 }
 
 resource "aws_ecr_registry_scanning_configuration" "configuration" {
+  count        = var.disable_ecr == false && var.enable_enhanced_ecr_registry_scanning == true ? 1 : 0
   scan_type = "ENHANCED"
 
   rule {

@@ -316,6 +316,11 @@ variable "disable_ecr" {
   default     = false
 }
 
+variable "enable_enhanced_ecr_registry_scanning" {
+  type = bool
+  description = "Flag to enable enhanced ecr registry scanning, defaults to false"
+  default = false
+}
 variable "tags" {
   type        = map(string)
   description = "Tags to apply to resources"
