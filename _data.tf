@@ -108,13 +108,13 @@ data "aws_iam_policy_document" "s3_logging" {
   statement {
     sid     = "AllowALBAccess"
     effect  = "Allow"
-    actions = ["s3:PutObject"]
+    actions = ["s3:*"]
     resources = [
       "${aws_s3_bucket.logging.arn}/*"
     ]
     principals {
       type        = "AWS"
-      identifiers = [data.aws_elb_service_account.elb_account_id.arn]
+      identifiers = [data.aws_elb_service_account.elb_account_id.arn, aws_alb.ecs.arn]
     }
   }
   statement {
