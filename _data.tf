@@ -105,17 +105,40 @@ data "aws_iam_policy_document" "kms" {
 }
 
 data "aws_iam_policy_document" "s3_logging" {
-  # ALB must have s3:PutObjectAcl to write access logs
   statement {
     sid     = "AllowALBAccess"
     effect  = "Allow"
-    actions = ["s3:*"]
+    actions = ["s3:PutObject"]
     resources = [
       "${aws_s3_bucket.logging.arn}/*"
     ]
     principals {
       type        = "AWS"
       identifiers = [data.aws_elb_service_account.elb_account_id.arn]
+    }
+  }
+  statement {
+    sid = "AWSLogDeliveryWrite"
+    effect = "Allow"
+    actions = ["s3:PutObject"]
+    resources = [
+      "${aws_s3_bucket.logging.arn}/*"
+    ]
+    principals {
+      type = "Service"
+      identifiers = ["elasticloadbalancing.amazonaws.com"]
+    }
+  }
+  statement {
+    sid = "AWSLogDeliveryAclCheck"
+    effect = "Allow"
+    actions = ["s3:GetBucketAcl"]
+    resources = [
+      "${aws_s3_bucket.logging.arn}"
+    ]
+    principals {
+      type = "Service"
+      identifiers = ["elasticloadbalancing.amazonaws.com"]
     }
   }
   statement {
