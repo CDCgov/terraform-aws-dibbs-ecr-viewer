@@ -114,7 +114,7 @@ data "aws_iam_policy_document" "s3_logging" {
     ]
     principals {
       type        = "AWS"
-      identifiers = [data.aws_elb_service_account.elb_account_id.arn, aws_alb.ecs.arn]
+      identifiers = [data.aws_elb_service_account.elb_account_id.arn]
     }
   }
   statement {
