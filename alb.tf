@@ -25,7 +25,7 @@ resource "aws_alb" "ecs" {
     data.aws_iam_policy_document.s3_logging,
     aws_s3_bucket_server_side_encryption_configuration.logging,
   ]
-  tags       = local.tags
+  tags = local.tags
 }
 
 resource "aws_alb_target_group" "this" {
