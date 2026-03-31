@@ -37,6 +37,7 @@ resource "aws_s3_bucket_policy" "ecr_viewer_ssl" {
 
 resource "aws_s3_bucket" "logging" {
   # checkov:skip=CKV_AWS_144:TODO - Cross-region replication for this bucket to be implemented later
+  # checkov:skip=CKV_AWS_145:ALB logging is not fully compatible with customer managed keys - uses separate encryption config
   bucket        = local.s3_logging_bucket_name
   force_destroy = true
   tags          = local.tags
