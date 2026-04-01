@@ -38,6 +38,19 @@ resource "aws_ecr_repository" "this" {
   tags = local.tags
 }
 
+resource "aws_ecr_registry_scanning_configuration" "configuration" {
+  count     = var.disable_ecr == false && var.enable_enhanced_ecr_registry_scanning == true ? 1 : 0
+  scan_type = "ENHANCED"
+
+  rule {
+    scan_frequency = "SCAN_ON_PUSH"
+    repository_filter {
+      filter      = "*"
+      filter_type = "WILDCARD"
+    }
+  }
+}
+
 resource "aws_ecr_lifecycle_policy" "this" {
   for_each   = var.disable_ecr == false ? local.service_data : {}
   repository = aws_ecr_repository.this[each.key].name

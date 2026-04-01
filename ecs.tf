@@ -126,5 +126,9 @@ resource "aws_ecs_service" "this" {
     ignore_changes = [desired_count]
   }
 
+  depends_on = [
+    aws_alb.ecs
+  ]
+
   tags = local.tags
 }

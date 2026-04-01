@@ -37,6 +37,7 @@ resource "aws_s3_bucket_policy" "ecr_viewer_ssl" {
 
 resource "aws_s3_bucket" "logging" {
   # checkov:skip=CKV_AWS_144:TODO - Cross-region replication for this bucket to be implemented later
+  # checkov:skip=CKV_AWS_145:ALB logging is not fully compatible with customer managed keys - uses separate encryption config
   bucket        = local.s3_logging_bucket_name
   force_destroy = true
   tags          = local.tags
@@ -55,12 +56,14 @@ resource "aws_s3_bucket_public_access_block" "logging" {
   restrict_public_buckets = true
 }
 
+# checkov:skip=CKV_AWS_145:ALB logging is not fully compatible with customer managed keys
+# trivy:ignore:AVD-AWS-0132
 resource "aws_s3_bucket_server_side_encryption_configuration" "logging" {
   bucket = aws_s3_bucket.logging.bucket
   rule {
+    # CANNOT USER CUSTOMER MANAGED KEYS WITH ALB LOGGING
     apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.ecr_viewer.arn
-      sse_algorithm     = "aws:kms"
+      sse_algorithm = "AES256"
     }
   }
 }
