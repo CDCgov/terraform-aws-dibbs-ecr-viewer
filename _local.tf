@@ -58,6 +58,14 @@ locals {
       target_cpu    = try(var.override_autoscaling["fhir-converter"].target_cpu, 50),
       target_memory = try(var.override_autoscaling["fhir-converter"].target_memory, 80)
     },
+    fhir-converter-proxy = {
+      cpu           = try(var.override_autoscaling["fhir-converter-proxy"].cpu, 512),
+      memory        = try(var.override_autoscaling["fhir-converter-proxy"].memory, 1024),
+      min_capacity  = try(var.override_autoscaling["fhir-converter-proxy"].min_capacity, 1),
+      max_capacity  = try(var.override_autoscaling["fhir-converter-proxy"].max_capacity, 5),
+      target_cpu    = try(var.override_autoscaling["fhir-converter-proxy"].target_cpu, 50),
+      target_memory = try(var.override_autoscaling["fhir-converter-proxy"].target_memory, 80)
+    },
     ingestion = {
       cpu           = try(var.override_autoscaling["ingestion"].cpu, 512),
       memory        = try(var.override_autoscaling["ingestion"].memory, 1024),
@@ -166,6 +174,32 @@ locals {
         }
       ]
     },
+    fhir-converter-proxy = {
+      short_name        = "fhircp",
+      app_repo          = local.dibbs_repo,
+      app_image         = var.disable_ecr == false ? "${terraform.workspace}-fhir-converter-proxy" : "fhir-converter-proxy",
+      app_version       = var.phdi_version,
+      container_port    = 8080,
+      host_port         = 8080,
+      public            = false,
+      registry_url      = local.registry_url,
+      root_service      = false,
+      listener_priority = 50000
+      env_vars = [
+        {
+          name  = "FHIR_CONVERTER_PROXY_PORT",
+          value = "8080"
+        },
+        {
+          name  = "FHIR_CONVERTER_PORT",
+          value = "8080"
+        },
+        {
+          name  = "FHIR_CONVERTER_ECS_NAMESPACE",
+          value = var.cloudmap_namespace_name == "" ? local.local_name : var.cloudmap_namespace_name
+        },
+      ]
+    },
     ingestion = {
       short_name        = "inge",
       app_repo          = local.dibbs_repo,
@@ -251,6 +285,10 @@ locals {
         {
           name  = "FHIR_CONVERTER_URL",
           value = "http://fhir-converter:8080"
+        },
+        {
+          name = "FHIR_CONVERTER_PROXY_URL",
+          value = "http://fhir-converter-proxy:8080"
         },
         {
           name  = "ECR_VIEWER_URL",
