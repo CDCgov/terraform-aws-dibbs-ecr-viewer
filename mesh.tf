@@ -49,10 +49,7 @@ resource "aws_service_discovery_service" "this" {
   name      = each.key
 
   dynamic "dns_config" {
-    for_each = {
-      for key, value in local.service_data : key => value
-      if each.key == "fhir-converter"
-    }
+    for_each = each.key == "fhir-converter" ? [1] : []
 
     content {
       namespace_id = aws_service_discovery_private_dns_namespace.this.id
