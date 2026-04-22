@@ -45,19 +45,18 @@ resource "aws_appmesh_virtual_node" "this" {
 }
 
 resource "aws_service_discovery_service" "this" {
-  for_each  = local.service_data
+  for_each = {
+    for key, value in local.service_data : key => value
+    if key == "fhir-converter"
+  }
   name      = each.key
 
-  dynamic "dns_config" {
-    for_each = each.key == "fhir-converter" ? [1] : []
-
-    content {
-      namespace_id = aws_service_discovery_private_dns_namespace.this.id
-      dns_records {
-        ttl  = 10
-        type = "A"
-      }
-      routing_policy = "MULTIVALUE"
+  dns_config {
+    namespace_id = aws_service_discovery_private_dns_namespace.this.id
+    dns_records {
+      ttl  = 10
+      type = "A"
     }
+    routing_policy = "MULTIVALUE"
   }
 }
