@@ -44,7 +44,7 @@ resource "aws_appmesh_virtual_node" "this" {
   tags = local.tags
 }
 
-resource "aws_service_discovery_service" "this" {
+/* resource "aws_service_discovery_service" "this" {
   for_each = {
     for key, value in local.service_data : key => value
     if key == "fhir-converter"
@@ -59,4 +59,4 @@ resource "aws_service_discovery_service" "this" {
     }
     routing_policy = "MULTIVALUE"
   }
-}
+} */
