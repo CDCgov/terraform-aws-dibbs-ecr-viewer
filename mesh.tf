@@ -49,7 +49,7 @@ resource "aws_service_discovery_service" "this" {
     for key, value in local.service_data : key => value
     if key == "fhir-converter"
   }
-  name      = each.key
+  name = "${each.key}-dns"
 
   dns_config {
     namespace_id = aws_service_discovery_private_dns_namespace.this.id
