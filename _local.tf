@@ -178,7 +178,7 @@ locals {
       short_name        = "fhircp",
       app_repo          = local.dibbs_repo,
       app_image         = var.disable_ecr == false ? "${terraform.workspace}-fhir-converter-proxy" : "fhir-converter-proxy",
-      app_version       = "0.0.0", #TODO laura: Switch this back
+      app_version       = "0.0.1", #TODO laura: Switch this back
       container_port    = 8080,
       host_port         = 8080,
       public            = false,
@@ -284,10 +284,6 @@ locals {
         },
         {
           name  = "FHIR_CONVERTER_URL",
-          value = "http://fhir-converter:8080"
-        },
-        {
-          name = "FHIR_CONVERTER_PROXY_URL",
           value = "http://fhir-converter-proxy:8080"
         },
         {
