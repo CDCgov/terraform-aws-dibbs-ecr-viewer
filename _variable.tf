@@ -430,7 +430,6 @@ variable "waf_rules" {
         "GenericRFI_QUERYARGUMENTS",
         "GenericRFI_BODY",
         "GenericRFI_URIPATH",
-        "CrossSiteScripting_BODY",
         "CrossSiteScripting_COOKIE",
         "CrossSiteScripting_QUERYARGUMENTS",
         "CrossSiteScripting_URIPATH",
@@ -440,6 +439,7 @@ variable "waf_rules" {
       count = [
         "SizeRestrictions_BODY",
         "GenericLFI_BODY",
+        "CrossSiteScripting_BODY",
       ]
       }, {
       name        = "AWSManagedRulesLinuxRuleSet"
