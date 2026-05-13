@@ -479,7 +479,7 @@ variable "waf_rules" {
       ]
       captcha   = []
       challenge = []
-      count     = [
+      count = [
         "SQLi_BODY",
       ]
       }, {
