@@ -474,13 +474,14 @@ variable "waf_rules" {
       block = [
         "SQLi_QUERYARGUMENTS",
         "SQLiExtendedPatterns_QUERYARGUMENTS",
-        "SQLi_BODY",
         "SQLiExtendedPatterns_BODY",
         "SQLi_COOKIE",
       ]
       captcha   = []
       challenge = []
-      count     = []
+      count     = [
+        "SQLi_BODY",
+      ]
       }, {
       name        = "AWSManagedRulesKnownBadInputsRuleSet"
       vendor_name = "AWS"
