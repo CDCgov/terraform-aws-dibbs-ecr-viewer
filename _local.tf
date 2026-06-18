@@ -129,11 +129,11 @@ locals {
           value = var.dibbs_config_name
         },
         {
-          name  = "NBS_PUB_KEY",
+          name  = "JWT_PUB_KEY",
           value = var.ecr_viewer_auth_pub_key
         },
         {
-          name  = "NBS_API_PUB_KEY",
+          name  = "JWT_API_PUB_KEY",
           value = var.ecr_viewer_auth_api_pub_key
         },
         {
