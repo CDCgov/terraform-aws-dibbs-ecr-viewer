@@ -140,6 +140,10 @@ locals {
           name  = "ORCHESTRATION_URL",
           value = "http://orchestration:8080"
         },
+        {
+          name  = "SAVE_XML",
+          value = true
+        },
         local.database_url,
         local.sqlserver_user,
         local.sqlserver_password,
