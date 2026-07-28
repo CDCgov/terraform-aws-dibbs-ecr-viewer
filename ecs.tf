@@ -101,6 +101,14 @@ resource "aws_ecs_service" "this" {
     assign_public_ip = false
   }
 
+  # Dynamically attach the proxy DNS record only for the fhir-converter
+  dynamic "service_registries" {
+    for_each = each.key == "fhir-converter" ? [1] : []
+    content {
+      registry_arn = aws_service_discovery_service.this[each.key].arn
+    }
+  }
+
   service_connect_configuration {
     enabled   = "true"
     namespace = aws_service_discovery_private_dns_namespace.this.arn
